@@ -2302,7 +2302,8 @@ function changeSkin() {
   document.getElementById("memoBox").className = "col-md-10 jumbotron " + skin + "box";
   document.getElementById("recallBox").className = "col-md-10 jumbotron " + skin + "box";
   document.getElementById("scoreBox").className = "col-md-10 jumbotron " + skin + "box";
-  document.getElementById("preview").className = "centred " + skin + "box";
+//  document.getElementById("preview").className = "centred " + skin + "box";
+  document.getElementById("settingsBox").className = "col-md-8 jumbotron settings text-center " + skin + "box";
   document.getElementById("countdownBox").className = "col-md-10 jumbotron countdown text-center " + skin + "box";
 
   updatePreview();
@@ -2355,7 +2356,7 @@ function changeSkin() {
 <!--Settings container row-->
 <div class="row" id="settingsRow0">
 <div class="col-md-2"></div>
-<div class="col-md-8 jumbotron settings text-center">
+<div id="settingsBox" class="col-md-8 jumbotron settings text-center">
 <h3 class="disciplineTitle"></h3>
 <div id="divGrouping">
 Grouping:     <select id="selGrouping" onchange="updatePreview();">
@@ -2458,7 +2459,7 @@ Decks:     <input id="inpDecks" type="text" size=3>
 <div class="row topMargin"></div>
 <div class="col-md-1"></div>
 <div id="memoBox" class="col-md-10 jumbotron">
-  
+
   <table class="disciplineHeadingTable"><tr><td class="disciplineTitleMemo"></td><td><span>Memorisation time remaining: </span><span id="spanMemoTime"></span></td><td></td><td></td></tr></table>
   <br /><br />
 <div id="menuDiv"></div>
