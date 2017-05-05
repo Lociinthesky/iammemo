@@ -150,6 +150,7 @@ const binaryPerPage = 360;
 const numbersPerRow = 40;
 const binaryPerRow = 30;
 
+var skin="";
 
 var currentDiscipline = "";
 var memoTime = "";
@@ -262,9 +263,11 @@ document.getElementById("scoreRow").style="display:none";
   }
 
   //Show preview if necessary
+ updatePreview();
+ changeSkin();
+ changeSelHColour();
 
-  changeSkin();
-changeSelHColour();
+ //<table align="center" class="centred"><tr><td id="preview1">1</td><td id="preview2">2</td><td id="preview3">3</td><td id="previewSel1">1</td><td id="previewSel2">2</td><td id="previewSel3">3</td><td id="preview4">1</td><td id="preview5">2</td><td id="preview6">3</td></tr></table>
 
   //Show highlighter colour if necessary ***
 
@@ -375,6 +378,40 @@ function startMemoCountdown() {
    //Display countdown clock
    countSeconds = 5;
    cint = setInterval(showSeconds, 1000);
+}
+
+function updatePreview() {
+  var previewString = "<table align='center' class='centred'><tr>";
+  if (currentDiscipline.indexOf("N")>-1) {
+    var grouping = Number(document.getElementById("selGrouping").options[document.getElementById("selGrouping").selectedIndex].value);
+    for (i = 1; i <= grouping; i++) {
+      previewString += "<td id='preview" + i + "'>" + i + "</td>";
+    }
+    for (i = 1; i <= grouping; i++) {
+      previewString += "<td id='previewSel" + i + "'>" + i + "</td>";
+    }
+    for (i = 1; i <= grouping; i++) {
+      previewString += "<td id='preview" + (i+grouping) + "'>" + i + "</td>";
+    }
+  }
+  previewString += "</tr></table>";
+
+  document.getElementById("preview").innerHTML = previewString;
+
+  //change preview skin
+  var grouping = Number(document.getElementById("selGrouping").options[document.getElementById("selGrouping").selectedIndex].value);
+  for (i = 1; i <= grouping*2; i++) {
+    document.getElementById("preview" + i).className = skin + "numbersMemo";
+  }
+  for (i = 1; i <= grouping; i++) {
+    document.getElementById("previewSel" + i).className = skin + "numbersMemo " + skin + "numbersSelected";
+  }
+
+  //change preview highlight
+  var selNums = document.getElementsByClassName(skin + "numbersSelected");
+  for (let el of selNums) {
+      el.bgColor = hiColour;
+  }
 }
 
 function getStandardDeck() {
@@ -2209,10 +2246,8 @@ function changeSelHColour() {
 
   hiColour = document.getElementById("selHColour").options[document.getElementById("selHColour").selectedIndex].value;
   document.getElementById("selHColour").style = "background-color:" + hiColour;
-  var selNums = document.getElementsByClassName(skin + "numbersSelected");
-  for (let el of selNums) {
-      el.bgColor = hiColour;
-  }
+  updatePreview();
+
 }
 
 function changeSkin() {
@@ -2224,12 +2259,8 @@ function changeSkin() {
   document.getElementById("preview").className = "centred " + skin + "box";
   document.getElementById("countdownBox").className = "col-md-10 jumbotron countdown text-center " + skin + "box";
 
-  for (i = 1; i <= 6; i++) {
-    document.getElementById("preview" + i).className = skin + "numbersMemo";
-  }
-  for (i = 1; i <= 3; i++) {
-    document.getElementById("previewSel" + i).className = skin + "numbersMemo " + skin + "numbersSelected";
-  }
+  updatePreview();
+
 }
 </script>
 
@@ -2281,7 +2312,7 @@ function changeSkin() {
 <div class="col-md-8 jumbotron settings text-center shadowy">
 <h3 class="disciplineTitle"></h3>
 <div id="divGrouping">
-Grouping:     <select id="selGrouping">
+Grouping:     <select id="selGrouping" onchange="updatePreview();">
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3" selected>3</option>
@@ -2342,7 +2373,7 @@ Skin:     <select id="selSkin"  onchange="changeSkin()">
 <h3>Preview</h3>
 <div id="preview" class="centred">
 
-<table align="center" class="centred"><tr><td id="preview1">1</td><td id="preview2">2</td><td id="preview3">3</td><td id="previewSel1">1</td><td id="previewSel2">2</td><td id="previewSel3">3</td><td id="preview4">1</td><td id="preview5">2</td><td id="preview6">3</td></tr></table>
+
 
 </div>
 <div id="divDecks">
