@@ -263,7 +263,9 @@ document.getElementById("scoreRow").style="display:none";
   }
 
   //Show preview if necessary
+
  updatePreview();
+
  changeSkin();
  changeSelHColour();
 
@@ -381,37 +383,81 @@ function startMemoCountdown() {
 }
 
 function updatePreview() {
-  var previewString = "<table align='center' class='centred'><tr>";
   if (currentDiscipline.indexOf("N")>-1) {
-    var grouping = Number(document.getElementById("selGrouping").options[document.getElementById("selGrouping").selectedIndex].value);
-    for (i = 1; i <= grouping; i++) {
-      previewString += "<td id='preview" + i + "'>" + i + "</td>";
+    var previewString = "<table align='center' class='centred'><tr>";
+
+      var grouping = Number(document.getElementById("selGrouping").options[document.getElementById("selGrouping").selectedIndex].value);
+      for (i = 1; i <= grouping; i++) {
+        previewString += "<td id='preview" + i + "'>" + i + "</td>";
+      }
+      for (i = 1; i <= grouping; i++) {
+        previewString += "<td id='previewSel" + i + "'>" + i + "</td>";
+      }
+      for (i = 1; i <= grouping; i++) {
+        previewString += "<td id='preview" + (i+grouping) + "'>" + i + "</td>";
+      }
+    previewString += "</tr></table>";
+
+    document.getElementById("preview").innerHTML = previewString;
+
+    //change preview skin
+
+    for (i = 1; i <= grouping*2; i++) {
+      document.getElementById("preview" + i).className = skin + "numbersMemo";
     }
     for (i = 1; i <= grouping; i++) {
-      previewString += "<td id='previewSel" + i + "'>" + i + "</td>";
+      document.getElementById("previewSel" + i).className = skin + "numbersMemo " + skin + "numbersSelected";
     }
-    for (i = 1; i <= grouping; i++) {
-      previewString += "<td id='preview" + (i+grouping) + "'>" + i + "</td>";
+
+    //change preview highlight
+    var selNums = document.getElementsByClassName(skin + "numbersSelected");
+    for (let el of selNums) {
+        el.bgColor = hiColour;
     }
   }
-  previewString += "</tr></table>";
 
-  document.getElementById("preview").innerHTML = previewString;
+  if (currentDiscipline.indexOf("B")>-1) {
+    var previewString = "<table align='center' class='centred'>";
 
-  //change preview skin
-  var grouping = Number(document.getElementById("selGrouping").options[document.getElementById("selGrouping").selectedIndex].value);
-  for (i = 1; i <= grouping*2; i++) {
-    document.getElementById("preview" + i).className = skin + "numbersMemo";
-  }
-  for (i = 1; i <= grouping; i++) {
-    document.getElementById("previewSel" + i).className = skin + "numbersMemo " + skin + "numbersSelected";
+    var groupingH = Number(document.getElementById("selBinGroupingH").options[document.getElementById("selBinGroupingH").selectedIndex].value);
+    var groupingW = Number(document.getElementById("selBinGroupingW").options[document.getElementById("selBinGroupingW").selectedIndex].value);
+    for (h = 1; h <= groupingH; h++) {
+      previewString += "<tr>";
+      for (w = 1; w <= groupingW; w++) {
+
+        previewString += "<td id='preview" + ((h-1)*groupingW + w) + "'>0</td>";
+      }
+      for (w = 1; w <= groupingW; w++) {
+        previewString += "<td id='previewSel" + ((h-1)*groupingW + w) + "'>1</td>";
+      }
+      for (w = 1; w <= groupingW; w++) {
+        previewString += "<td id='preview" + ((h-1)*groupingW + w + groupingW*groupingH) + "'>0</td>";
+      }
+      previewString += "</tr>";
+    }
+    previewString += "</table>";
+
+    document.getElementById("preview").innerHTML = previewString;
+
+    //change preview skin
+
+    for (i = 1; i <= groupingH*groupingW*2; i++) {
+
+      document.getElementById("preview" + i).className = skin + "binaryMemo";
+
+    }
+    for (i = 1; i <= groupingH*groupingW; i++) {
+      document.getElementById("previewSel" + i).className = skin + "binaryMemo " + skin + "binarySelected";
+    }
+
+    //change preview highlight
+    var selNums = document.getElementsByClassName(skin + "binarySelected");
+    for (let el of selNums) {
+        el.bgColor = hiColour;
+    }
   }
 
-  //change preview highlight
-  var selNums = document.getElementsByClassName(skin + "numbersSelected");
-  for (let el of selNums) {
-      el.bgColor = hiColour;
-  }
+
 }
 
 function getStandardDeck() {
@@ -807,7 +853,7 @@ function startBinaryMemo() {
 
 	binaryMemoString += "<div id='page" + i + "'><table><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*binaryPerPage)/binaryPerRow+1) + "&nbsp;&nbsp;</td>";
 		for (j = 0; j < binaryOnThisPage;j++) {
-			binaryMemoString += "<td id='tdMemo" + (i*binaryPerPage+j) + "' class='binaryMemo' onclick='moveFocusBinMemo(" + (i*binaryPerPage+j) + ")'>" + binaryList[i*binaryPerPage+j] + "</td>";
+			binaryMemoString += "<td id='tdMemo" + (i*binaryPerPage+j) + "' class='" + skin + "binaryMemo' onclick='moveFocusBinMemo(" + (i*binaryPerPage+j) + ")'>" + binaryList[i*binaryPerPage+j] + "</td>";
 			if ((j + 1) % binaryPerRow == 0) {
 				if (j+1 == binaryOnThisPage) {
 				binaryMemoString += "</tr></table></div>";
@@ -1122,7 +1168,7 @@ function moveFocusBinMemo(newPos) {
 
 	for (var i = 0;i<positions.length;i++) {
 	if (positions[i] < binaryList.length) {
-	    document.getElementById("tdMemo" + (positions[i])).className = "binaryMemo";
+	    document.getElementById("tdMemo" + (positions[i])).className = skin + "binaryMemo";
       document.getElementById("tdMemo" + (positions[i])).bgColor = "";
 	  }
 
@@ -1166,7 +1212,7 @@ function moveFocusBinMemo(newPos) {
 
 	for (var i = 0;i<positions.length;i++) {
 	if (newPositions[i] < binaryList.length) {
-	    document.getElementById("tdMemo" + (newPositions[i])).className = "binaryMemo binarySelected";
+	    document.getElementById("tdMemo" + (newPositions[i])).className = skin + "binaryMemo " + skin + "binarySelected";
       document.getElementById("tdMemo" + (newPositions[i])).bgColor = hiColour;
 	  }
 
@@ -2324,7 +2370,7 @@ Grouping:     <select id="selGrouping" onchange="updatePreview();">
 </select>
 </div>
 <div id="divBinGrouping">
-Width:     <select id="selBinGroupingW">
+Width:     <select id="selBinGroupingW" onchange="updatePreview();">
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3" selected>3</option>
@@ -2333,11 +2379,11 @@ Width:     <select id="selBinGroupingW">
 <option value="6">6</option>
 <option value="7">7</option>
 <option value="8">8</option>
-<option value="8">9</option>
-<option value="8">10</option>
+<option value="9">9</option>
+<option value="10">10</option>
 </select>
 <br />
-Height:     <select id="selBinGroupingH">
+Height:     <select id="selBinGroupingH" onchange="updatePreview();">
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3" selected>3</option>
@@ -2346,8 +2392,8 @@ Height:     <select id="selBinGroupingH">
 <option value="6">6</option>
 <option value="7">7</option>
 <option value="8">8</option>
-<option value="8">9</option>
-<option value="8">10</option>
+<option value="9">9</option>
+<option value="10">10</option>
 </select>
  (select 1 if not using matrices)
 </div>
