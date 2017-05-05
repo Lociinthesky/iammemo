@@ -1,0 +1,443 @@
+* {
+  font-weight:bold!important;
+}
+
+html,body { height:100%;padding:0;margin:0 }
+
+  body {
+
+    font-family: 'News Cycle', sans-serif;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	margin: 0;
+	height: 100%;
+  background-image: url("IAMarble2.jpg");
+  background-size:cover;
+
+}
+
+.analogue1 {
+
+  background-image: url("hugeWood4.jpg");
+}
+
+.digital1 {
+
+  background-image: url("IAMarble2.jpg");
+}
+
+.container-fluid {
+  overflow-y:hidden;
+  overflow-x:hidden;
+}
+
+  .btn{
+    background-color:#222222;
+	  color:#EDEDED;
+  }
+
+  .centred {
+
+    margin: auto;
+
+  }
+
+/*
+   .shadowyOld {
+   box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 19px 10px rgba(119, 119, 119, 0.25);
+-moz-box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 19px 10px rgba(119, 119, 119, 0.25);
+-webkit-box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45),  inset 0px 0px 35px 10px rgba(119, 119, 119, 0.25);
+
+   }
+
+   .shadowyMemo {
+ box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 15px 10px rgba(119, 119, 119, 0.25);
+-moz-box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 15px 10px rgba(119, 119, 119, 0.25);
+-webkit-box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 20px 10px rgba(119, 119, 119, 0.05);
+   }
+
+   .shadowyScore {
+     box-shadow: 6px 10px 20px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 19px 10px rgba(119, 119, 119, 0.25);
+-moz-box-shadow: 6px 10px 20px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 19px 10px rgba(119, 119, 119, 0.25);
+-webkit-box-shadow: 6px 10px 20px 10px rgba(0, 0, 0, 0.25), inset 0px 0px 19px 10px rgba(119, 119, 119, 0.25);
+
+   }
+*/
+
+  .selection {
+    background-color:#EDEDED;
+
+  }
+
+ .settings {
+    background-color:#EDEDED;
+
+
+
+ }
+
+  .countdown {
+    background-color:#EDEDED;
+	height:400px;
+
+  }
+   #countdownText {
+
+	font-size:18pt;
+   }
+   #countdownRecallText {
+
+ font-size:18pt;
+   }
+  #countdownTime {
+
+	font-size:18pt;
+  }
+  #countdownRecallTime {
+
+	font-size:18pt;
+  }
+  #countdownTable {
+    margin:0 auto;
+	width:236px;
+  }
+
+  #countdownRecallTable {
+    margin:0 auto;
+	width:164px;
+  }
+  .full-height {
+    height:100%;
+
+  }
+
+  .topMargin {
+    height:72px;
+  }
+
+  .memo {
+    background-color:#EDEDED;
+
+	padding:20px;
+
+
+border-radius: 0 !important;
+
+  }
+
+  .analogue1box {
+
+
+  background-image: url("paperSymmetryLitRedLight.jpg");
+  background-position: top left;
+  background-size: 100% auto;
+
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+    -webkit-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+
+  }
+
+  .digital1box {
+
+  background-color:#ffff99;
+  color:black;
+
+  }
+
+  .memo:before, .memo:after
+  {
+    content:"";
+      position:absolute;
+      z-index:-1;
+      box-shadow:0 0 18px rgba(0,0,0,0.4);
+      top:0;
+      bottom:50%;
+      left:10px;
+      right:10px;
+      border-radius:100px / 10px;
+  }
+
+
+  .overlay {
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+  /*  background-image: url("IAMarble2.jpg");
+    background-size:cover;
+
+    opacity:0.3;*/
+  }
+
+  .tablink {
+   background-color:black;
+   color:white;
+}
+
+.tablinkred {
+   background-color:red;
+   color:white;
+}
+
+.pagelink {
+   background-color:black;
+   color:white;
+}
+
+.pagelinkred {
+   background-color:red;
+   color:white;
+}
+
+
+.menu a{text-decoration:none!important}
+.menu li{float:left}
+.menu li a{display:block;padding:8px 16px}
+.menu li a:hover{color:#000;background-color:#ccc}
+.menu{
+	background-color:#ccc;color:#000;
+	list-style-type:none;
+	position: relative;
+	left: 100px;
+}
+#menuRecallDiv .menu{
+	background-color:#ccc;color:#000;
+	list-style-type:none;
+	position: relative;
+	left: 100px;
+}
+
+#wrapper {
+
+
+position:relative;
+  width:80%;
+
+  margin: 0 auto;
+}
+.memoContent {
+  position:absolute;
+  left:0;
+  padding: 2px;
+  margin: 0 auto;
+  width: 100%;
+
+}
+
+
+#preview {
+  height: 45px;
+  width: 240px;
+
+}
+
+.recallContent {
+	padding: 2px;
+  margin: 0 auto;
+  width: 100%
+
+}
+
+
+ .analogue1rowNumber {
+    border:none;color:red;
+	width:30px !important;
+  opacity: .5 !important;
+  }
+
+
+.analogue1numbersMemo {
+  font-size:18pt;
+  width:24px;
+  padding-bottom:2px;
+  text-align:center;
+
+ text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.07);
+
+
+  color: #000000;
+  opacity: .7;
+
+}
+
+.analogue1numbersSelected {
+
+  /*background-color: lightblue;*/
+  opacity: .85;
+}
+
+.analogue1binaryMemo {
+  font-size:20pt;
+  width:27px;
+  padding-bottom:2px;
+  text-align:center;
+  text-shadow: 0 0 1px #C0C0C0;
+  color: #111111;
+}
+
+.analogue1binarySelected {
+  /*background-color:lightblue;
+  background-opacity: .7;*/
+  opacity: .85;
+}
+
+.digital1rowNumber {
+   border:none;color:blue;
+ width:30px !important;
+
+ }
+
+
+ .digital1numbersMemo {
+   font-size:18pt;
+   width:24px;
+   padding-bottom:2px;
+   text-align:center;
+
+
+   color: #000000;
+
+ }
+
+ .digital1numbersSelected {
+
+   /*background-color: lightblue;*/
+
+ }
+
+ .digital1binaryMemo {
+   font-size:18pt;
+   width:24px;
+   padding-bottom:2px;
+   text-align:center;
+
+
+   color: #000000;
+ }
+
+ .digital1binarySelected {
+   /*background-color:lightblue;
+   background-opacity: .7;*/
+
+ }
+
+.numbersRecallTD {
+  padding-top:10px
+}
+.numbersRecall {
+  background-color:#EDEDED;
+  height:25px !important;
+  width:25px !important;
+  text-align:center;
+}
+.numbersSelectedRecall {
+  background-color:orange;
+  height:25px !important;
+  width:25px !important;
+  text-align:center;
+}
+.numbersInGroup {
+ background-color:lightblue;
+ height:25px !important;
+  width:25px !important;
+  text-align:center;
+}
+
+.binaryRecallTD {
+  padding-top:10px
+}
+.binaryRecall {
+  background-color:#EDEDED;
+  height:30px !important;
+  width:30px !important;
+  text-align:center;
+}
+.binarySelectedRecall {
+  background-color:orange;
+  height:30px !important;
+  width:30px !important;
+  text-align:center;
+}
+.binaryInGroup {
+ background-color:lightblue;
+ height:30px !important;
+  width:30px !important;
+  text-align:center;
+}
+
+.recallTable {
+
+  text-align:center;
+  margin: 0 auto;
+}
+
+.scoreTable {
+  border-collapse:separate;
+  text-align:center;
+  margin: 0 auto;
+}
+
+.correction {
+  background-color:#EDEDED;
+  height:30px;
+  width:30px;
+  text-align:center;
+
+}
+.score {
+
+  height:30px;
+  width:30px;
+  text-align:center;
+}
+
+.correct {
+background-color:lightgreen;
+}
+.incorrect {
+  background-color:#ff3333;
+}
+
+
+#spanOuterScore {
+  font-size:20pt;
+
+  vertical-align:middle;
+}
+
+#spanScore {
+  font-size:20pt;
+
+  vertical-align:middle;
+}
+#spanCorrect {
+  font-size:14pt;
+
+  vertical-align:middle;
+}
+
+.disciplineTitle {
+  font-size:18pt;
+
+  vertical-align:middle;
+}
+
+.disciplineTitleMemo {
+  font-size:18pt;
+
+  vertical-align:middle;
+  font-style:italic;
+}
+
+.disciplineHeadingTable {
+  position:absolute;
+  left:8%;
+
+}
+
+.disciplineHeadingTable td {
+  padding-right:100px;
+
+}

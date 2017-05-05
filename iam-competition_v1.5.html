@@ -1,0 +1,2432 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" rel="stylesheet" type="text/css">
+
+<style type="text/css">
+
+
+</style>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+
+
+
+const events = [
+  {
+    "ref": "5N",
+    "label": "5-minute Numbers",
+	"amount": 600,
+	"memoTime":300,
+	"recallTime":900
+  },
+
+    {
+    "ref": "15N",
+    "label": "15-minute Numbers",
+	"amount": 1500,
+	"memoTime":900,
+	"recallTime":1800
+  },
+
+  {
+    "ref": "30N",
+    "label": "30-Minute Numbers",
+	"amount":4000,
+	"memoTime":1800,
+	"recallTime":3600
+  },
+  {
+    "ref": "60N",
+    "label": "Hour Numbers",
+	"amount":5000,
+	"memoTime":3600,
+	"recallTime":7200
+  },
+   {
+    "ref": "5F",
+    "label": "5-Minute Names & Faces",
+	"amount":120,
+	"memoTime":300,
+	"recallTime":900
+  },
+   {
+    "ref": "15F",
+    "label": "15-Minute Names & Faces",
+	"amount":250,
+	"memoTime":900,
+	"recallTime":1800
+  },
+   {
+    "ref": "5W",
+    "label": "5-Minute Words",
+	"amount":180,
+	"memoTime":300,
+	"recallTime":900
+  },
+   {
+    "ref": "15W",
+    "label": "15-Minute Words",
+	"amount":360,
+	"memoTime":900,
+	"recallTime":1800
+  },
+   {
+    "ref": "S",
+    "label": "Spoken Numbers",
+	"amount":700,
+	"recallTime":1200
+  },
+   {
+    "ref": "D",
+    "label": "5-Minute Dates",
+	"amount":180,
+	"memoTime":300,
+	"recallTime":900
+  },
+   {
+    "ref": "SC",
+    "label": "Speed Cards",
+	"memoTime":300,
+	"recallTime":300
+  },
+   {
+    "ref": "10C",
+    "label": "10-Minute Cards",
+	"memoTime":600,
+	"recallTime":1200
+  },
+   {
+    "ref": "30C",
+    "label": "30-Minute Cards",
+	"memoTime":1800,
+	"recallTime":3600
+  },
+   {
+    "ref": "60C",
+    "label": "Hour Cards",
+	"memoTime":3600,
+	"recallTime":7200
+  },
+   {
+    "ref": "5I",
+    "label": "5-Minute Images",
+	"amount":250,
+	"memoTime":300,
+	"recallTime":900
+  },
+   {
+    "ref": "5B",
+    "label": "5-Minute Binary",
+	"amount":1800,
+	"memoTime":300,
+	"recallTime":900
+  },
+   {
+    "ref": "30B",
+    "label": "30-Minute Binary",
+	"amount":6000,
+	"memoTime":1800,
+	"recallTime":3600
+  }
+];
+
+const nationalEvents = ["5N","15N","5F","5W","D","SC","10C","5I","S","5B"];
+
+const internationalEvents = ["5N","30N","15F","15W","D","SC","30C","5I","S","30B"];
+
+const worldEvents = ["5N","60N","15F","15W","D","SC","60C","5I","S","30B"];
+
+
+const suitInitialList = new Array("s", "c", "h", "d");
+const faceList = new Array("J", "Q", "K");
+const nonfaceList = new Array("A", "2", "3", "4", "5", "6", "7", "8", "9", "10");
+
+const numbersPerPage = 480;
+const binaryPerPage = 360;
+const numbersPerRow = 40;
+const binaryPerRow = 30;
+
+
+var currentDiscipline = "";
+var memoTime = "";
+var recallTime = "";
+var amount = 0;
+var grouping;
+var groupingH;
+var groupingW;
+var hiColour;
+
+var countSeconds;
+var cint;
+
+var numberOfPages;
+var numberList;
+var binaryList;
+var curPos;
+var memoTimeTaken;
+var recallTimeTaken;
+
+var ended;
+
+function changeDisciplines() {
+ //remove all options from the box
+ $("#selDiscipline option").remove();
+
+ //get format
+ var thisFormat = document.getElementById("selFormat").options[document.getElementById("selFormat").selectedIndex].value;
+ var thisArray;
+ switch(thisFormat) {
+   case "N":
+		thisArray = nationalEvents;
+
+     break;
+
+   case "I":
+
+		thisArray = internationalEvents;
+	break;
+
+	default:
+
+   	thisArray = worldEvents;
+ }
+
+ //add all events in that format to the box
+ for (j = 0; j < events.length;j++) {
+		  if (thisArray.indexOf(events[j].ref) > -1) {
+
+				$("#selDiscipline").append("<option value='" +events[j].ref + "'>" + events[j].label + "</option>");
+
+		  }
+	 }
+
+}
+
+
+function goToSelection() {
+  currentDiscipline = "";
+  document.getElementById("selectionRow").style="display:block";
+   document.getElementById("settingsRow0").style="display:none";
+   document.getElementById("countdownRow").style="display:none";
+   document.getElementById("countdownText").innerHTML="";
+   document.getElementById("countdownTime").innerHTML="";
+   document.getElementById("memoRow").style="display:none";
+   document.getElementById("recallRow").style="display:none";
+   document.getElementById("scoreRow").style="display:none";
+   document.getElementById("btnBackToSelection").style="display:none";
+
+}
+
+function goToSettings() {
+  currentDiscipline = document.getElementById("selDiscipline").options[document.getElementById("selDiscipline").selectedIndex].value;
+  document.getElementById("selectionRow").style="display:none";
+   document.getElementById("settingsRow0").style="display:block";
+      document.getElementById("countdownRow").style="display:none";
+	  document.getElementById("countdownText").innerHTML="";
+	  document.getElementById("countdownTime").innerHTML="";
+	  document.getElementById("memoRow").style="display:none";
+document.getElementById("recallRow").style="display:none";
+document.getElementById("scoreRow").style="display:none";
+   document.getElementById("btnBackToSelection").style="display:block";
+
+   var titleElements = document.getElementsByClassName("disciplineTitle");
+   var title = lookupProperty(currentDiscipline,"label");
+   for (var i = 0; i<titleElements.length;i++) {
+     titleElements[i].innerHTML = title;
+   }
+
+   titleElements = document.getElementsByClassName("disciplineTitleMemo");
+   title = lookupProperty(currentDiscipline,"label");
+   for (var i = 0; i<titleElements.length;i++) {
+     titleElements[i].innerHTML = title;
+   }
+
+  //Show Grouping dropdown if necessary
+  if (currentDiscipline.indexOf("N")>-1 || currentDiscipline.indexOf("W")>-1 || currentDiscipline.indexOf("C")>-1) {
+    document.getElementById("divGrouping").style="display:block";
+  }
+  else {
+    document.getElementById("divGrouping").style="display:none";
+  }
+
+  //Show Binary Grouping dropdown if necessary
+  if (currentDiscipline.indexOf("B")>-1) {
+      document.getElementById("divBinGrouping").style="display:block";
+  }
+  else {
+    document.getElementById("divBinGrouping").style="display:none";
+  }
+
+  //Show preview if necessary
+
+  changeSkin();
+changeSelHColour();
+
+  //Show highlighter colour if necessary ***
+
+  //Show Decks input if necessary
+  if (currentDiscipline == "10C" || currentDiscipline == "60C" || currentDiscipline == "30C") {
+    document.getElementById("divDecks").style="display:block";
+	if (currentDiscipline == "10C") {
+		document.getElementById("inpDecks").value = 10;
+	}
+	else if (currentDiscipline == "30C") {
+	  document.getElementById("inpDecks").value = 20;
+	}
+	else {
+	  document.getElementById("inpDecks").value = 30;
+	}
+  }
+  else {
+    document.getElementById("divDecks").style="display:none";
+  }
+}
+
+function startMemoCountdown() {
+	//Get settings
+	//Get amount / number of decks
+	//IF NOT AN AMOUNT, FLAG THIS UP AND DON'T Start
+
+
+	if (currentDiscipline == "10C" || currentDiscipline == "60C" || currentDiscipline == "30C") {
+	  amount = document.getElementById("inpDecks").value;
+
+	 }
+	 else {
+	   amount = lookupProperty(currentDiscipline,"amount");
+	 }
+
+	//Get grouping
+	if (currentDiscipline.indexOf("N")>-1 || currentDiscipline.indexOf("W")>-1 || currentDiscipline.indexOf("C")>-1) {
+	  grouping = Number(document.getElementById("selGrouping").options[document.getElementById("selGrouping").selectedIndex].value);
+	}
+
+	//Get grouping
+	if (currentDiscipline.indexOf("B")>-1) {
+	  groupingH = Number(document.getElementById("selBinGroupingH").options[document.getElementById("selBinGroupingH").selectedIndex].value);
+	  groupingW = Number(document.getElementById("selBinGroupingW").options[document.getElementById("selBinGroupingW").selectedIndex].value);
+	}
+
+  //Get highlighter colour
+  if (currentDiscipline.indexOf("B")>-1 || currentDiscipline.indexOf("N")>-1) {
+    hiColour = document.getElementById("selHColour").options[document.getElementById("selHColour").selectedIndex].value;
+  }
+
+  //Get skin
+
+    skin = document.getElementById("selSkin").options[document.getElementById("selSkin").selectedIndex].value;
+
+
+	//Display countdown section only
+   document.getElementById("settingsRow0").style="display:none";
+   document.getElementById("countdownTable").style="display:block";
+   document.getElementById("countdownRecallTable").style="display:none";
+   document.getElementById("countdownText").innerHTML="";
+   document.getElementById("countdownTime").innerHTML="";
+   document.getElementById("countdownRow").style="display:block";
+   document.getElementsByClassName("countdownDisciplineTitle").innerHTML = lookupProperty(currentDiscipline,"label");
+   var titleElements = document.getElementsByClassName("countdownDisciplineTitle");
+   var title = lookupProperty(currentDiscipline,"label");
+   for (var i = 0; i<titleElements.length;i++) {
+     titleElements[i].innerHTML = title;
+   }
+
+   //Get memo and recall times
+   memoTime = lookupProperty(currentDiscipline,"memoTime");
+   recallTime = lookupProperty(currentDiscipline,"recallTime");
+
+
+   //Get the data to be memorised
+   //NUMBERS
+    if (currentDiscipline.indexOf("N")>-1) {
+	  numberList = [];
+	  for (i = 0;i<amount;i++) {
+	    numberList.push(Math.floor(Math.random() * 10));
+	  }
+	}
+
+   //BINARY
+    if (currentDiscipline.indexOf("B")>-1) {
+	  binaryList = [];
+	  for (i = 0;i<amount;i++) {
+	    binaryList.push(Math.floor(Math.random() * 2));
+	  }
+	}
+
+   //CARDS
+   if (currentDiscipline.indexOf("C")>-1) {
+	  cardList = [];
+	  //for each deck
+	  for (var d = 0; d<amount;d++) {
+	    //generate a standard deck
+	    var deck = getStandardDeck();
+
+	    shuffle(deck);
+	    cardList.push(deck);
+	    //add it to cardList (top-level array)
+	  }
+	}
+
+
+   //Display countdown clock
+   countSeconds = 5;
+   cint = setInterval(showSeconds, 1000);
+}
+
+function getStandardDeck() {
+	var deck = new Array();
+	//get a deck of 52 cards (non-faces)
+	for (i = 0; i < nonfaceList.length; i++) {
+		for (j = 0; j < suitInitialList.length; j++) {
+		  deck.push ({ cv:  nonfaceList[i],
+                       cs:  suitInitialList[j]
+					 });
+      }
+
+	}
+
+
+	//get the face cards into the deck
+	for (i = 0; i < faceList.length; i++) {
+		for (j = 0; j < suitInitialList.length; j++) {
+		  deck.push ({ cv:  faceList[i],
+					   cs:  suitInitialList[j]
+					 });
+		}
+	}
+
+
+	return deck;
+
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+function showSeconds() {
+	document.getElementById("countdownText").innerHTML = "Memorisation starts in: ";
+	document.getElementById("countdownTime").innerHTML = countSeconds;
+	countSeconds--;
+	if (countSeconds<=-1){
+	  clearInterval(cint);
+	  startMemo();
+	}
+}
+
+function startMemo() {
+
+	//Display memo section only
+   document.getElementById("countdownRow").style="display:none";
+   document.getElementById("memoRow").style="display:block";
+     document.getElementById("logoRow").style="display:none";
+ //    var titleElements = document.getElementsByClassName("disciplineTitle");
+  // var title = lookupProperty(currentDiscipline,"label");
+  // for (var i = 0; i<titleElements.length;i++) {
+  //   titleElements[i].innerHTML = title;
+  // }
+
+   //Display relevant memo depending on discipline
+   switch(currentDiscipline) {
+     case "5N":
+	 case "15N":
+	 case "30N":
+	 case "60N":
+	  startNumberMemo();
+		break;
+     case "5B":
+	 case "30B":
+		startBinaryMemo();
+		break;
+     case "10C":
+	 case "30C":
+	 case "60C":
+	 case "SC":
+		startCardMemo();
+		break;
+	 case "D":
+		startDatesMemo();
+		break;
+	 case "5F":
+	 case "15F":
+		startNamesMemo();
+		break;
+	 case "5W":
+	 case "15W":
+		startWordsMemo();
+		break;
+	 case "S":
+		startSpokenMemo();
+	 default:
+		startImagesMemo();
+   }
+}
+
+function startNumberMemo() {
+	//set ended to false
+	ended = false;
+
+
+
+   //work out how many pages needed (480 digits per page)
+   numberOfPages = Math.ceil(amount/numbersPerPage);
+   curPos = 0;
+   firstOfGroup = 0;
+
+   //add the page menu if >1 page
+   if (numberOfPages > 1) {
+
+	var menuString = "<ul class='menu'>";
+
+	for (var i=0;i<numberOfPages;i++) {
+	  menuString += "<li><a href='#' id='page"+ i + "tablink' class='pagelink' onclick='moveFocusNumMemo(" + numbersPerPage*i + ")'>" + (i+1) + "</a></li>";
+	}
+	menuString += "</ul><br/>";
+	document.getElementById("menuDiv").innerHTML = menuString;
+
+	}
+
+	//add the memo content
+	var numberMemoString = "";
+    for (i=0;i<numberOfPages;i++) {
+      if (i < numberOfPages-1) {
+	    numbersOnThisPage = numbersPerPage;
+	  }
+	else {
+	    numbersOnThisPage = amount-i*numbersPerPage;
+	  }
+
+	numberMemoString += "<div id='page" + i + "'><table><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*numbersPerPage)/numbersPerRow+1) + "&nbsp;&nbsp;</td>";
+		for (j = 0; j < numbersOnThisPage;j++) {
+			numberMemoString += "<td id='tdMemo" + (i*numbersPerPage+j) + "' class='" + skin + "numbersMemo' onclick='moveFocusNumMemo(" + (i*numbersPerPage+j) + ")'>" + numberList[i*numbersPerPage+j] + "</td>";
+			if ((j + 1) % numbersPerRow == 0) {
+				if (j+1 == numbersOnThisPage) {
+				numberMemoString += "</tr></table></div>";
+
+				}
+				else {
+
+					numberMemoString += "</tr><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*numbersPerPage+j)/numbersPerRow+2) + "&nbsp;&nbsp;</td>";
+
+
+				}
+		    }
+
+		}
+
+	}
+
+
+
+  numberMemoString += "</div>";
+  document.getElementById("memoContentDiv").innerHTML = numberMemoString;
+
+  //go to first digits
+	moveFocusNumMemo(0);
+
+
+
+  //set current position
+  curPos = 0;
+
+  //set the timer
+	memoStart = Date.now(),r = document.getElementById('spanMemoTime');
+	(function f() {
+	memoTimeDiff = Date.now() - memoStart;
+	r.textContent = timeFormat(memoTime*1e3-memoTimeDiff);
+	//ns=(((memoTime*1e3-memoTimeDiff)/1e3)), m=(ns/60)>>0,s=Math.floor(ns-m*60),hs=Math.floor((ns-(Math.floor(ns)))*100);
+	//r.textContent = m + ":" + ((""+s).length>1?"":"0")+s + ":" + ((""+hs).length>1?"":"0")+hs;
+
+	//When timer reaches 0, go to recall
+	if (memoTimeDiff/1e3 >= memoTime) {
+
+		//Clear display
+		document.getElementById("memoRow").style.display = "none";
+
+		memoTimeTaken = memoTime;
+
+	    //set ended to true
+		ended = true;
+
+		startRecallCountdown();
+	}
+	//Otherwise repeat this function
+	else {
+	  if (ended == false) {
+	    setTimeout(f,10);
+      }
+	}
+	})();
+
+
+	 document.onkeydown = function(e) {
+     //If Enter is pressed
+   	if (e.keyCode == 13 && ended == false) {
+		memoTimeTaken = Date.now() - memoStart;
+
+  	//Clear display
+		document.getElementById("memoRow").style.display = "none";
+
+		//set ended to true
+		ended = true;
+
+
+		//Recall
+		startRecallCountdown();
+
+
+	}
+
+		//if right arrow pressed, move on
+    if (e.keyCode == 39 && ended == false) {
+       moveNextNumMemo();
+	}
+
+
+	 //if left arrow is pressed to go back
+    if (e.keyCode == 37 && ended == false) {
+	    movePreviousNumMemo();
+	  }
+
+	  	//if space is pressed, return to start
+    if (e.keyCode == 32 && ended == false) {
+	    moveFocusNumMemo(0);
+	  }
+   };
+
+}
+
+function moveNextNumMemo() {
+  if (ended == false) {
+    if (curPos + grouping >= amount) {
+
+	  //Get memo time
+	  memoTimeTaken = Date.now() - memoStart;
+
+	 	//Clear display
+		document.getElementById("memoRow").style.display = "none";
+
+		//set ended to true
+		ended = true;
+
+
+		//Recall
+		startRecallCountdown();
+
+
+	  }
+
+     else {
+
+		moveFocusNumMemo(curPos + grouping);
+
+	 }
+  }
+}
+
+function movePreviousNumMemo() {
+if (curPos>=grouping) {
+  if (ended == false) {
+		moveFocusNumMemo(curPos-grouping);
+	}
+  }
+}
+
+
+
+function moveFocusNumMemo(newPos) {
+	//get first of grouping
+	var firstOfGroup = curPos - (curPos % grouping);
+
+
+    //remove highlight from existing grouping
+	document.getElementById("tdMemo" + firstOfGroup).className = skin + "numbersMemo";
+  document.getElementById("tdMemo" + firstOfGroup).bgColor = "";
+	for (var i = 1;i<grouping;i++) {
+	if (firstOfGroup < numberList.length - i) {
+	    document.getElementById("tdMemo" + (firstOfGroup + i)).className = skin + "numbersMemo";
+      document.getElementById("tdMemo" + (firstOfGroup + i)).bgColor = "";
+	  }
+
+	}
+
+	//get current page
+	var curPage = Math.floor(newPos/numbersPerPage);
+
+
+	//show/hide correct pages
+	for (var i = 0; i < numberOfPages; i++) {
+	  if (i == curPage) {
+	    document.getElementById("page" + i).style.display = "block";
+		if (numberOfPages>1) {
+		//highlight this page tab
+		document.getElementById("page" + i + "tablink").className = "pagelinkred";
+		}
+	  }
+	  else {
+		document.getElementById("page" + i).style.display = "none";
+		if (numberOfPages>1) {
+		//un-highlight this page tab
+		document.getElementById("page" + i + "tablink").className = "pagelink";
+		}
+	  }
+	}
+
+
+    if (newPos < amount) {
+
+		//update firstOfGroup
+		if ((newPos == 0) || (newPos % grouping == 0)) {
+
+			firstOfGroup = newPos;
+
+		}
+		else {
+			firstOfGroup = newPos - (newPos % grouping);
+
+		}
+
+	//set new pos to first in group - if user has clicked on a digit or new page, need to only highlight from first in group
+    newPos = firstOfGroup;
+
+
+
+	document.getElementById("tdMemo" + (firstOfGroup)).className = skin + "numbersMemo " + skin + "numbersSelected";
+  document.getElementById("tdMemo" + (firstOfGroup)).bgColor = hiColour;
+
+	for (var i = 1;i<grouping;i++) {
+	if (firstOfGroup < numberList.length - i) {
+	    document.getElementById("tdMemo" + (Number(firstOfGroup + i))).className = skin + "numbersMemo " + skin + "numbersSelected";
+      document.getElementById("tdMemo" + (Number(firstOfGroup + i))).bgColor = hiColour;
+	  }
+	}
+
+	curPos = newPos;
+  }
+
+}
+
+
+function startBinaryMemo() {
+
+	//set ended to false
+	ended = false;
+
+   //work out how many pages needed (360 digits per page)
+   numberOfPages = Math.ceil(amount/binaryPerPage);
+   curPos = 0;
+   firstOfGroup = 0;
+
+   //work out number of levels
+   var longLine = binaryPerRow;
+   binLevels = 1;
+
+  while (longLine % groupingW !== 0) {
+    longLine += binaryPerRow;
+    binLevels ++;
+  }
+
+   //add the page menu if >1 page
+   if (numberOfPages > 1) {
+
+	var menuString = "<ul class='menu'>";
+
+	for (var i=0;i<numberOfPages;i++) {
+	  menuString += "<li><a href='#' id='page"+ i + "tablink' class='pagelink' onclick='moveFocusBinMemo(" + binaryPerPage*i + ")'>" + (i+1) + "</a></li>";
+	}
+	menuString += "</ul><br/>";
+	document.getElementById("menuDiv").innerHTML = menuString;
+
+	}
+
+	//add the memo content
+	var binaryMemoString = "";
+    for (i=0;i<numberOfPages;i++) {
+      if (i < numberOfPages-1) {
+	    binaryOnThisPage = binaryPerPage;
+	  }
+	else {
+	    binaryOnThisPage = amount-i*binaryPerPage;
+	  }
+
+	binaryMemoString += "<div id='page" + i + "'><table><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*binaryPerPage)/binaryPerRow+1) + "&nbsp;&nbsp;</td>";
+		for (j = 0; j < binaryOnThisPage;j++) {
+			binaryMemoString += "<td id='tdMemo" + (i*binaryPerPage+j) + "' class='binaryMemo' onclick='moveFocusBinMemo(" + (i*binaryPerPage+j) + ")'>" + binaryList[i*binaryPerPage+j] + "</td>";
+			if ((j + 1) % binaryPerRow == 0) {
+				if (j+1 == binaryOnThisPage) {
+				binaryMemoString += "</tr></table></div>";
+
+				}
+				else {
+
+					binaryMemoString += "</tr>";
+
+					//spacer row
+				//	for (k = 0; k < binaryPerRow; k++) {
+				 //   binaryMemoString += "<td id='tdMemoSpacer" + (i*binaryPerPage+Math.floor(j/binaryPerRow)*binaryPerRow+k) + "' height=16></td>";
+
+				// }
+
+					binaryMemoString += "<tr><td class='" + skin + "rowNumber'>" + Math.floor((i*binaryPerPage+j)/binaryPerRow+2) + "&nbsp;&nbsp;</td>";
+
+
+				}
+		    }
+
+		}
+
+	}
+
+
+
+  binaryMemoString += "</div>";
+  document.getElementById("memoContentDiv").innerHTML = binaryMemoString;
+
+  //go to first digits
+	moveFocusBinMemo(0);
+
+
+
+  //set current position
+  curPos = 0;
+
+  //set the timer
+	memoStart = Date.now(),r = document.getElementById('spanMemoTime');
+	(function f() {
+	memoTimeDiff = Date.now() - memoStart;
+	r.textContent = timeFormat(memoTime*1e3-memoTimeDiff);
+	//ns=(((memoTime*1e3-memoTimeDiff)/1e3)), m=(ns/60)>>0,s=Math.floor(ns-m*60),hs=Math.floor((ns-(Math.floor(ns)))*100);
+	//r.textContent = m + ":" + ((""+s).length>1?"":"0")+s + ":" + ((""+hs).length>1?"":"0")+hs;
+
+	//When timer reaches 0, go to recall
+	if (memoTimeDiff/1e3 >= memoTime) {
+
+		//Clear display
+		document.getElementById("memoRow").style.display = "none";
+
+		memoTimeTaken = memoTime;
+
+	    //set ended to true
+		ended = true;
+
+		startBinaryRecallCountdown();
+	}
+	//Otherwise repeat this function
+	else {
+	  if (ended == false) {
+	    setTimeout(f,10);
+      }
+	}
+	})();
+
+
+	 document.onkeydown = function(e) {
+     //If Enter is pressed
+   	if (e.keyCode == 13 && ended == false) {
+		memoTimeTaken = Date.now() - memoStart;
+
+  	//Clear display
+		document.getElementById("memoRow").style.display = "none";
+
+		//set ended to true
+		ended = true;
+
+
+		//Recall
+		startRecallCountdown();
+
+
+	}
+
+		//if right arrow pressed, move on
+    if (e.keyCode == 39 && ended == false) {
+       moveNextBinMemo();
+	}
+
+
+	 //if left arrow is pressed to go back
+    if (e.keyCode == 37 && ended == false) {
+	    movePreviousBinMemo();
+	  }
+
+	//if space is pressed, return to start
+    if (e.keyCode == 32 && ended == false) {
+	    moveFocusBinMemo(0);
+	  }
+
+
+   };
+
+
+}
+
+function getFirstOfMatrix(pos) {
+  var x = pos % binaryPerRow;
+  var y = Math.floor(pos / binaryPerRow);
+
+  var currentLevel = Math.floor(y/groupingH) % binLevels;
+  var easyX = currentLevel * binaryPerRow + x;
+
+var newX = (easyX - (easyX % groupingW)) % binaryPerRow;
+var newY = y - (y%groupingH);
+//in case this matrix is split over two "big" rows, subtract matrix height * number of big rows' difference between this position and start of matrix
+newY -= groupingH * (Math.floor(easyX/binaryPerRow)-Math.floor((easyX - (easyX % groupingW))/binaryPerRow));
+
+  return newY*binaryPerRow+newX;
+}
+
+function getNextSquare(pos) {
+  var positions = getMatrixPositions(pos);
+  //find index of pos in positions
+  var thisIndex = positions.indexOf(pos);
+  //if it is highest then move to next matrix and return first
+  if (thisIndex === positions.length-1) {
+    return getFirstOfMatrix(getNextImage(pos));
+  }
+  //else return position at thisIndex+1
+  else {
+    return positions[thisIndex+1];
+  }
+}
+
+// binary code by Lance
+function getMatrixPositions(pos) {
+  var firstOfMatrix = getFirstOfMatrix(pos);
+  var x = firstOfMatrix % binaryPerRow;
+  var y = Math.floor(firstOfMatrix / binaryPerRow);
+
+
+var positions = [];
+
+//loop through the height and width and add successive positions to the matrix, moving down as necessary
+for (var i = 0; i < groupingH; i++) {
+  thisX = x;
+  thisY = y+i;
+
+  for (var j = 0; j < groupingW; j++) {
+     positions.push(thisY*binaryPerRow+thisX);
+
+     //if we have reached end of row, move back to beginning of row and move down by groupingH
+     if (thisX + 1 === binaryPerRow) {
+	   thisX = 0;
+	   thisY += groupingH;
+	 }
+
+	 //else move along one to the right
+	 else {
+	   thisX++;
+	 }
+
+  }
+}
+
+return positions;
+}
+
+function getNextImage(pos) {
+  var x = (pos+groupingW) % binaryPerRow;
+  var y = Math.floor(pos / binaryPerRow);
+  if (pos + groupingW >= (y+1)*binaryPerRow) {
+    y += groupingH;
+  }
+
+
+  return y*binaryPerRow+x;
+
+}
+
+function getPreviousImage(pos) {
+  var x = (pos-groupingW) % binaryPerRow;
+  var y = Math.floor(pos / binaryPerRow);
+  if (pos - groupingW < y*binaryPerRow) {
+    y -= groupingH;
+  }
+
+
+  return y*binaryPerRow+x;
+
+}
+
+/*
+function getNextSquare(pos) {
+  //check which row of a big row this is
+  var rowCounter = 0;
+
+		if (currentSquare % 90 >=30 && currentSquare % 90 < 59) {
+			rowCounter = 1;
+		}
+		else if (currentSquare % 90 >=60) {
+			rowCounter = 2;
+		}
+
+		//if it's last of 3, go to next row/image
+		if (currentSquare % 3 == 2) {
+			//next image
+			if (rowCounter == 2) {
+			  //if end of big row, go to next digit
+			  if (currentSquare % 30 == 29) {
+
+			    return currentSquare + 1;
+
+			  }
+			  //else just go back up two rows to next image
+			  else {
+			   return currentSquare - 59;
+			  }
+			}
+			//go to next row of this image
+			else {
+			  return currentSquare + 28;
+			}
+		}
+
+		else {
+			return currentSquare+1;
+		}
+}
+
+/*
+function setTheStage(width, height){
+  var longLine = 30;
+  var levels = 1;
+
+while (longLine % width !==0){
+  longLine += 30;
+  levels ++;
+}
+
+  function toCorner(x,y){
+  var currentLevel = Math.floor(y/height) % levels;
+  var easyX = currentLevel * 30 + x;
+
+var newY = y - (y%height);
+var newX = easyX - (easyX % width);
+
+return [newX, newY];
+
+}
+}
+}
+}
+*/
+/*
+var newY = y - (y%height);
+var newX = (easyX - (easyX % width)) % 30;
+
+return [newX, newY];
+*/
+
+function moveNextBinMemo() {
+  var nextImage = getNextImage(curPos)
+  if (ended == false) {
+    if (nextImage >= amount) {
+
+	  //Get memo time
+	  memoTimeTaken = Date.now() - memoStart;
+
+	 	//Clear display
+		document.getElementById("memoRow").style.display = "none";
+
+		//set ended to true
+		ended = true;
+
+
+		//Recall
+		startRecallCountdown();
+
+
+	  }
+
+     else {
+
+		moveFocusBinMemo(nextImage);
+
+	 }
+  }
+
+
+}
+
+function movePreviousBinMemo() {
+var prevImage = getPreviousImage(curPos);
+  if (prevImage >= 0) {
+  if (ended == false) {
+		moveFocusBinMemo(prevImage);
+	}
+  }
+}
+
+
+function moveFocusBinMemo(newPos) {
+	//get grouping
+	var positions = getMatrixPositions(curPos);
+	//var firstOfGroup = positions[0];
+
+    //remove highlight from existing grouping
+
+	for (var i = 0;i<positions.length;i++) {
+	if (positions[i] < binaryList.length) {
+	    document.getElementById("tdMemo" + (positions[i])).className = "binaryMemo";
+      document.getElementById("tdMemo" + (positions[i])).bgColor = "";
+	  }
+
+	}
+
+	//get current page
+	var curPage = Math.floor(newPos/binaryPerPage);
+
+
+	//show/hide correct pages
+	for (var i = 0; i < numberOfPages; i++) {
+	  if (i == curPage) {
+	    document.getElementById("page" + i).style.display = "block";
+		if (numberOfPages>1) {
+		//highlight this page tab
+		document.getElementById("page" + i + "tablink").className = "pagelinkred";
+		}
+	  }
+	  else {
+		document.getElementById("page" + i).style.display = "none";
+		if (numberOfPages>1) {
+		//un-highlight this page tab
+		document.getElementById("page" + i + "tablink").className = "pagelink";
+		}
+	  }
+	}
+
+
+    if (newPos < amount) {
+
+		//get grouping
+	var newPositions = getMatrixPositions(newPos);
+
+	firstOfGroup = newPositions[0];
+
+	//set new pos to first in group - if user has clicked on a digit or new page, need to only highlight from first in group
+    newPos = firstOfGroup;
+
+
+    //add highlight to new grouping
+
+	for (var i = 0;i<positions.length;i++) {
+	if (newPositions[i] < binaryList.length) {
+	    document.getElementById("tdMemo" + (newPositions[i])).className = "binaryMemo binarySelected";
+      document.getElementById("tdMemo" + (newPositions[i])).bgColor = hiColour;
+	  }
+
+	}
+
+
+	curPos = newPos;
+  }
+
+}
+
+
+
+
+function startCardMemo() {
+  alert(cardList[0][0]["cv"]);
+}
+
+
+
+
+function startRecallCountdown() {
+
+  //Show logo row
+  document.getElementById("logoRow").style="display:block";
+
+	//Display countdown section only
+  document.getElementById("countdownTable").style="display:none";
+  document.getElementById("countdownRecallTable").style="display:block";
+	document.getElementById("countdownRecallText").innerHTML="";
+	document.getElementById("countdownRecallTime").innerHTML="";
+   document.getElementById("countdownRow").style="display:block";
+   document.getElementById("memoRow").style="display:none";
+  // document.getElementById("countdownDisciplineTitle").innerHTML = lookupProperty(currentDiscipline,"label");
+
+   //Display countdown clock
+   countSeconds = 5;
+   cint = setInterval(showSecondsR, 1000);
+}
+
+function showSecondsR() {
+	document.getElementById("countdownRecallText").innerHTML = "Recall starts in: ";
+	document.getElementById("countdownRecallTime").innerHTML = countSeconds;
+	countSeconds--;
+	if (countSeconds<=-1){
+	  clearInterval(cint);
+	  startRecall();
+	}
+}
+
+function startRecall() {
+
+	//Display recall section only
+   document.getElementById("countdownRow").style="display:none";
+   document.getElementById("recallRow").style="display:block";
+   document.getElementById("spanMemoTimeTaken").textContent = timeFormat(memoTimeTaken);
+     document.getElementById("logoRow").style="display:none";
+ //  document.getElementsByClassName("disciplineTitle").innerHTML = lookupProperty(currentDiscipline,"label");
+
+   //Display relevant memo depending on discipline
+   switch(currentDiscipline) {
+     case "5N":
+	 case "15N":
+	 case "30N":
+	 case "60N":
+	  startNumberRecall();
+		break;
+     case "5B":
+	 case "30B":
+		startBinaryRecall();
+		break;
+     case "10C":
+	 case "30C":
+	 case "60C":
+	 case "SC":
+		startCardRecall();
+		break;
+	 case "D":
+		startDatesRecall();
+		break;
+	 case "5F":
+	 case "15F":
+		startNamesRecall();
+		break;
+	 case "5W":
+	 case "15W":
+		startWordsRecall();
+		break;
+	 case "S":
+		startSpokenRecall();
+	 default:
+		startImagesRecall();
+   }
+}
+
+function startNumberRecall() {
+  ended = false;
+  curPos = 0;
+  var numberRecallString = "";
+
+   //add the page links if >1 page
+  if (numberOfPages > 1) {
+
+	var menuString = "<ul class='menu'>";
+
+	for (var i=0;i<numberOfPages;i++) {
+	  menuString += "<li><a href='#' id='page"+ i + "tablinkRecall' class='pagelink' onclick='moveFocusNumRecall(" + numbersPerPage*i + ")'>" + (i+1) + "</a></li>";
+	}
+	menuString += "</ul><br/>";
+	document.getElementById("menuRecallDiv").innerHTML = menuString;
+
+
+
+
+	}
+
+
+	//add the recall content
+    for (i=0;i<numberOfPages;i++) {
+      if (i < numberOfPages-1) {
+	    numbersOnThisPage = numbersPerPage;
+	  }
+	else {
+	    numbersOnThisPage = amount-i*numbersPerPage;
+	  }
+
+	numberRecallString += "<div id='page" + i + "Recall'><table class='recallTable'><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*numbersPerPage)/numbersPerRow+1) + "&nbsp;&nbsp;</td>";
+		for (j = 0; j < numbersOnThisPage;j++) {
+			numberRecallString += "<td class='numbersRecallTD'><input class='numbersRecall' id='inpRecall" + (i*numbersPerPage+j) + "' maxlength='1'	  onclick='moveFocusNumRecall(" + (i*numbersPerPage+j) + ")' oninput='moveFocusNumRecall(" + (i*numbersPerPage+j+1) + ")'></input></td>";
+
+			if ((j + 1) % numbersPerRow == 0) {
+			  if (j+1 == numbersOnThisPage) {
+				numberRecallString += "</tr></table></div>";
+
+				}
+
+			 else {
+
+				numberRecallString += "</tr><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*numbersPerPage+j)/numbersPerRow+2) + "&nbsp;&nbsp;</td>";
+
+
+
+			}
+
+			}
+
+		}
+
+	}
+
+
+
+  numberRecallString += "</div>";
+  document.getElementById("recallContentDiv").innerHTML = numberRecallString;
+
+  //go to first digits
+//	moveFocusNumRecall(0);
+
+  setTimeout(function(){
+  moveFocusNumRecall(0);
+  },40);
+
+ // if (numberOfPages>1) {
+//	document.getElementById("page0tablinkRecall").className = "pagelinkred";
+	//}
+
+	for (i = 0; i < numberOfPages; i++) {
+	  if (i == 0) {
+	    document.getElementById("page" + i + "Recall").style.display="block";
+	  }
+	  else {
+		document.getElementById("page" + i + "Recall").style.display="none";
+	  }
+	}
+
+
+  //set current position
+  curPos = 0;
+
+  //set the timer
+	recallStart = Date.now(),r = document.getElementById('spanRecallTime');
+	(function f() {
+	recallTimeDiff = Date.now() - recallStart;
+	r.textContent = timeFormat(recallTime*1e3-recallTimeDiff);
+	//ns=(((recallTime*1e3-recallTimeDiff)/1e3)), m=(ns/60)>>0,s=Math.floor(ns-m*60),hs=Math.floor((ns-(Math.floor(ns)))*100);
+	//r.textContent = m + ":" + ((""+s).length>1?"":"0")+s + ":" + ((""+hs).length>1?"":"0")+hs;
+
+	//When timer reaches 0, go to score display
+	if (recallTimeDiff/1e3 >= recallTime) {
+
+		//Clear display
+		document.getElementById("recallRow").style.display = "none";
+
+		recallTimeTaken = recallTime;
+
+	    //set ended to true
+		ended = true;
+
+		displayScore();
+	}
+	//Otherwise repeat this function
+	else {
+	  if (ended == false) {
+	    setTimeout(f,10);
+      }
+	}
+	})();
+
+
+	 document.onkeydown = function(e) {
+     //If Enter is pressed
+   	if (e.keyCode == 13 && ended == false) {
+		recallTimeTaken = Date.now() - recallStart;
+
+  	//Clear display
+		document.getElementById("recallRow").style.display = "none";
+
+		//set ended to true
+		ended = true;
+
+
+		//Score
+		displayScore();
+
+
+	}
+
+		//if right arrow pressed, move on
+    if (e.keyCode == 39 && ended == false) {
+       moveNextNumbersRecall();
+	}
+
+
+	 //if left arrow is pressed to go back
+    if (e.keyCode == 37 && ended == false) {
+	    movePreviousNumbersRecall();
+	  }
+
+
+	 //if backspace (8) is pressed, delete the number in previous box and move back to that space
+    if ((e.keyCode == 8) && ended == false) {
+
+	    movePreviousNumbersRecall();
+		document.getElementById("inpRecall" + curPos).value="";
+	}
+
+   };
+
+
+
+
+
+}
+
+function moveNextNumbersRecall() {
+
+       //if we have reached end of list, don't move
+
+	    if (curPos < (amount-1)) {
+
+
+
+			moveFocusNumRecall(curPos+1);
+
+
+  }
+}
+
+function movePreviousNumbersRecall() {
+
+       //if we are at start of list, don't move
+
+	    if (curPos > 0) {
+
+			moveFocusNumRecall(curPos-1);
+
+
+  }
+}
+
+function moveFocusNumRecall(newPos) {
+
+	//check current position's input and ensure only digits
+	document.getElementById("inpRecall" + curPos).value=document.getElementById("inpRecall" + curPos).value.replace(/[^/\d]/,'');
+
+	//get first of grouping
+	var firstOfGroup = curPos - (curPos % grouping);
+
+
+  if (newPos < amount) {
+    document.getElementById("inpRecall" + newPos).focus();
+	document.getElementById("inpRecall" + newPos).select();
+
+	//un-highlight current group
+	document.getElementById("inpRecall" + firstOfGroup).className = "numbersRecall";
+	for (var i = 1; i < grouping; i++) {
+	if (firstOfGroup < amount - i) {
+	    document.getElementById("inpRecall" + (firstOfGroup + i)).className = "numbersRecall";
+	  }
+	}
+
+	//update firstOfGroup
+
+	firstOfGroup = newPos - (newPos % grouping);
+
+
+	//highlight selected digit and also other digits in group (different colour)
+	document.getElementById("inpRecall" + (firstOfGroup)).className = "numbersInGroup";
+	for (var i = 1; i < grouping; i++) {
+	if (firstOfGroup < amount - i) {
+	    document.getElementById("inpRecall" + (firstOfGroup + i)).className = "numbersInGroup";
+	  }
+	}
+
+	document.getElementById("inpRecall" + newPos).className = "numbersSelectedRecall";
+
+	//get current page
+	curPage = Math.floor(newPos/numbersPerPage);
+
+
+	//show/hide correct pages
+	for (var i = 0; i < numberOfPages; i++) {
+	  if (i == curPage) {
+	    document.getElementById("page" + i + "Recall").style.display = "block";
+		if (numberOfPages>1) {
+		//highlight this page tab
+		document.getElementById("page" + i + "tablinkRecall").className = "pagelinkred";
+		}
+	  }
+	  else {
+		document.getElementById("page" + i + "Recall").style.display = "none";
+		if (numberOfPages>1) {
+		//un-highlight this page tab
+		document.getElementById("page" + i + "tablinkRecall").className = "pagelink";
+		}
+	  }
+	}
+
+
+	curPos = newPos;
+  }
+
+}
+
+function startBinaryRecall() {
+  ended = false;
+  curPos = 0;
+  var binaryRecallString = "";
+
+   //add the page links if >1 page
+  if (numberOfPages > 1) {
+
+	var menuString = "<ul class='menu'>";
+
+	for (var i=0;i<numberOfPages;i++) {
+	  menuString += "<li><a href='#' id='page"+ i + "tablinkRecall' class='pagelink' onclick='moveFocusBinRecall(" + binaryPerPage*i + ")'>" + (i+1) + "</a></li>";
+	}
+	menuString += "</ul><br/>";
+	document.getElementById("menuRecallDiv").innerHTML = menuString;
+
+
+
+
+	}
+
+
+	//add the recall content
+    for (i=0;i<numberOfPages;i++) {
+      if (i < numberOfPages-1) {
+	    binaryOnThisPage = binaryPerPage;
+	  }
+	else {
+	    binaryOnThisPage = amount-i*binaryPerPage;
+	  }
+
+	binaryRecallString += "<div id='page" + i + "Recall'><table class='recallTable'><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*binaryPerPage)/binaryPerRow+1) + "&nbsp;&nbsp;</td>";
+
+		for (j = 0; j < binaryOnThisPage;j++) {
+			currentSquare = i*binaryPerPage+j;
+			var nextSquare = 0;
+			nextSquare = getNextSquare(currentSquare);
+
+			binaryRecallString += "<td class='binaryRecallTD'><input class='binaryRecall' id='inpRecall" + currentSquare + "' maxlength='1'	  onclick='moveFocusBinRecall(" + (i*binaryPerPage+j) + ")' oninput='moveFocusBinRecall(" + nextSquare + ")'></input></td>";
+
+			if ((j + 1) % binaryPerRow == 0) {
+			  if (j+1 == binaryOnThisPage) {
+				binaryRecallString += "</tr></table></div>";
+
+				}
+
+			 else {
+
+				binaryRecallString += "</tr><tr><td class='" + skin + "rowNumber'>" + Math.floor(currentSquare/binaryPerRow+2) + "&nbsp;&nbsp;</td>";
+
+
+
+			}
+
+			}
+
+		}
+
+	}
+
+
+
+  binaryRecallString += "</div>";
+  document.getElementById("recallContentDiv").innerHTML = binaryRecallString;
+
+
+  setTimeout(function(){
+  moveFocusBinRecall(0);
+  },40);
+
+
+	for (i = 0; i < numberOfPages; i++) {
+	  if (i == 0) {
+	    document.getElementById("page" + i + "Recall").style.display="block";
+	  }
+	  else {
+		document.getElementById("page" + i + "Recall").style.display="none";
+	  }
+	}
+
+
+  //set current position
+  curPos = 0;
+
+  //set the timer
+	recallStart = Date.now(),r = document.getElementById('spanRecallTime');
+	(function f() {
+	recallTimeDiff = Date.now() - recallStart;
+	r.textContent = timeFormat(recallTime*1e3-recallTimeDiff);
+
+	//When timer reaches 0, go to score display
+	if (recallTimeDiff/1e3 >= recallTime) {
+
+		//Clear display
+		document.getElementById("recallRow").style.display = "none";
+
+		recallTimeTaken = recallTime;
+
+	    //set ended to true
+		ended = true;
+
+		displayScore();
+	}
+	//Otherwise repeat this function
+	else {
+	  if (ended == false) {
+	    setTimeout(f,10);
+      }
+	}
+	})();
+
+
+	 document.onkeydown = function(e) {
+     //If Enter is pressed
+   	if (e.keyCode == 13 && ended == false) {
+		recallTimeTaken = Date.now() - recallStart;
+
+  	//Clear display
+		document.getElementById("recallRow").style.display = "none";
+
+		//set ended to true
+		ended = true;
+
+
+		//Score
+		displayScore();
+
+
+	}
+
+		//if right arrow pressed, move on
+    if (e.keyCode == 39 && ended == false) {
+       moveNextBinRecall();
+	}
+
+
+	 //if left arrow is pressed to go back
+    if (e.keyCode == 37 && ended == false) {
+	    movePreviousBinRecall();
+	  }
+
+
+	 //if backspace (8) is pressed, delete the number in previous box and move back to that space
+    if ((e.keyCode == 8) && ended == false) {
+
+	    movePreviousBinRecall();
+		document.getElementById("inpRecall" + curPos).value="";
+	}
+
+   };
+
+
+
+
+
+}
+
+function moveFocusBinRecall(newPos) {
+	//check current position's input and ensure only digits
+	document.getElementById("inpRecall" + curPos).value=document.getElementById("inpRecall" + curPos).value.replace(/[^0-1]/,'');
+
+
+
+  if (newPos < amount) {
+    document.getElementById("inpRecall" + newPos).focus();
+	document.getElementById("inpRecall" + newPos).select();
+
+
+	//get grouping
+	var positions = getMatrixPositions(curPos);
+
+    //remove highlight from existing grouping
+
+	for (var i = 0;i<positions.length;i++) {
+	if (positions[i] < binaryList.length) {
+	    document.getElementById("inpRecall" + (positions[i])).className = "binaryRecall";
+	  }
+
+	}
+
+	//get current page
+	var curPage = Math.floor(newPos/binaryPerPage);
+
+
+	//show/hide correct pages
+	for (var i = 0; i < numberOfPages; i++) {
+	  if (i == curPage) {
+	    document.getElementById("page" + i + "Recall").style.display = "block";
+		if (numberOfPages>1) {
+		//highlight this page tab
+		document.getElementById("page" + i + "tablinkRecall").className = "pagelinkred";
+		}
+	  }
+	  else {
+		document.getElementById("page" + i + "Recall").style.display = "none";
+		if (numberOfPages>1) {
+		//un-highlight this page tab
+		document.getElementById("page" + i + "tablinkRecall").className = "pagelink";
+		}
+	  }
+	}
+
+
+
+
+		//get grouping
+	var newPositions = getMatrixPositions(newPos);
+
+	//firstOfGroup = newPositions[0];
+
+	//set new pos to first in group - if user has clicked on a digit or new page, need to only highlight from first in group
+    //newPos = firstOfGroup;
+
+
+    //add highlight to new grouping
+
+	for (var i = 0;i<positions.length;i++) {
+	if (newPositions[i] < binaryList.length) {
+		if (newPositions[i] === newPos) {
+		  document.getElementById("inpRecall" + (newPositions[i])).className = "binarySelectedRecall";
+		}
+		else {
+	      document.getElementById("inpRecall" + (newPositions[i])).className = "binaryInGroup";
+		}
+	  }
+
+	}
+
+
+	curPos = newPos;
+  }
+
+
+}
+
+function displayScore() {
+
+	//Display score section only
+   document.getElementById("countdownRow").style="display:none";
+   document.getElementById("recallRow").style="display:none";
+   document.getElementById("scoreRow").style="display:none";
+   document.getElementById("spanScoreMemoTimeTaken").textContent = timeFormat(memoTimeTaken);
+   document.getElementById("spanScoreRecallTimeTaken").textContent = timeFormat(recallTimeTaken);
+
+   //Display relevant score screen depending on discipline
+   switch(currentDiscipline) {
+     case "5N":
+	 case "15N":
+	 case "30N":
+	 case "60N":
+	  displayNumberScore();
+		break;
+     case "5B":
+	 case "30B":
+		displayBinaryScore();
+		break;
+     case "10C":
+	 case "30C":
+	 case "60C":
+	 case "SC":
+		displayCardScore();
+		break;
+	 case "D":
+		displayDateScore();
+		break;
+	 case "5F":
+	 case "15F":
+		displayNamesScore();
+		break;
+	 case "5W":
+	 case "15W":
+		displayWordsScore();
+		break;
+	 case "S":
+		displaySpokenScore();
+	 default:
+		displayImagesScore();
+   }
+}
+
+
+function displayNumberScore() {
+
+var score = 0;
+var rowNum = 0;
+var menuString = "";
+var scoreString = "";
+var correctionRowString = "";
+var scoreRowString = "";
+var chosenAnswers = [];
+  //add the page links if >1 page
+  if (numberOfPages > 1) {
+
+	menuString += "<ul class='menu'>";
+
+	for (i=0;i<numberOfPages;i++) {
+	  menuString += "<li><a href='#' id='page"+ i + "tablinkScore' class='pagelink' onclick='moveFocusNumScore(" + i*numbersPerPage + ")'>" + (i+1) + "</a></li>";
+	}
+
+
+    menuString += "</ul><br/>";
+	document.getElementById("menuScoreDiv").innerHTML = menuString;
+
+  }
+
+
+
+
+
+	//for every page
+for (var j=0;j<numberOfPages;j++) {
+	//calculate how many digits on page
+    if (j < numberOfPages-1) {
+	  numberOfDigits = numbersPerPage;
+	}
+	else {
+	  numberOfDigits = amount-j*numbersPerPage;
+	}
+
+	//add the start tags for the div (with page number) and table
+	scoreString += "<div id='page" + j + "Score'><table class='scoreTable'><tr>";
+
+	//start the correction row with an empty td
+	correctionRowString = "<td></td>";
+
+	//start the score row with the row number
+	scoreRowString = "<tr><td class='" + skin + "rowNumber'>" + Math.floor((j*numbersPerPage)/numbersPerRow+1) + "&nbsp;&nbsp;</td>";
+
+
+   //loop through the digits on the page
+   for (i = 0; i < numberOfDigits;i++) {
+
+		//get the chosen answer for the digit
+		chosenAnswers.push(document.getElementById("inpRecall" + ((j*numbersPerPage)+i)).value);
+		var chosenAnswer = chosenAnswers[((j*numbersPerPage)+i)];
+		var correctAnswer = numberList[((j*numbersPerPage)+i)];
+
+		//add the correct answer to the correction row string
+		correctionRowString += "<td class='correction shadowyScore'>" + correctAnswer + "</td>";
+
+		if (chosenAnswer == correctAnswer && chosenAnswer.length > 0) {
+		  score++;
+	    //add the chosen answer to the score row string
+		scoreRowString += "<td class='score correct shadowyScore' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+	}
+	else
+	  {
+	  	  //nothing chosen
+	  if (chosenAnswer.length === 0) {
+	    scoreRowString += "<td class='score shadowyScore' id='score" + ((j*numbersPerPage)+i) + "'></td>";
+	  }
+	  else {
+	 //add the chosen answer to the score row string
+		scoreRowString += "<td class='score incorrect shadowyScore' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+		}
+  	}
+
+
+
+
+
+		if ((i + 1) % numbersPerRow == 0) {
+
+			//end the row and add the two rows to the score string and close table
+				correctionRowString += "</tr>";
+				scoreRowString += "</tr>";
+				scoreString += correctionRowString + scoreRowString + "</table>";
+
+		if (i+1 != numberOfDigits) {
+
+			//if not last digit on page, start a new row
+			scoreString += "</table><br /><table class='scoreTable'>";
+			correctionRowString = "<tr><td></td>";
+
+				scoreRowString = "<tr><td class='" + skin + "rowNumber'>" + Math.floor((j*numbersPerPage+i)/numbersPerRow+2) + "&nbsp;&nbsp;</td>";
+
+
+			}
+		}
+		else if (i+1 == numberOfDigits) {
+		//reached end of digits although not a row
+		//end the row and add the two rows to the score string and close table
+				correctionRowString += "</tr>";
+				scoreRowString += "</tr>";
+				scoreString += correctionRowString + scoreRowString + "</table>";
+		}
+
+
+	}
+
+
+	scoreString += "</div>";
+  }
+
+
+  document.getElementById("scoreContentDiv").innerHTML = scoreString;
+
+
+
+if (numberOfPages>1) {
+	document.getElementById("page0tablinkScore").className = "pagelinkred";
+	}
+
+	for (i = 0; i < numberOfPages; i++) {
+	  if (i == 0) {
+	    document.getElementById("page" + i + "Score").style.display="block";
+	  }
+	  else {
+		document.getElementById("page" + i + "Score").style.display="none";
+	  }
+	}
+
+
+  totalEval = 0;
+
+  //calculate the number of rows
+	if (amount % numbersPerRow == 0) {
+		numberOfRows = amount/numbersPerRow;
+	}
+	else {
+		numberOfRows = Math.floor(amount/numbersPerRow) + 1;
+	}
+
+	var lastRow = 0;
+
+	//find last non-empty row
+	for (i=numberOfRows-1;i>-1;i--) {
+	  for (j=0;j<numbersPerRow;j++) {
+	    if (chosenAnswers[numbersPerRow*i+j].length > 0) {
+		  lastRow = i;
+		  j = numbersPerRow;
+		  i = 0;
+		}
+	  }
+	}
+
+	//go through from row 0 to last row
+	for (i=0; i <= lastRow;i++) {
+	  var incorrectThisRow = 0;
+
+	  //calculate row length
+	  if (i == lastRow) {
+		  //go through row and see how many in row
+		for (j=0; j < numbersPerRow;j++) {
+			if (chosenAnswers[numbersPerRow*i+j].length == 0) {
+				rowLength = j;
+				j=numbersPerRow;
+			}
+		}
+	  }
+	  else {
+	    rowLength = numbersPerRow;
+	  }
+
+	  //go through row and see how many incorrect
+	  for (j=0; j < rowLength;j++) {
+	     if (chosenAnswers[numbersPerRow*i+j] != numberList[numbersPerRow*i+j]) {
+		  incorrectThisRow++;
+	     }
+		 if (incorrectThisRow == 2) {
+		   thisRowEval = 0;
+		   j = rowLength;
+		 }
+	  }
+
+
+	  if (incorrectThisRow == 1) {
+	    thisRowEval = Math.ceil(rowLength/2);
+	  }
+	  if (incorrectThisRow == 0) {
+	    thisRowEval = rowLength;
+	  }
+	  totalEval += thisRowEval;
+	}
+
+  document.getElementById("spanScore").innerHTML = totalEval;
+  document.getElementById("spanCorrect").innerHTML = "&nbsp;&nbsp;(" + score + " correct)";
+
+
+  document.getElementById("scoreRow").style.display = "block";
+}
+
+function moveFocusNumScore(newPos) {
+
+    //get current page
+	var curPage = Math.floor(newPos/numbersPerPage);
+
+	//show/hide correct pages
+	for (i = 0; i < numberOfPages; i++) {
+	  if (i == curPage) {
+	    document.getElementById("page" + i + "Score").style.display = "block";
+		if (numberOfPages>1) {
+		//highlight this page tab
+		document.getElementById("page" + i + "tablinkScore").className = "pagelinkred";
+		}
+	  }
+	  else {
+		document.getElementById("page" + i + "Score").style.display = "none";
+		if (numberOfPages>1) {
+		//un-highlight this page tab
+		document.getElementById("page" + i + "tablinkScore").className = "pagelink";
+		}
+	  }
+	}
+
+}
+
+function displayBinaryScore() {
+
+var score = 0;
+var rowNum = 0;
+var menuString = "";
+var scoreString = "";
+var correctionRowString = "";
+var scoreRowString = "";
+var chosenAnswers = [];
+  //add the page links if >1 page
+  if (numberOfPages > 1) {
+
+	menuString += "<ul class='menu'>";
+
+	for (i=0;i<numberOfPages;i++) {
+	  menuString += "<li><a href='#' id='page"+ i + "tablinkScore' class='pagelink' onclick='moveFocusNumScore(" + i*binaryPerPage + ")'>" + (i+1) + "</a></li>";
+	}
+
+
+    menuString += "</ul><br/>";
+	document.getElementById("menuScoreDiv").innerHTML = menuString;
+
+  }
+
+
+
+
+
+	//for every page
+for (var j=0;j<numberOfPages;j++) {
+	//calculate how many digits on page
+    if (j < numberOfPages-1) {
+	  numberOfDigits = binaryPerPage;
+	}
+	else {
+	  numberOfDigits = amount-j*binaryPerPage;
+	}
+
+	//add the start tags for the div (with page number) and table
+	scoreString += "<div id='page" + j + "Score'><table class='scoreTable'><tr>";
+
+	//start the correction row with an empty td
+	correctionRowString = "<td></td>";
+
+	//start the score row with the row number
+	scoreRowString = "<tr><td class='" + skin + "rowNumber'>" + Math.floor((j*binaryPerPage)/binaryPerRow+1) + "&nbsp;&nbsp;</td>";
+
+
+   //loop through the digits on the page
+   for (i = 0; i < numberOfDigits;i++) {
+
+		//get the chosen answer for the digit
+		chosenAnswers.push(document.getElementById("inpRecall" + ((j*binaryPerPage)+i)).value);
+		var chosenAnswer = chosenAnswers[((j*binaryPerPage)+i)];
+		var correctAnswer = binaryList[((j*binaryPerPage)+i)];
+
+		//add the correct answer to the correction row string
+		correctionRowString += "<td class='correction shadowyScore'>" + correctAnswer + "</td>";
+
+		if (chosenAnswer == correctAnswer && chosenAnswer.length > 0) {
+		  score++;
+	    //add the chosen answer to the score row string
+		scoreRowString += "<td class='score correct shadowyScore' id='score" + ((j*binaryPerPage)+i) + "'>" + chosenAnswer + "</td>";
+	}
+	else
+	  {
+	  //nothing chosen
+	  if (chosenAnswer.length === 0) {
+	    scoreRowString += "<td class='score shadowyScore' id='score" + ((j*binaryPerPage)+i) + "'></td>";
+	  }
+	  else {
+	 //add the chosen answer to the score row string
+		scoreRowString += "<td class='score incorrect shadowyScore' id='score" + ((j*binaryPerPage)+i) + "'>" + chosenAnswer + "</td>";
+	  }
+  	}
+
+
+
+
+
+		if ((i + 1) % binaryPerRow == 0) {
+
+			//end the row and add the two rows to the score string and close table
+				correctionRowString += "</tr>";
+				scoreRowString += "</tr>";
+				scoreString += correctionRowString + scoreRowString + "</table>";
+
+		if (i+1 != numberOfDigits) {
+
+			//if not last digit on page, start a new row
+			scoreString += "</table><br /><table class='scoreTable'>";
+			correctionRowString = "<tr><td></td>";
+
+				scoreRowString = "<tr><td class='" + skin + "rowNumber'>" + Math.floor((j*binaryPerPage+i)/binaryPerRow+2) + "&nbsp;&nbsp;</td>";
+
+
+			}
+		}
+		else if (i+1 == numberOfDigits) {
+		//reached end of digits although not a row
+		//end the row and add the two rows to the score string and close table
+				correctionRowString += "</tr>";
+				scoreRowString += "</tr>";
+				scoreString += correctionRowString + scoreRowString + "</table>";
+		}
+
+
+	}
+
+
+	scoreString += "</div>";
+  }
+
+
+  document.getElementById("scoreContentDiv").innerHTML = scoreString;
+
+
+
+if (numberOfPages>1) {
+	document.getElementById("page0tablinkScore").className = "pagelinkred";
+	}
+
+	for (i = 0; i < numberOfPages; i++) {
+	  if (i == 0) {
+	    document.getElementById("page" + i + "Score").style.display="block";
+	  }
+	  else {
+		document.getElementById("page" + i + "Score").style.display="none";
+	  }
+	}
+
+
+  totalEval = 0;
+
+  //calculate the number of rows
+	if (amount % binaryPerRow == 0) {
+		numberOfRows = amount/binaryPerRow;
+	}
+	else {
+		numberOfRows = Math.floor(amount/binaryPerRow) + 1;
+	}
+
+	var lastRow = 0;
+
+	//find last non-empty row
+	for (i=numberOfRows-1;i>-1;i--) {
+	  for (j=0;j<binaryPerRow;j++) {
+	    if (chosenAnswers[binaryPerRow*i+j].length > 0) {
+		  lastRow = i;
+		  j = binaryPerRow;
+		  i = 0;
+		}
+	  }
+	}
+
+	//go through from row 0 to last row
+	for (i=0; i <= lastRow;i++) {
+	  var incorrectThisRow = 0;
+
+	  //calculate row length
+	  if (i == lastRow) {
+		  //go through row and see how many in row
+		for (j=0; j < binaryPerRow;j++) {
+			if (chosenAnswers[binaryPerRow*i+j].length == 0) {
+				rowLength = j;
+				j=binaryPerRow;
+			}
+		}
+	  }
+	  else {
+	    rowLength = binaryPerRow;
+	  }
+
+	  //go through row and see how many incorrect
+	  for (j=0; j < rowLength;j++) {
+	     if (chosenAnswers[binaryPerRow*i+j] != binaryList[binaryPerRow*i+j]) {
+		  incorrectThisRow++;
+	     }
+		 if (incorrectThisRow == 2) {
+		   thisRowEval = 0;
+		   j = rowLength;
+		 }
+	  }
+
+
+	  if (incorrectThisRow == 1) {
+	    thisRowEval = Math.ceil(rowLength/2);
+	  }
+	  if (incorrectThisRow == 0) {
+	    thisRowEval = rowLength;
+	  }
+	  totalEval += thisRowEval;
+	}
+
+  document.getElementById("spanScore").innerHTML = totalEval;
+  document.getElementById("spanCorrect").innerHTML = "&nbsp;&nbsp;(" + score + " correct)";
+
+
+
+  document.getElementById("scoreRow").style.display = "block";
+}
+
+function lookupProperty(key,property) {
+ for (j = 0; j < events.length;j++) {
+		  if (events[j].ref === key) {
+				if (events[j].hasOwnProperty(property)) {
+				return events[j][property];
+				}
+				else {
+				return "";
+				}
+
+		  }
+
+	 }
+	 return "";
+
+}
+
+function timeFormat(t) {
+  ns=(((t)/1e3)), m=(ns/60)>>0,s=Math.floor(ns-m*60),hs=Math.floor((ns-(Math.floor(ns)))*100);
+  return m + ":" + ((""+s).length>1?"":"0")+s + ":" + ((""+hs).length>1?"":"0")+hs;
+}
+
+function changeSelHColour() {
+
+  hiColour = document.getElementById("selHColour").options[document.getElementById("selHColour").selectedIndex].value;
+  document.getElementById("selHColour").style = "background-color:" + hiColour;
+  var selNums = document.getElementsByClassName(skin + "numbersSelected");
+  for (let el of selNums) {
+      el.bgColor = hiColour;
+  }
+}
+
+function changeSkin() {
+  skin = document.getElementById("selSkin").options[document.getElementById("selSkin").selectedIndex].value;
+  document.body.className = skin;
+  document.getElementById("memoBox").className = "col-md-10 jumbotron memo " + skin + "box";
+  document.getElementById("recallBox").className = "col-md-10 jumbotron " + skin + "box";
+  document.getElementById("scoreBox").className = "col-md-10 jumbotron " + skin + "box";
+  document.getElementById("preview").className = "centred " + skin + "box";
+  document.getElementById("countdownBox").className = "col-md-10 jumbotron countdown text-center " + skin + "box";
+
+  for (i = 1; i <= 6; i++) {
+    document.getElementById("preview" + i).className = skin + "numbersMemo";
+  }
+  for (i = 1; i <= 3; i++) {
+    document.getElementById("previewSel" + i).className = skin + "numbersMemo " + skin + "numbersSelected";
+  }
+}
+</script>
+
+<title>IAM Competition Software</title>
+</head>
+<body onLoad="goToSelection()">
+
+<div class="container-fluid full-height">
+
+<!--Logo row-->
+<div class="row" id="logoRow">
+<div class="col-md-3"><br /><button id="btnBackToSelection" class="btn btn-primary" onclick="goToSelection();">Back to discipline selection</button></div>
+<div class="col-md-6 text-center"><br /><img src="IAM-main-Logo-transparent-bg-for-web.png" height=60><br /><br /><br /></div>
+<div class="col-md-3"></div>
+</div>
+
+<!--Selection container row-->
+<div class="row" id="selectionRow">
+<div class="col-md-2"></div>
+<div class="col-md-8 jumbotron selection text-center">
+<h3>Select a competition format from the list below.</h3>
+  <select id="selFormat" onChange="changeDisciplines();">
+<option value="N">National standard</option>
+<option value="I">International standard</option>
+<option value="W">World championship standard</option>
+</select>
+<br /><br />
+<h3>Select a discipline from the list below.</h3>
+  <select id="selDiscipline">
+<option value="5N">5-minute Numbers</option>
+<option value="15N">15-minute Numbers</option>
+<option value="5F">5-minute Names</option>
+<option value="5W">5-minute Words</option>
+<option value="D">5-minute Dates</option>
+<option value="SC">Speed cards</option>
+<option value="10C">10-minute Cards</option>
+<option value="5I">5-minute Images</option>
+<option value="S">Spoken Numbers</option>
+<option value="5B">5-minute Binary</option>
+</select>
+<br /><br /><button class="btn btn-primary" onclick="goToSettings();">Go</button>
+</div>
+<div class="col-md-2"></div>
+</div>
+
+<!--Settings container row-->
+<div class="row" id="settingsRow0">
+<div class="col-md-2"></div>
+<div class="col-md-8 jumbotron settings text-center shadowy">
+<h3 class="disciplineTitle"></h3>
+<div id="divGrouping">
+Grouping:     <select id="selGrouping">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3" selected>3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+</select>
+</div>
+<div id="divBinGrouping">
+Width:     <select id="selBinGroupingW">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3" selected>3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="8">9</option>
+<option value="8">10</option>
+</select>
+<br />
+Height:     <select id="selBinGroupingH">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3" selected>3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="8">9</option>
+<option value="8">10</option>
+</select>
+ (select 1 if not using matrices)
+</div>
+<br />
+<div id="divHighlightColour">
+Highlight colour:     <select id="selHColour"  onchange="changeSelHColour()" style="background-color:#b3ff66">
+<option value="#ff8080" style="background-color:#ff8080">1 2 3</option>
+<option value="#ffa366" style="background-color:#ffa366">1 2 3</option>
+<option value="#ffff80" style="background-color:#ffff80">1 2 3</option>
+<option value="#b3ff66" style="background-color:#b3ff66">1 2 3</option>
+<option value="#80bfff"  style="background-color:#80bfff" selected>1 2 3</option>
+<option value="#df9fbf"  style="background-color:#df9fbf">1 2 3</option>
+<option value="#d9d9d9"  style="background-color:#d9d9d9">1 2 3</option>
+</select>
+</div>
+<br />
+<div id="divSkin">
+Skin:     <select id="selSkin"  onchange="changeSkin()">
+<option value="analogue1" style="background-image: url('hugeWood4.jpg');color:white">Analogue 1</option>
+<option value="digital1" style="background-color:#000000;color:white" selected>Digital 1</option>
+</select>
+</div>
+<h3>Preview</h3>
+<div id="preview" class="centred">
+
+<table align="center" class="centred"><tr><td id="preview1">1</td><td id="preview2">2</td><td id="preview3">3</td><td id="previewSel1">1</td><td id="previewSel2">2</td><td id="previewSel3">3</td><td id="preview4">1</td><td id="preview5">2</td><td id="preview6">3</td></tr></table>
+
+</div>
+<div id="divDecks">
+Decks:     <input id="inpDecks" type="text" size=3>
+</div>
+
+<br /><br /><button class="btn btn-primary" onclick="startMemoCountdown();">Start</button>
+</div>
+<div class="col-md-2"></div>
+</div>
+
+<!--Countdown container row-->
+<div class="row" id="countdownRow">
+<div class="col-md-1"></div>
+<div id="countdownBox" class="col-md-10 jumbotron countdown text-center">
+<h3 class="countdownDisciplineTitle"></h3>
+<!--<table class="countdownTable"><tr><td style="margin:0 auto"><span id="countdownText"></span><span style="width:40px" id="countdownTime"></span></td></tr></table>-->
+<table id="countdownTable"><tr><td><span id="countdownText"></span><span id="countdownTime"></span></td></tr></table>
+<table id="countdownRecallTable"><tr><td><span id="countdownRecallText"></span><span id="countdownRecallTime"></span></td></tr></table>
+<!--
+  <div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6 text-center">
+  <table class="countdownTable"><tr><td><span id="countdownText"></span><span id="countdownTime"></span></td></tr></table>
+   </div>
+   <div class="col-md-3"></div>
+   </div>
+-->
+</div>
+<div class="col-md-1"></div>
+</div>
+
+<!--Memo container row-->
+
+<div class="row full-height" id="memoRow">
+<div class="row topMargin"></div>
+<div class="col-md-1"></div>
+<div id="memoBox" class="col-md-10 jumbotron memo">
+  <table class="disciplineHeadingTable"><tr><td class="disciplineTitleMemo"></td><td><span>Memorisation time remaining: </span><span id="spanMemoTime"></span></td><td></td><td></td></tr></table>
+  <br /><br />
+<div id="menuDiv"></div>
+<br />
+
+<div id="wrapper" class="full-height">
+<div id="memoContentDiv" class="memoContent"></div>
+
+<div id="overlayDiv" class="overlay"></div>
+</div>
+</div>
+
+<div class="col-md-1"></div>
+</div>
+
+<!--Recall container row-->
+
+<div class="row" id="recallRow">
+  <div class="row topMargin"></div>
+<div class="col-md-1"></div>
+<div id="recallBox" class="col-md-10 jumbotron">
+  <table class="disciplineHeadingTable"><tr><td class="disciplineTitleMemo"></td><td><span>Memorisation time: </span><span id="spanMemoTimeTaken"></span></td><td><span>Recall time remaining: </span><span id="spanRecallTime"></span></td></tr></table>
+  <br /><br />
+<div id="menuRecallDiv"></div>
+<br />
+<div id="recallContentDiv" class="recallContent"></div>
+</div>
+
+<div class="col-md-1"></div>
+</div>
+
+<!--Score container row-->
+<div class="row full-height" id="scoreRow">
+  <div class="row topMargin"></div>
+<div class="col-md-1"></div>
+<div id="scoreBox" class="col-md-10 jumbotron">
+  <table class="disciplineHeadingTable"><tr><td class="disciplineTitleMemo"></td><td><span>Memorisation time: </span><span id="spanScoreMemoTimeTaken"></span></td><td><span>Recall time: </span><span id="spanScoreRecallTimeTaken"></span></td><td colspan=3><span id="spanOuterScore">Score: </span><span id="spanScore"></span><span id="spanCorrect"></span></td></tr></table>
+  <br /><br />
+<div id="menuScoreDiv"></div>
+<br />
+<div id="scoreContentDiv" class="scoreContent"></div>
+</div>
+
+<div class="col-md-1"></div>
+</div>
+
+</div>
+</body>
+</html>
