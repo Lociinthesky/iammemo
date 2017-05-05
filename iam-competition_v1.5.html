@@ -2305,6 +2305,8 @@ function changeSkin() {
 //  document.getElementById("preview").className = "centred " + skin + "box";
   document.getElementById("settingsBox").className = "col-md-8 jumbotron settings text-center " + skin + "box";
   document.getElementById("countdownBox").className = "col-md-10 jumbotron countdown text-center " + skin + "box";
+  document.getElementById("wrapper").className = skin + "memoHeight";
+//  document.getElementById("memoRow").className = "row " + skin + "container";
 
   updatePreview();
 
@@ -2454,8 +2456,7 @@ Decks:     <input id="inpDecks" type="text" size=3>
 </div>
 
 <!--Memo container row-->
-
-<div class="row full-height" id="memoRow">
+<div class="row" id="memoRow">
 <div class="row topMargin"></div>
 <div class="col-md-1"></div>
 <div id="memoBox" class="col-md-10 jumbotron">
@@ -2465,7 +2466,7 @@ Decks:     <input id="inpDecks" type="text" size=3>
 <div id="menuDiv"></div>
 <br />
 
-<div id="wrapper" class="full-height">
+<div id="wrapper">
 <div id="memoContentDiv" class="memoContent"></div>
 
 <div id="overlayDiv" class="overlay"></div>

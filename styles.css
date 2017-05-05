@@ -115,10 +115,20 @@ html,body { height:100%;padding:0;margin:0 }
     height:72px;
   }
 
-  .memo {
+/*
+ .analogue1container {
+   height:100%;
 
+ }
+*/
+.analogue1memoHeight {
 
-  }
+  height:100%;
+}
+.digital1memoHeight {
+
+    height:500px;
+}
 
   .analogue1box {
 
