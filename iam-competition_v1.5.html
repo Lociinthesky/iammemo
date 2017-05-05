@@ -2299,13 +2299,13 @@ function changeSelHColour() {
 function changeSkin() {
   skin = document.getElementById("selSkin").options[document.getElementById("selSkin").selectedIndex].value;
   document.body.className = skin;
-  document.getElementById("memoBox").className = "col-md-10 jumbotron " + skin + "box";
-  document.getElementById("recallBox").className = "col-md-10 jumbotron " + skin + "box";
-  document.getElementById("scoreBox").className = "col-md-10 jumbotron " + skin + "box";
+  document.getElementById("memoBox").className = "col-md-10 jumbotron " + skin + "box " + skin + "memoHeight";
+  document.getElementById("recallBox").className = "col-md-10 jumbotron " + skin + "box " + skin + "memoHeight";
+  document.getElementById("scoreBox").className = "col-md-10 jumbotron " + skin + "box " + skin + "memoHeight";
 //  document.getElementById("preview").className = "centred " + skin + "box";
   document.getElementById("settingsBox").className = "col-md-8 jumbotron settings text-center " + skin + "box";
   document.getElementById("countdownBox").className = "col-md-10 jumbotron countdown text-center " + skin + "box";
-  document.getElementById("wrapper").className = skin + "memoHeight";
+  //document.getElementById("wrapper").className = skin + "memoHeight";
 //  document.getElementById("memoRow").className = "row " + skin + "container";
 
   updatePreview();
