@@ -345,30 +345,35 @@ text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
  }
 
 .numbersRecallTD {
-  padding-top:10px
+  padding-top:10px;
   -webkit-box-shadow: 0 0px 1px 1px rgba(30, 30, 30, .0);
   text-shadow:0px 0px 1px 1px  rgba(0, 0, 0, 1);
-  opacity: .5;
-}
-.numbersRecall {
-  background-color:#fdfec8;
-  height:25px !important;
-  width:25px !important;
-  text-align:center;
-}
-.numbersSelectedRecall {
-  background-color:orange;
-  height:25px !important;
-  width:25px !important;
-  text-align:center;
 
 }
+.numbersRecall {
+  /background-color:#fdfec8;
+  background-color:rgba(0,0,0,0);
+  height:25px !important;
+  width:25px !important;
+  text-align:center;
+  border-color:#d3d3e3;
+  border-style:ridge;
+}
+.numbersSelectedRecall {
+  background-color:#ffaa33;
+  height:25px !important;
+  width:25px !important;
+  text-align:center;
+  border-color:#aaaaaa;
+ border-style:ridge;
+}
 .numbersInGroup {
-  background-color:lightblue;
+  background-color:#d3d3e3;
   height:25px !important;
    width:25px !important;
    text-align:center;
-
+   border-color:#aaaaaa;
+    border-style:ridge;
 }
 
 .binaryRecallTD {
@@ -396,7 +401,7 @@ text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
 }
 
 .recallTable {
-
+ border-collapse: :collapse;
   text-align:center;
   margin: 0 auto;
   opacity: .82;
