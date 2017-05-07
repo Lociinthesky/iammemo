@@ -1,5 +1,5 @@
 * {
-  font-weight:bold!important;
+ font-weight:bold!important;
 }
 
 html,body { height:100%;padding:0;margin:0 }
@@ -17,13 +17,16 @@ html,body { height:100%;padding:0;margin:0 }
 }
 
 .analogue1 {
-
+  font-family: 'News Cycle', sans-serif;
   background-image: url("hugeWood4.jpg");
+
 }
 
 .digital1 {
-
-  background-image: url("IAMarble2.jpg");
+/*  font-family: 'Convergence', sans-serif;*/
+  /*background-image: url("IAMarble2.jpg");*/
+  background-color: black;
+  background-image:none;
 }
 
 .container-fluid {
@@ -150,8 +153,9 @@ html,body { height:100%;padding:0;margin:0 }
 
   .digital1box {
 
-  background-color:#ffff99;
+  background-color:#FFFFFF;
   color:black;
+  border:6px solid #33CCEE;
 
   }
 
@@ -305,7 +309,7 @@ text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
 }
 
 .digital1rowNumber {
-   border:none;color:blue;
+   border:none;color:#33CCEE;
  width:30px !important;
 
  }
