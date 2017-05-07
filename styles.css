@@ -1,5 +1,5 @@
 * {
- font-weight:bold!important;
+ /*font-weight:bold!important;*/
 }
 
 html,body { height:100%;padding:0;margin:0 }
@@ -19,14 +19,15 @@ html,body { height:100%;padding:0;margin:0 }
 .analogue1 {
   font-family: 'News Cycle', sans-serif;
   background-image: url("hugeWood4.jpg");
-
+ font-weight:bold!important;
 }
 
 .digital1 {
-/*  font-family: 'Convergence', sans-serif;*/
+ font-family: 'Convergence', sans-serif;
   /*background-image: url("IAMarble2.jpg");*/
   background-color: black;
   background-image:none;
+
 }
 
 .container-fluid {
@@ -67,10 +68,16 @@ html,body { height:100%;padding:0;margin:0 }
    }
 */
 
-  .selection {
+  .selection  {
     background-color:#EDEDED;
-
+    font-weight: bold;
   }
+
+  .selection *  {
+
+    font-weight: bold;
+  }
+
 
  .settings {
     background-color:#EDEDED;
@@ -78,6 +85,8 @@ html,body { height:100%;padding:0;margin:0 }
 
 
  }
+
+
 
   .countdown {
     background-color:#EDEDED;
@@ -135,7 +144,7 @@ html,body { height:100%;padding:0;margin:0 }
 
   .analogue1box {
 
-
+font-weight:bold!important;
   background-image: url("paperMidHiTextureDesat.jpg");
   background-position: top left;
   background-size: 100% auto;
@@ -148,6 +157,12 @@ html,body { height:100%;padding:0;margin:0 }
   padding:20px;
   border-radius: 0 !important;
 
+
+  }
+
+
+  .analogue1box * {
+  font-weight:bold!important;
 
   }
 
