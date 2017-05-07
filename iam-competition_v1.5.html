@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="styles.css">
 <link href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Convergence" rel="stylesheet" type="text/css">
 
 <style type="text/css">
 
@@ -1986,8 +1987,8 @@ if (numberOfPages>1) {
 	var lastRow = 0;
 
 	//find last non-empty row
-	for (i=numberOfRows-1;i>-1;i--) {
-	  for (j=0;j<numbersPerRow;j++) {
+	for (var i=numberOfRows-1;i>-1;i--) {
+	  for (var j=0;j<numbersPerRow;j++) {
 	    if (chosenAnswers[numbersPerRow*i+j].length > 0) {
 		  lastRow = i;
 		  j = numbersPerRow;
@@ -1997,13 +1998,13 @@ if (numberOfPages>1) {
 	}
 
 	//go through from row 0 to last row
-	for (i=0; i <= lastRow;i++) {
+	for (var i=0; i <= lastRow;i++) {
 	  var incorrectThisRow = 0;
 
 	  //calculate row length
 	  if (i == lastRow) {
 		  //go through row and see how many in row
-		for (j=0; j < numbersPerRow;j++) {
+		for (var j=0; j < numbersPerRow;j++) {
 			if (chosenAnswers[numbersPerRow*i+j].length == 0) {
 				rowLength = j;
 				j=numbersPerRow;
@@ -2015,7 +2016,7 @@ if (numberOfPages>1) {
 	  }
 
 	  //go through row and see how many incorrect
-	  for (j=0; j < rowLength;j++) {
+	  for (var j=0; j < rowLength;j++) {
 	     if (chosenAnswers[numbersPerRow*i+j] != numberList[numbersPerRow*i+j]) {
 		  incorrectThisRow++;
 	     }
