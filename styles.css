@@ -411,8 +411,9 @@ text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
   border-collapse:separate;
   text-align:center;
   margin: 0 auto;
+  padding-top:5px;
 }
-
+/*
 .correction {
   background-color:#EDEDED;
   height:30px;
@@ -420,18 +421,22 @@ text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
   text-align:center;
 
 }
-.score {
 
+*/
+.score {
+  border: 1px solid #d3d3e3;
   height:30px;
   width:30px;
   text-align:center;
+  opacity: 0.82;
+  padding:0px;
 }
 
 .correct {
-background-color:lightgreen;
+background-color:#99dd99;
 }
 .incorrect {
-  background-color:#ff3333;
+  background-color:#dd6666;
 }
 
 

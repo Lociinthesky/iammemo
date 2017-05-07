@@ -170,6 +170,7 @@ var binaryList;
 var curPos;
 var memoTimeTaken;
 var recallTimeTaken;
+var chosenAnswers = [];
 
 var ended;
 
@@ -1844,9 +1845,9 @@ var score = 0;
 var rowNum = 0;
 var menuString = "";
 var scoreString = "";
-var correctionRowString = "";
+//var correctionRowString = "";
 var scoreRowString = "";
-var chosenAnswers = [];
+
   //add the page links if >1 page
   if (numberOfPages > 1) {
 
@@ -1880,7 +1881,7 @@ for (var j=0;j<numberOfPages;j++) {
 	scoreString += "<div id='page" + j + "Score'><table class='scoreTable'><tr>";
 
 	//start the correction row with an empty td
-	correctionRowString = "<td></td>";
+	//correctionRowString = "<td></td>";
 
 	//start the score row with the row number
 	scoreRowString = "<tr><td class='" + skin + "rowNumber'>" + Math.floor((j*numbersPerPage)/numbersPerRow+1) + "&nbsp;&nbsp;</td>";
@@ -1895,22 +1896,22 @@ for (var j=0;j<numberOfPages;j++) {
 		var correctAnswer = numberList[((j*numbersPerPage)+i)];
 
 		//add the correct answer to the correction row string
-		correctionRowString += "<td class='correction shadowyScore'>" + correctAnswer + "</td>";
+		//correctionRowString += "<td class='correction shadowyScore' id='scoreCorr" + ((j*numbersPerPage)+i) + "''>" + correctAnswer + "</td>";
 
 		if (chosenAnswer == correctAnswer && chosenAnswer.length > 0) {
 		  score++;
 	    //add the chosen answer to the score row string
-		scoreRowString += "<td class='score correct shadowyScore' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+		scoreRowString += "<td class='score correct' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
 	}
 	else
 	  {
 	  	  //nothing chosen
 	  if (chosenAnswer.length === 0) {
-	    scoreRowString += "<td class='score shadowyScore' id='score" + ((j*numbersPerPage)+i) + "'></td>";
+	    scoreRowString += "<td class='score' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'></td>";
 	  }
 	  else {
 	 //add the chosen answer to the score row string
-		scoreRowString += "<td class='score incorrect shadowyScore' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+		scoreRowString += "<td class='score incorrect' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
 		}
   	}
 
@@ -1921,15 +1922,16 @@ for (var j=0;j<numberOfPages;j++) {
 		if ((i + 1) % numbersPerRow == 0) {
 
 			//end the row and add the two rows to the score string and close table
-				correctionRowString += "</tr>";
+			//	correctionRowString += "</tr>";
 				scoreRowString += "</tr>";
-				scoreString += correctionRowString + scoreRowString + "</table>";
+		//		scoreString += correctionRowString + scoreRowString + "</table>";
+    		scoreString += scoreRowString + "</table>";
 
 		if (i+1 != numberOfDigits) {
 
 			//if not last digit on page, start a new row
-			scoreString += "</table><br /><table class='scoreTable'>";
-			correctionRowString = "<tr><td></td>";
+			scoreString += "</table><table class='scoreTable'>";
+			//correctionRowString = "<tr><td></td>";
 
 				scoreRowString = "<tr><td class='" + skin + "rowNumber'>" + Math.floor((j*numbersPerPage+i)/numbersPerRow+2) + "&nbsp;&nbsp;</td>";
 
@@ -1939,9 +1941,10 @@ for (var j=0;j<numberOfPages;j++) {
 		else if (i+1 == numberOfDigits) {
 		//reached end of digits although not a row
 		//end the row and add the two rows to the score string and close table
-				correctionRowString += "</tr>";
+			//	correctionRowString += "</tr>";
 				scoreRowString += "</tr>";
-				scoreString += correctionRowString + scoreRowString + "</table>";
+			//	scoreString += correctionRowString + scoreRowString + "</table>";
+      	scoreString +=  scoreRowString + "</table>";
 		}
 
 
@@ -2281,6 +2284,41 @@ function lookupProperty(key,property) {
 	 }
 	 return "";
 
+}
+
+function showCorrect(pos) {
+
+  //get first of grouping
+	var firstOfGroup = pos - (pos % grouping);
+  for (var g = 0; g < grouping; g++) {
+    document.getElementById("score" + (firstOfGroup+g)).className = "score correct";
+    document.getElementById("score" + (firstOfGroup+g)).innerHTML = numberList[firstOfGroup+g];
+  }
+}
+
+function showChosen(pos) {
+
+  //get first of grouping
+	var firstOfGroup = pos - (pos % grouping);
+  for (var g = 0; g < grouping; g++) {
+    var corrClass = "";
+    var chosenAnswer = chosenAnswers[firstOfGroup+g];
+    if (chosenAnswer == numberList[firstOfGroup+g] && chosenAnswer.length > 0) {
+                corrClass = "correct";
+              }
+    else {
+                    //nothing chosen
+                if (chosenAnswer.length === 0) {
+                  corrClass = "";
+                }
+                else {
+
+              corrClass = "incorrect";
+                }
+      }
+    document.getElementById("score" + (firstOfGroup+g)).className = "score " + corrClass;
+    document.getElementById("score" + (firstOfGroup+g)).innerHTML = chosenAnswers[firstOfGroup+g];
+  }
 }
 
 function timeFormat(t) {
