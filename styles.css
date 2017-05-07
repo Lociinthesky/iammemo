@@ -133,14 +133,14 @@ html,body { height:100%;padding:0;margin:0 }
   .analogue1box {
 
 
-  background-image: url("paperMidHiTexture.jpg");
+  background-image: url("paperMidHiTextureDesat.jpg");
   background-position: top left;
   background-size: 100% auto;
 
 
   box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
   -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-  -webkit-box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.44), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+  -webkit-box-shadow: 0 0px 2px 1px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.1) inset;
 
   padding:20px;
   border-radius: 0 !important;
@@ -160,18 +160,18 @@ html,body { height:100%;padding:0;margin:0 }
   content:"";
     position:absolute;
     z-index:-1;
-    box-shadow:0 1px 14px rgba(0,0,0,.8);
+    box-shadow:0 0px 22px rgba(0,0,0,.7);
     top:0;
     bottom:0;
-    left:5px;
-    right:5px;
+    left:10px;
+    right:10px;
     border-radius:100px / 10px;
 }
 .analogue1box:after
 {
     right:10px;
     left:auto;
-    transform:skew(8deg) rotate(3deg);
+    transform:skew(4deg), rotate(3deg);
 }
 
 
@@ -188,26 +188,26 @@ html,body { height:100%;padding:0;margin:0 }
   }
 
   .tablink {
-    background-color:#111111;
+    background-color:#222222;
     opacity: .72;
     color:white;
 }
 
 .tablinkred {
   background-color:red;
-  opacity: .5;
+  opacity: .45;
   color:white;
 }
 
 .pagelink {
-  background-color:#111111;
+  background-color:#222222;
   opacity: .72;
   color:white;
 }
 
 .pagelinkred {
   background-color:red;
-  opacity: .5;
+  opacity: .45;
   color:white;
 }
 
@@ -274,7 +274,7 @@ position:relative;
   padding-bottom:2px;
   text-align:center;
 
- text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
+text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
 
  color: #222222;
  opacity: .78;
@@ -292,10 +292,10 @@ position:relative;
   padding-bottom:2px;
   text-align:center;
 
-  text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
+  text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.07);
 
-  color: #333333;
-  opacity: .88;
+  color: #000000;
+  opacity: .7;
 }
 
 .analogue1binarySelected {
@@ -346,29 +346,29 @@ position:relative;
 
 .numbersRecallTD {
   padding-top:10px
-  -webkit-box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.04);
-  opacity: .9;
+  -webkit-box-shadow: 0 0px 1px 1px rgba(30, 30, 30, .0);
+  text-shadow:0px 0px 1px 1px  rgba(0, 0, 0, 1);
+  opacity: .5;
 }
 .numbersRecall {
-  background-color:#EBEBEB;
+  background-color:#fdfec8;
   height:25px !important;
   width:25px !important;
   text-align:center;
-  opacity: .9;
 }
 .numbersSelectedRecall {
   background-color:orange;
   height:25px !important;
   width:25px !important;
   text-align:center;
-  opacity: .9;
+
 }
 .numbersInGroup {
   background-color:lightblue;
   height:25px !important;
    width:25px !important;
    text-align:center;
-   opacity: .9;
+
 }
 
 .binaryRecallTD {
