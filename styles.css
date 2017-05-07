@@ -133,7 +133,7 @@ html,body { height:100%;padding:0;margin:0 }
   .analogue1box {
 
 
-  background-image: url("paperLightShade.jpg");
+  background-image: url("paperMidHiTexture.jpg");
   background-position: top left;
   background-size: 100% auto;
 
@@ -188,23 +188,27 @@ html,body { height:100%;padding:0;margin:0 }
   }
 
   .tablink {
-   background-color:black;
-   color:white;
+    background-color:#111111;
+    opacity: .72;
+    color:white;
 }
 
 .tablinkred {
-   background-color:red;
-   color:white;
+  background-color:red;
+  opacity: .5;
+  color:white;
 }
 
 .pagelink {
-   background-color:black;
-   color:white;
+  background-color:#111111;
+  opacity: .72;
+  color:white;
 }
 
 .pagelinkred {
-   background-color:red;
-   color:white;
+  background-color:red;
+  opacity: .5;
+  color:white;
 }
 
 
@@ -260,7 +264,7 @@ position:relative;
  .analogue1rowNumber {
     border:none;color:red;
 	width:30px !important;
-  opacity: .5 !important;
+  opacity: .6 !important;
   }
 
 
@@ -272,14 +276,14 @@ position:relative;
 
  text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
 
- color: #333333;
- opacity: .88;
+ color: #222222;
+ opacity: .78;
 }
 
 .analogue1numbersSelected {
 
   /*background-color: lightblue;*/
-  opacity: .85;
+  opacity: .88;
 }
 
 .analogue1binaryMemo {
@@ -342,24 +346,29 @@ position:relative;
 
 .numbersRecallTD {
   padding-top:10px
+  -webkit-box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.04);
+  opacity: .9;
 }
 .numbersRecall {
-  background-color:#EDEDED;
+  background-color:#EBEBEB;
   height:25px !important;
   width:25px !important;
   text-align:center;
+  opacity: .9;
 }
 .numbersSelectedRecall {
   background-color:orange;
   height:25px !important;
   width:25px !important;
   text-align:center;
+  opacity: .9;
 }
 .numbersInGroup {
- background-color:lightblue;
- height:25px !important;
-  width:25px !important;
-  text-align:center;
+  background-color:lightblue;
+  height:25px !important;
+   width:25px !important;
+   text-align:center;
+   opacity: .9;
 }
 
 .binaryRecallTD {
@@ -370,12 +379,14 @@ position:relative;
   height:30px !important;
   width:30px !important;
   text-align:center;
+  opacity: .82;
 }
 .binarySelectedRecall {
   background-color:orange;
   height:30px !important;
   width:30px !important;
   text-align:center;
+  opacity: .82;
 }
 .binaryInGroup {
  background-color:lightblue;
@@ -388,6 +399,7 @@ position:relative;
 
   text-align:center;
   margin: 0 auto;
+  opacity: .82;
 }
 
 .scoreTable {
