@@ -391,13 +391,13 @@ opacity: .6;
 }
 
 .digital1cardOneMemo {
-
+position:absolute;
 
 }
 
 .digital1cardOtherMemo {
-  position:relative;
-  
+  position:absolute;
+
 }
 
 .digital1cardImg {

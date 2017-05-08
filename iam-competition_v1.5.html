@@ -1264,15 +1264,15 @@ for (var i=0;i<amount;i++) {
 
 
   for (var j = 0; j < 52;j+= grouping) {
-    
+
   classString = skin + "cardOneMemo";
   classString2 = skin + "cardOtherMemo";
-
-  cardsMemoString += "<td class='" + classString + "' id='tdMemo" + (i*52+j) + "' onClick='moveFocusCardsMemo(" + (i*52+j) + ")'><img src='Card images/" + cardList[i][j]["cs"] + getValueName(cardList[i][j]["cv"]) + ".png' class='" + skin + "cardImg'></td>";
+  var offset=j*12 - Math.floor(j/cardsPerRow);
+  cardsMemoString += "<td class='" + classString + "' style='left:" + offset + "px' id='tdMemo" + (i*52+j) + "' onClick='moveFocusCardsMemo(" + (i*52+j) + ")'><img src='Card images/" + cardList[i][j]["cs"] + getValueName(cardList[i][j]["cv"]) + ".png' class='" + skin + "cardImg'></td>";
 
   for (var g = 1; g < grouping; g++) {
-
-    cardsMemoString += "<td class='" + classString2 + "' id='tdMemo" + (i*52+j+g) + "' onClick='moveFocusCardsMemo(" + (i*52+j) + ")'><img src='Card images/" + cardList[i][j+g]["cs"] + getValueName(cardList[i][j+g]["cv"]) + ".png' class='" + skin + "cardImg'></td>";
+    offset+= g*12;
+    cardsMemoString += "<td class='" + classString2 + "' style='left:" + offset + "px' id='tdMemo" + (i*52+j+g) + "' onClick='moveFocusCardsMemo(" + (i*52+j) + ")'><img src='Card images/" + cardList[i][j+g]["cs"] + getValueName(cardList[i][j+g]["cv"]) + ".png' class='" + skin + "cardImg'></td>";
   }
 
   if (j+grouping >= 52) {
