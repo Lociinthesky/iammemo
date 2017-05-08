@@ -1847,15 +1847,13 @@ var score = 0;
 var rowNum = 0;
 var menuString = "";
 var scoreString = "";
-//var correctionRowString = "";
-var scoreRowString = "";
 
   //add the page links if >1 page
   if (numberOfPages > 1) {
 
 	menuString += "<ul class='menu'>";
 
-	for (i=0;i<numberOfPages;i++) {
+	for (var i=0;i<numberOfPages;i++) {
 	  menuString += "<li><a href='#' id='page"+ i + "tablinkScore' class='pagelink' onclick='moveFocusNumScore(" + i*numbersPerPage + ")'>" + (i+1) + "</a></li>";
 	}
 
@@ -1880,17 +1878,12 @@ for (var j=0;j<numberOfPages;j++) {
 	}
 
 	//add the start tags for the div (with page number) and table
-	scoreString += "<div id='page" + j + "Score'><table class='scoreTable'><tr>";
-
-	//start the correction row with an empty td
-	//correctionRowString = "<td></td>";
-
-	//start the score row with the row number
-	scoreRowString = "<tr><td class='" + skin + "rowNumber'>" + Math.floor((j*numbersPerPage)/numbersPerRow+1) + "&nbsp;&nbsp;</td>";
+	scoreString += "<div id='page" + j + "Score'><table class='scoreTable'>";
+	scoreString += "<tr><td class='" + skin + "rowNumber'>" + Math.floor((j*numbersPerPage)/numbersPerRow+1) + "&nbsp;&nbsp;</td>";
 
 
    //loop through the digits on the page
-   for (i = 0; i < numberOfDigits;i++) {
+   for (var i = 0; i < numberOfDigits;i++) {
 
 		//get the chosen answer for the digit
 		chosenAnswers.push(document.getElementById("inpRecall" + ((j*numbersPerPage)+i)).value);
@@ -1903,56 +1896,50 @@ for (var j=0;j<numberOfPages;j++) {
 		if (chosenAnswer == correctAnswer && chosenAnswer.length > 0) {
 		  score++;
 	    //add the chosen answer to the score row string
-		scoreRowString += "<td class='score correct' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+    	scoreString += "<td class='score correct' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
 	}
 	else
 	  {
 	  	  //nothing chosen
 	  if (chosenAnswer.length === 0) {
-	    scoreRowString += "<td class='score' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'></td>";
+	    scoreString += "<td class='score' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'></td>";
 	  }
 	  else {
 	 //add the chosen answer to the score row string
-		scoreRowString += "<td class='score incorrect' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+		scoreString += "<td class='score incorrect' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
 		}
   	}
 
 
-
-
-
 		if ((i + 1) % numbersPerRow == 0) {
 
-			//end the row and add the two rows to the score string and close table
-			//	correctionRowString += "</tr>";
-				scoreRowString += "</tr>";
-		//		scoreString += correctionRowString + scoreRowString + "</table>";
-    		scoreString += scoreRowString + "</table>";
+			//end the row and add the two rows to the score stringe
 
-		if (i+1 != numberOfDigits) {
-
-			//if not last digit on page, start a new row
-			scoreString += "</table><table class='scoreTable'>";
-			//correctionRowString = "<tr><td></td>";
-
-				scoreRowString = "<tr><td class='" + skin + "rowNumber'>" + Math.floor((j*numbersPerPage+i)/numbersPerRow+2) + "&nbsp;&nbsp;</td>";
+				scoreString += "</tr><tr style='height:10px'></tr>";
 
 
-			}
-		}
-		else if (i+1 == numberOfDigits) {
+
+    		if (i+1 != numberOfDigits) {
+
+    			//if not last digit on page, start a new row
+
+    			scoreString += "<tr><td class='" + skin + "rowNumber'>" + Math.floor((j*numbersPerPage+i)/numbersPerRow+2) + "&nbsp;&nbsp;</td>";
+
+    			}
+
+          else {
+            scoreString += "</table>";
+
+          }
+		} else if (i+1 == numberOfDigits) {
 		//reached end of digits although not a row
-		//end the row and add the two rows to the score string and close table
-			//	correctionRowString += "</tr>";
-				scoreRowString += "</tr>";
-			//	scoreString += correctionRowString + scoreRowString + "</table>";
-      	scoreString +=  scoreRowString + "</table>";
+		//end the row and close table
+
+      	scoreString +=  "</tr></table>";
 		}
 
 
 	}
-
-
 	scoreString += "</div>";
   }
 
@@ -1965,7 +1952,7 @@ if (numberOfPages>1) {
 	document.getElementById("page0tablinkScore").className = "pagelinkred";
 	}
 
-	for (i = 0; i < numberOfPages; i++) {
+	for (var i = 0; i < numberOfPages; i++) {
 	  if (i == 0) {
 	    document.getElementById("page" + i + "Score").style.display="block";
 	  }
@@ -2075,8 +2062,7 @@ var score = 0;
 var rowNum = 0;
 var menuString = "";
 var scoreString = "";
-var correctionRowString = "";
-var scoreRowString = "";
+
 var chosenAnswers = [];
   //add the page links if >1 page
   if (numberOfPages > 1) {
