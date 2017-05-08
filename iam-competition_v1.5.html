@@ -1596,9 +1596,11 @@ function moveFocusNumRecall(newPos) {
 	document.getElementById("inpRecall" + newPos).select();
 
 	//un-highlight current group
+  document.getElementById("inpRecall" + firstOfGroup).style.backgroundColor = "";
 	document.getElementById("inpRecall" + firstOfGroup).className = skin + "numbersRecall";
 	for (var i = 1; i < grouping; i++) {
 	if (firstOfGroup < amount - i) {
+    document.getElementById("inpRecall" + (firstOfGroup + i)).style.backgroundColor = "";
 	    document.getElementById("inpRecall" + (firstOfGroup + i)).className = skin + "numbersRecall";
 	  }
 	}
@@ -1609,14 +1611,17 @@ function moveFocusNumRecall(newPos) {
 
 
 	//highlight selected digit and also other digits in group (different colour)
+  document.getElementById("inpRecall" + firstOfGroup).style.backgroundColor = "";
 	document.getElementById("inpRecall" + (firstOfGroup)).className = skin + "numbersInGroup";
 	for (var i = 1; i < grouping; i++) {
 	if (firstOfGroup < amount - i) {
+    document.getElementById("inpRecall" + (firstOfGroup + i)).style.backgroundColor = "";
 	    document.getElementById("inpRecall" + (firstOfGroup + i)).className = skin + "numbersInGroup";
 	  }
 	}
 
 	document.getElementById("inpRecall" + newPos).className = skin + "numbersSelectedRecall";
+  document.getElementById("inpRecall" + newPos).style.backgroundColor = hiColour;
 
 	//get current page
 	curPage = Math.floor(newPos/numbersPerPage);

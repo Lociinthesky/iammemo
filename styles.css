@@ -420,34 +420,35 @@ position:absolute;
   text-align:center;
   border-color:#222222;
   border-width: 1px;
-  border-style:ridge;
+  border-style:none dotted ridge none;
   opacity: .85;
   font-family: 'Reenie Beanie', cursive;
-  font-size:45;
+  font-size:40;
   color:#3333cc;
 }
 .analogue1numbersSelectedRecall {
-  background-color:#ffaa33;
+/*  background-color:#ffaa33;*/
   height:25px !important;
   width:25px !important;
   text-align:center;
   border-color:#222222;
   border-width: 1px;
-  border-style:ridge;
+  border-style:solid;
   font-family: 'Reenie Beanie', cursive;
-  font-size:45;
+  font-size:40;
   color:#3333cc;
 }
 .analogue1numbersInGroup {
-  background-color:#d3d3e3;
+  /*background-color:#d3d3e3;*/
+  background-color:rgba(0,0,0,0);
   height:25px !important;
    width:25px !important;
    text-align:center;
    border-color:#222222;
    border-width:1px;
-   border-style:ridge;
+   border-style:solid;
    font-family: 'Reenie Beanie', cursive;
-   font-size:45;
+   font-size:40;
    color:#3333cc;
 
 }
