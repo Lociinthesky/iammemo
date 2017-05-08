@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="styles.css">
 <link href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Convergence" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Reenie+Beanie" rel="stylesheet">
 
 <style type="text/css">
 
@@ -151,6 +152,7 @@ const numbersPerPage = 480;
 const binaryPerPage = 360;
 const numbersPerRow = 40;
 const binaryPerRow = 30;
+var cardsPerRow = 12;
 
 var skin="";
 
@@ -173,6 +175,7 @@ var curPos;
 var memoTimeTaken;
 var recallTimeTaken;
 var chosenAnswers = [];
+var cardList;
 
 var ended;
 
@@ -1244,23 +1247,84 @@ function startCardMemo() {
  //add the page menu if >1 page
  if (amount > 1) {
 
-var menuString = "<ul class='menu'>";
+   var menuString = "<ul class='menu'>";
 
-for (var i=0;i<amount;i++) {
- menuString += "<li><a href='#' id='page"+ i + "tablink' class='" + skin + "pagelink' onclick='moveFocusNumMemo(" + 52*i + ")'>" + (i+1) + "</a></li>";
-}
-menuString += "</ul><br/>";
-document.getElementById("menuDiv").innerHTML = menuString;
+  for (var i=0;i<amount;i++) {
+   menuString += "<li><a href='#' id='page"+ i + "tablink' class='" + skin + "pagelink' onclick='moveFocusNumMemo(" + 52*i + ")'>" + (i+1) + "</a></li>";
+  }
+  menuString += "</ul><br/>";
+  document.getElementById("menuDiv").innerHTML = menuString;
 
 }
 
 //add the memo content
+for (var i=0;i<amount;i++) {
+
+  cardsMemoString += "<div id='page" + i + "'><table><tr>";
+
+
+  for (var j = 0; j < 52;j+= grouping) {
+    
+  classString = skin + "cardOneMemo";
+  classString2 = skin + "cardOtherMemo";
+
+  cardsMemoString += "<td class='" + classString + "' id='tdMemo" + (i*52+j) + "' onClick='moveFocusCardsMemo(" + (i*52+j) + ")'><img src='Card images/" + cardList[i][j]["cs"] + getValueName(cardList[i][j]["cv"]) + ".png' class='" + skin + "cardImg'></td>";
+
+  for (var g = 1; g < grouping; g++) {
+
+    cardsMemoString += "<td class='" + classString2 + "' id='tdMemo" + (i*52+j+g) + "' onClick='moveFocusCardsMemo(" + (i*52+j) + ")'><img src='Card images/" + cardList[i][j+g]["cs"] + getValueName(cardList[i][j+g]["cv"]) + ".png' class='" + skin + "cardImg'></td>";
+  }
+
+  if (j+grouping >= 52) {
+
+    cardsMemoString += "</tr>";
+
+    }
+  else if ((j + grouping) % cardsPerRow == 0) {
+
+    cardsMemoString += "</tr><tr>";
+
+  }
 
 
 }
 
+cardsMemoString += "</table></div>";
 
 
+}
+alert(cardsMemoString);
+document.getElementById("memoContentDiv").innerHTML = cardsMemoString;
+}
+
+
+function getValueName(strValue) {
+var strValueName = "";
+
+  switch(strValue) {
+    case "A":
+        strValueName = "01";
+        break;
+    case "J":
+        strValueName = "11";
+        break;
+    case "Q":
+        strValueName = "12";
+        break;
+    case "K":
+        strValueName = "13";
+        break;
+	default:
+        strValueName = strValue;
+		if (strValueName.length==1) {
+		  strValueName = "0" + strValueName;
+		}
+  }
+
+
+  return strValueName;
+
+}
 
 function startRecallCountdown() {
 
