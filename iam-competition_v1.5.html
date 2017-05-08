@@ -583,7 +583,7 @@ function startNumberMemo() {
 	var menuString = "<ul class='menu'>";
 
 	for (var i=0;i<numberOfPages;i++) {
-	  menuString += "<li><a href='#' id='page"+ i + "tablink' class='pagelink' onclick='moveFocusNumMemo(" + numbersPerPage*i + ")'>" + (i+1) + "</a></li>";
+	  menuString += "<li><a href='#' id='page"+ i + "tablink' class='" + skin + "pagelink' onclick='moveFocusNumMemo(" + numbersPerPage*i + ")'>" + (i+1) + "</a></li>";
 	}
 	menuString += "</ul><br/>";
 	document.getElementById("menuDiv").innerHTML = menuString;
@@ -763,14 +763,14 @@ function moveFocusNumMemo(newPos) {
 	    document.getElementById("page" + i).style.display = "block";
 		if (numberOfPages>1) {
 		//highlight this page tab
-		document.getElementById("page" + i + "tablink").className = "pagelinkred";
+		document.getElementById("page" + i + "tablink").className = skin + "pagelinkred";
 		}
 	  }
 	  else {
 		document.getElementById("page" + i).style.display = "none";
 		if (numberOfPages>1) {
 		//un-highlight this page tab
-		document.getElementById("page" + i + "tablink").className = "pagelink";
+		document.getElementById("page" + i + "tablink").className = skin + "pagelink";
 		}
 	  }
 	}
@@ -835,7 +835,7 @@ function startBinaryMemo() {
 	var menuString = "<ul class='menu'>";
 
 	for (var i=0;i<numberOfPages;i++) {
-	  menuString += "<li><a href='#' id='page"+ i + "tablink' class='pagelink' onclick='moveFocusBinMemo(" + binaryPerPage*i + ")'>" + (i+1) + "</a></li>";
+	  menuString += "<li><a href='#' id='page"+ i + "tablink' class='" + skin + "pagelink' onclick='moveFocusBinMemo(" + binaryPerPage*i + ")'>" + (i+1) + "</a></li>";
 	}
 	menuString += "</ul><br/>";
 	document.getElementById("menuDiv").innerHTML = menuString;
@@ -1185,14 +1185,14 @@ function moveFocusBinMemo(newPos) {
 	    document.getElementById("page" + i).style.display = "block";
 		if (numberOfPages>1) {
 		//highlight this page tab
-		document.getElementById("page" + i + "tablink").className = "pagelinkred";
+		document.getElementById("page" + i + "tablink").className = skin + "pagelinkred";
 		}
 	  }
 	  else {
 		document.getElementById("page" + i).style.display = "none";
 		if (numberOfPages>1) {
 		//un-highlight this page tab
-		document.getElementById("page" + i + "tablink").className = "pagelink";
+		document.getElementById("page" + i + "tablink").className = skin + "pagelink";
 		}
 	  }
 	}
@@ -1320,7 +1320,7 @@ function startNumberRecall() {
 	var menuString = "<ul class='menu'>";
 
 	for (var i=0;i<numberOfPages;i++) {
-	  menuString += "<li><a href='#' id='page"+ i + "tablinkRecall' class='pagelink' onclick='moveFocusNumRecall(" + numbersPerPage*i + ")'>" + (i+1) + "</a></li>";
+	  menuString += "<li><a href='#' id='page"+ i + "tablinkRecall' class='" + skin + "pagelink' onclick='moveFocusNumRecall(" + numbersPerPage*i + ")'>" + (i+1) + "</a></li>";
 	}
 	menuString += "</ul><br/>";
 	document.getElementById("menuRecallDiv").innerHTML = menuString;
@@ -1340,9 +1340,9 @@ function startNumberRecall() {
 	    numbersOnThisPage = amount-i*numbersPerPage;
 	  }
 
-	numberRecallString += "<div id='page" + i + "Recall'><table class='recallTable'><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*numbersPerPage)/numbersPerRow+1) + "&nbsp;&nbsp;</td>";
+	numberRecallString += "<div id='page" + i + "Recall'><table class='" + skin + "recallTable'><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*numbersPerPage)/numbersPerRow+1) + "&nbsp;&nbsp;</td>";
 		for (j = 0; j < numbersOnThisPage;j++) {
-			numberRecallString += "<td class='numbersRecallTD'><input class='numbersRecall' id='inpRecall" + (i*numbersPerPage+j) + "' maxlength='1'	  onclick='moveFocusNumRecall(" + (i*numbersPerPage+j) + ")' oninput='moveFocusNumRecall(" + (i*numbersPerPage+j+1) + ")'></input></td>";
+			numberRecallString += "<td class='" + skin + "numbersRecallTD'><input class='" + skin + "numbersRecall' id='inpRecall" + (i*numbersPerPage+j) + "' maxlength='1'	  onclick='moveFocusNumRecall(" + (i*numbersPerPage+j) + ")' oninput='moveFocusNumRecall(" + (i*numbersPerPage+j+1) + ")'></input></td>";
 
 			if ((j + 1) % numbersPerRow == 0) {
 			  if (j+1 == numbersOnThisPage) {
@@ -1505,10 +1505,10 @@ function moveFocusNumRecall(newPos) {
 	document.getElementById("inpRecall" + newPos).select();
 
 	//un-highlight current group
-	document.getElementById("inpRecall" + firstOfGroup).className = "numbersRecall";
+	document.getElementById("inpRecall" + firstOfGroup).className = skin + "numbersRecall";
 	for (var i = 1; i < grouping; i++) {
 	if (firstOfGroup < amount - i) {
-	    document.getElementById("inpRecall" + (firstOfGroup + i)).className = "numbersRecall";
+	    document.getElementById("inpRecall" + (firstOfGroup + i)).className = skin + "numbersRecall";
 	  }
 	}
 
@@ -1518,14 +1518,14 @@ function moveFocusNumRecall(newPos) {
 
 
 	//highlight selected digit and also other digits in group (different colour)
-	document.getElementById("inpRecall" + (firstOfGroup)).className = "numbersInGroup";
+	document.getElementById("inpRecall" + (firstOfGroup)).className = skin + "numbersInGroup";
 	for (var i = 1; i < grouping; i++) {
 	if (firstOfGroup < amount - i) {
-	    document.getElementById("inpRecall" + (firstOfGroup + i)).className = "numbersInGroup";
+	    document.getElementById("inpRecall" + (firstOfGroup + i)).className = skin + "numbersInGroup";
 	  }
 	}
 
-	document.getElementById("inpRecall" + newPos).className = "numbersSelectedRecall";
+	document.getElementById("inpRecall" + newPos).className = skin + "numbersSelectedRecall";
 
 	//get current page
 	curPage = Math.floor(newPos/numbersPerPage);
@@ -1537,14 +1537,14 @@ function moveFocusNumRecall(newPos) {
 	    document.getElementById("page" + i + "Recall").style.display = "block";
 		if (numberOfPages>1) {
 		//highlight this page tab
-		document.getElementById("page" + i + "tablinkRecall").className = "pagelinkred";
+		document.getElementById("page" + i + "tablinkRecall").className = skin + "pagelinkred";
 		}
 	  }
 	  else {
 		document.getElementById("page" + i + "Recall").style.display = "none";
 		if (numberOfPages>1) {
 		//un-highlight this page tab
-		document.getElementById("page" + i + "tablinkRecall").className = "pagelink";
+		document.getElementById("page" + i + "tablinkRecall").className = skin + "pagelink";
 		}
 	  }
 	}
@@ -1566,7 +1566,7 @@ function startBinaryRecall() {
 	var menuString = "<ul class='menu'>";
 
 	for (var i=0;i<numberOfPages;i++) {
-	  menuString += "<li><a href='#' id='page"+ i + "tablinkRecall' class='pagelink' onclick='moveFocusBinRecall(" + binaryPerPage*i + ")'>" + (i+1) + "</a></li>";
+	  menuString += "<li><a href='#' id='page"+ i + "tablinkRecall' class='" + skin + "pagelink' onclick='moveFocusBinRecall(" + binaryPerPage*i + ")'>" + (i+1) + "</a></li>";
 	}
 	menuString += "</ul><br/>";
 	document.getElementById("menuRecallDiv").innerHTML = menuString;
@@ -1586,7 +1586,7 @@ function startBinaryRecall() {
 	    binaryOnThisPage = amount-i*binaryPerPage;
 	  }
 
-	binaryRecallString += "<div id='page" + i + "Recall'><table class='recallTable'><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*binaryPerPage)/binaryPerRow+1) + "&nbsp;&nbsp;</td>";
+	binaryRecallString += "<div id='page" + i + "Recall'><table class='" + skin + "recallTable'><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*binaryPerPage)/binaryPerRow+1) + "&nbsp;&nbsp;</td>";
 
 		for (j = 0; j < binaryOnThisPage;j++) {
 			currentSquare = i*binaryPerPage+j;
@@ -1745,14 +1745,14 @@ function moveFocusBinRecall(newPos) {
 	    document.getElementById("page" + i + "Recall").style.display = "block";
 		if (numberOfPages>1) {
 		//highlight this page tab
-		document.getElementById("page" + i + "tablinkRecall").className = "pagelinkred";
+		document.getElementById("page" + i + "tablinkRecall").className = skin + "pagelinkred";
 		}
 	  }
 	  else {
 		document.getElementById("page" + i + "Recall").style.display = "none";
 		if (numberOfPages>1) {
 		//un-highlight this page tab
-		document.getElementById("page" + i + "tablinkRecall").className = "pagelink";
+		document.getElementById("page" + i + "tablinkRecall").className = skin + "pagelink";
 		}
 	  }
 	}
@@ -1849,7 +1849,7 @@ var scoreString = "";
 	menuString += "<ul class='menu'>";
 
 	for (var i=0;i<numberOfPages;i++) {
-	  menuString += "<li><a href='#' id='page"+ i + "tablinkScore' class='pagelink' onclick='moveFocusNumScore(" + i*numbersPerPage + ")'>" + (i+1) + "</a></li>";
+	  menuString += "<li><a href='#' id='page"+ i + "tablinkScore' class='" + skin + "pagelink' onclick='moveFocusNumScore(" + i*numbersPerPage + ")'>" + (i+1) + "</a></li>";
 	}
 
 
@@ -1891,17 +1891,17 @@ for (var j=0;j<numberOfPages;j++) {
 		if (chosenAnswer == correctAnswer && chosenAnswer.length > 0) {
 		  score++;
 	    //add the chosen answer to the score row string
-    	scoreString += "<td class='score correct' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+    	scoreString += "<td class='" + skin + "score correct' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
 	}
 	else
 	  {
 	  	  //nothing chosen
 	  if (chosenAnswer.length === 0) {
-	    scoreString += "<td class='score' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'></td>";
+	    scoreString += "<td class='" + skin + "score' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'></td>";
 	  }
 	  else {
 	 //add the chosen answer to the score row string
-		scoreString += "<td class='score incorrect' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+		scoreString += "<td class='" + skin + "score incorrect' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
 		}
   	}
 
@@ -1944,7 +1944,7 @@ for (var j=0;j<numberOfPages;j++) {
 
 
 if (numberOfPages>1) {
-	document.getElementById("page0tablinkScore").className = "pagelinkred";
+	document.getElementById("page0tablinkScore").className = skin + "pagelinkred";
 	}
 
 	for (var i = 0; i < numberOfPages; i++) {
@@ -2037,14 +2037,14 @@ function moveFocusNumScore(newPos) {
 	    document.getElementById("page" + i + "Score").style.display = "block";
 		if (numberOfPages>1) {
 		//highlight this page tab
-		document.getElementById("page" + i + "tablinkScore").className = "pagelinkred";
+		document.getElementById("page" + i + "tablinkScore").className = skin + "pagelinkred";
 		}
 	  }
 	  else {
 		document.getElementById("page" + i + "Score").style.display = "none";
 		if (numberOfPages>1) {
 		//un-highlight this page tab
-		document.getElementById("page" + i + "tablinkScore").className = "pagelink";
+		document.getElementById("page" + i + "tablinkScore").className = skin + "pagelink";
 		}
 	  }
 	}
@@ -2065,7 +2065,7 @@ var chosenAnswers = [];
 	menuString += "<ul class='menu'>";
 
 	for (i=0;i<numberOfPages;i++) {
-	  menuString += "<li><a href='#' id='page"+ i + "tablinkScore' class='pagelink' onclick='moveFocusNumScore(" + i*binaryPerPage + ")'>" + (i+1) + "</a></li>";
+	  menuString += "<li><a href='#' id='page"+ i + "tablinkScore' class='" + skin + "pagelink' onclick='moveFocusNumScore(" + i*binaryPerPage + ")'>" + (i+1) + "</a></li>";
 	}
 
 
@@ -2107,18 +2107,18 @@ for (var j=0;j<numberOfPages;j++) {
 		var correctAnswer = binaryList[((j*binaryPerPage)+i)];
 
 		//add the correct answer to the correction row string
-		correctionRowString += "<td class='correction shadowyScore'>" + correctAnswer + "</td>";
+		correctionRowString += "<td class='correction'>" + correctAnswer + "</td>";
 
 		if (chosenAnswer == correctAnswer && chosenAnswer.length > 0) {
 		  score++;
 	    //add the chosen answer to the score row string
-		scoreRowString += "<td class='score correct shadowyScore' id='score" + ((j*binaryPerPage)+i) + "'>" + chosenAnswer + "</td>";
+		scoreRowString += "<td class='score correct' id='score" + ((j*binaryPerPage)+i) + "'>" + chosenAnswer + "</td>";
 	}
 	else
 	  {
 	  //nothing chosen
 	  if (chosenAnswer.length === 0) {
-	    scoreRowString += "<td class='score shadowyScore' id='score" + ((j*binaryPerPage)+i) + "'></td>";
+	    scoreRowString += "<td class='score' id='score" + ((j*binaryPerPage)+i) + "'></td>";
 	  }
 	  else {
 	 //add the chosen answer to the score row string
@@ -2169,7 +2169,7 @@ for (var j=0;j<numberOfPages;j++) {
 
 
 if (numberOfPages>1) {
-	document.getElementById("page0tablinkScore").className = "pagelinkred";
+	document.getElementById("page0tablinkScore").className = skin + "pagelinkred";
 	}
 
 	for (i = 0; i < numberOfPages; i++) {
@@ -2274,7 +2274,7 @@ function showCorrect(pos) {
   //get first of grouping
 	var firstOfGroup = pos - (pos % grouping);
   for (var g = 0; g < grouping; g++) {
-    document.getElementById("score" + (firstOfGroup+g)).className = "score correct";
+    document.getElementById("score" + (firstOfGroup+g)).className = skin + "score correct";
     document.getElementById("score" + (firstOfGroup+g)).innerHTML = numberList[firstOfGroup+g];
   }
 }
@@ -2299,7 +2299,7 @@ function showChosen(pos) {
               corrClass = "incorrect";
                 }
       }
-    document.getElementById("score" + (firstOfGroup+g)).className = "score " + corrClass;
+    document.getElementById("score" + (firstOfGroup+g)).className = skin + "score " + corrClass;
     document.getElementById("score" + (firstOfGroup+g)).innerHTML = chosenAnswers[firstOfGroup+g];
   }
 }
