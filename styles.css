@@ -145,14 +145,14 @@ html,body { height:100%;padding:0;margin:0 }
   .analogue1box {
 
 font-weight:bold!important;
-  background-image: url("paperMidHiTextureDesat.jpg");
+  background-image: url("paperTextureBig.jpg");
   background-position: top left;
   background-size: 100% auto;
 
 
   box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
   -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-  -webkit-box-shadow: 0 0px 2px 1px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+  -webkit-box-shadow: 0 0px 4px 1px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 0, 0, 0.1) inset;
 
   padding:20px;
   border-radius: 0 !important;
@@ -179,7 +179,7 @@ font-weight:bold!important;
   content:"";
     position:absolute;
     z-index:-1;
-    box-shadow:0 0px 22px rgba(0,0,0,.7);
+    box-shadow:0 0px 12px rgba(0,0,0,.4);
     top:0;
     bottom:0;
     left:10px;
@@ -193,40 +193,41 @@ font-weight:bold!important;
     transform:skew(4deg), rotate(3deg);
 }
 
-
+/*
   .overlay {
     position:absolute;
     left:0;
     top:0;
     height:100%;
     width:100%;
-  /*  background-image: url("IAMarble2.jpg");
+    background-image: url("IAMarble2.jpg");
     background-size:cover;
 
-    opacity:0.3;*/
+    opacity:0.3;
   }
+*/
 
   .tablink {
-    background-color:#222222;
-    opacity: .72;
+    background-color:#000000;
+    opacity: .55;
     color:white;
 }
 
 .tablinkred {
   background-color:red;
-  opacity: .45;
+  opacity: .55;
   color:white;
 }
 
 .pagelink {
-  background-color:#222222;
-  opacity: .72;
+  background-color:#000000;
+  opacity: .55;
   color:white;
 }
 
 .pagelinkred {
   background-color:red;
-  opacity: .45;
+  opacity: .55;
   color:white;
 }
 
@@ -283,7 +284,7 @@ position:relative;
  .analogue1rowNumber {
     border:none;color:red;
 	width:30px !important;
-  opacity: .6 !important;
+  opacity: .5 !important;
   }
 
 
@@ -295,8 +296,8 @@ position:relative;
 
 text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
 
- color: #222222;
- opacity: .78;
+color: #000000;
+opacity: .6;
 }
 
 .analogue1numbersSelected {
@@ -375,24 +376,26 @@ text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
   height:25px !important;
   width:25px !important;
   text-align:center;
-  border-color:#d3d3e3;
-  border-style:ridge;
+  border-color:#222222;
+  border-width: 1px;
+  opacity: .85;
 }
 .numbersSelectedRecall {
   background-color:#ffaa33;
   height:25px !important;
   width:25px !important;
   text-align:center;
-  border-color:#aaaaaa;
- border-style:ridge;
+  border-color:#222222;
+  border-width: 1px;
 }
 .numbersInGroup {
   background-color:#d3d3e3;
   height:25px !important;
    width:25px !important;
    text-align:center;
-   border-color:#aaaaaa;
-    border-style:ridge;
+   border-color:#222222;
+   border-width:1px;
+    /*border-style:ridge;*/
 }
 
 .binaryRecallTD {
@@ -452,10 +455,12 @@ text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
 }
 
 .correct {
-background-color:#99dd99;
+  /*background-color:#99dd99;*/
+  background: rgba(0, 180, 0, 0.3)
 }
 .incorrect {
-  background-color:#dd6666;
+  /*background-color:#dd6666;*/
+  background: rgba(180, 0, 0, 0.4)
 }
 
 
