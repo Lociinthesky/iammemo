@@ -91,6 +91,7 @@ const events = [
    {
     "ref": "SC",
     "label": "Speed Cards",
+    "amount":1,
 	"memoTime":300,
 	"recallTime":300
   },
@@ -373,7 +374,9 @@ function startMemoCountdown() {
 	    var deck = getStandardDeck();
 
 	    shuffle(deck);
+
 	    cardList.push(deck);
+
 	    //add it to cardList (top-level array)
 	  }
 	}
@@ -1229,7 +1232,31 @@ function moveFocusBinMemo(newPos) {
 
 
 function startCardMemo() {
-  alert(cardList[0][0]["cv"]);
+
+
+  //set ended to false
+  ended = false;
+
+ var cardsMemoString = "";
+ curPos = 0;
+ firstOfGroup = 0;
+
+ //add the page menu if >1 page
+ if (amount > 1) {
+
+var menuString = "<ul class='menu'>";
+
+for (var i=0;i<amount;i++) {
+ menuString += "<li><a href='#' id='page"+ i + "tablink' class='" + skin + "pagelink' onclick='moveFocusNumMemo(" + 52*i + ")'>" + (i+1) + "</a></li>";
+}
+menuString += "</ul><br/>";
+document.getElementById("menuDiv").innerHTML = menuString;
+
+}
+
+//add the memo content
+
+
 }
 
 
