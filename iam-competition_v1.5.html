@@ -152,7 +152,11 @@ const numbersPerPage = 480;
 const binaryPerPage = 360;
 const numbersPerRow = 40;
 const binaryPerRow = 30;
-var cardsPerRow = 12;
+
+//const cardOffset = 48;
+const cardOffset = 9;
+//const cardOffsetBig = 124;
+const cardOffsetBig = 22;
 
 var skin="";
 
@@ -255,6 +259,9 @@ document.getElementById("scoreRow").style="display:none";
   //Show Grouping dropdown if necessary
   if (currentDiscipline.indexOf("N")>-1 || currentDiscipline.indexOf("W")>-1 || currentDiscipline.indexOf("C")>-1) {
     document.getElementById("divGrouping").style="display:block";
+    if (currentDiscipline.indexOf("C")>-1) {
+        document.getElementById('selGrouping').selectedIndex = 1;
+    }
   }
   else {
     document.getElementById("divGrouping").style="display:none";
@@ -275,7 +282,6 @@ document.getElementById("scoreRow").style="display:none";
  changeSkin();
  changeSelHColour();
 
- //<table align="center" class="centred"><tr><td id="preview1">1</td><td id="preview2">2</td><td id="preview3">3</td><td id="previewSel1">1</td><td id="previewSel2">2</td><td id="previewSel3">3</td><td id="preview4">1</td><td id="preview5">2</td><td id="preview6">3</td></tr></table>
 
   //Show highlighter colour if necessary ***
 
@@ -391,8 +397,9 @@ function startMemoCountdown() {
 }
 
 function updatePreview() {
+  var previewString = "";
   if (currentDiscipline.indexOf("N")>-1) {
-    var previewString = "<table align='center' class='centred'><tr>";
+    previewString = "<table align='center' class='centred'><tr>";
 
       var grouping = Number(document.getElementById("selGrouping").options[document.getElementById("selGrouping").selectedIndex].value);
       for (i = 1; i <= grouping; i++) {
@@ -420,12 +427,12 @@ function updatePreview() {
     //change preview highlight
     var selNums = document.getElementsByClassName(skin + "numbersSelected");
     for (let el of selNums) {
-        el.bgColor = hiColour;
+        el.style.background = hiColour;
     }
   }
 
   if (currentDiscipline.indexOf("B")>-1) {
-    var previewString = "<table align='center' class='centred'>";
+    previewString = "<table align='center' class='centred'>";
 
     var groupingH = Number(document.getElementById("selBinGroupingH").options[document.getElementById("selBinGroupingH").selectedIndex].value);
     var groupingW = Number(document.getElementById("selBinGroupingW").options[document.getElementById("selBinGroupingW").selectedIndex].value);
@@ -461,11 +468,28 @@ function updatePreview() {
     //change preview highlight
     var selNums = document.getElementsByClassName(skin + "binarySelected");
     for (let el of selNums) {
-        el.bgColor = hiColour;
+        el.style.background = hiColour;
     }
   }
 
+  if (currentDiscipline.indexOf("C")>-1) {
+    var grouping = Number(document.getElementById("selGrouping").options[document.getElementById("selGrouping").selectedIndex].value);
+    var classString = skin + "cardOneMemo";
+    var classString2 = skin + "cardOtherMemo";
+    var offset = 500;
+    //previewString += "<div class='centred' style='height:100px;width:0px;position:relative;left:-" + (51.37+(grouping-1)*9)/2 +  "''><img src='Card images/c01.png' class='" + skin + "cardOneMemo " + skin + "cardImgSmall'>";
+    previewString += "<div class='centred' style='height:220px;position:relative;left:-" + (114.37+(grouping-1)*22)/2 +  "'><img src='Card images/c01.png' class='" + skin + "cardOneMemo " + skin + "cardImgBig' style='left:" + offset + "px'>";
 
+    for (var i = 1; i < grouping; i++) {
+      //var offset=i*cardOffset;
+        offset += cardOffsetBig;
+    //  previewString += "<img src='Card images/c0" + (i+1) + ".png' class='" + skin + "cardOtherMemo " + skin + "cardImgSmall' style='left:" + offset + "px'>";
+      previewString += "<img src='Card images/c0" + (i+1) + ".png' class='" + skin + "cardOtherMemo " + skin + "cardImgBig' style='left:" + offset + "px'>";
+
+    }
+    previewString += "</div>";
+      document.getElementById("preview").innerHTML = previewString;
+  }
 }
 
 function getStandardDeck() {
@@ -750,11 +774,11 @@ function moveFocusNumMemo(newPos) {
 
     //remove highlight from existing grouping
 	document.getElementById("tdMemo" + firstOfGroup).className = skin + "numbersMemo";
-  document.getElementById("tdMemo" + firstOfGroup).bgColor = "";
+  document.getElementById("tdMemo" + firstOfGroup).style.backgroundColor = "";
 	for (var i = 1;i<grouping;i++) {
 	if (firstOfGroup < numberList.length - i) {
 	    document.getElementById("tdMemo" + (firstOfGroup + i)).className = skin + "numbersMemo";
-      document.getElementById("tdMemo" + (firstOfGroup + i)).bgColor = "";
+      document.getElementById("tdMemo" + (firstOfGroup + i)).style.backgroundColor = "";
 	  }
 
 	}
@@ -801,12 +825,12 @@ function moveFocusNumMemo(newPos) {
 
 
 	document.getElementById("tdMemo" + (firstOfGroup)).className = skin + "numbersMemo " + skin + "numbersSelected";
-  document.getElementById("tdMemo" + (firstOfGroup)).bgColor = hiColour;
+  document.getElementById("tdMemo" + (firstOfGroup)).style.backgroundColor = hiColour;
 
 	for (var i = 1;i<grouping;i++) {
 	if (firstOfGroup < numberList.length - i) {
 	    document.getElementById("tdMemo" + (Number(firstOfGroup + i))).className = skin + "numbersMemo " + skin + "numbersSelected";
-      document.getElementById("tdMemo" + (Number(firstOfGroup + i))).bgColor = hiColour;
+      document.getElementById("tdMemo" + (Number(firstOfGroup + i))).style.backgroundColor = hiColour;
 	  }
 	}
 
@@ -1176,7 +1200,7 @@ function moveFocusBinMemo(newPos) {
 	for (var i = 0;i<positions.length;i++) {
 	if (positions[i] < binaryList.length) {
 	    document.getElementById("tdMemo" + (positions[i])).className = skin + "binaryMemo";
-      document.getElementById("tdMemo" + (positions[i])).bgColor = "";
+      document.getElementById("tdMemo" + (positions[i])).style.backgroundColor = "";
 	  }
 
 	}
@@ -1220,7 +1244,7 @@ function moveFocusBinMemo(newPos) {
 	for (var i = 0;i<positions.length;i++) {
 	if (newPositions[i] < binaryList.length) {
 	    document.getElementById("tdMemo" + (newPositions[i])).className = skin + "binaryMemo " + skin + "binarySelected";
-      document.getElementById("tdMemo" + (newPositions[i])).bgColor = hiColour;
+      document.getElementById("tdMemo" + (newPositions[i])).style.backgroundColor = hiColour;
 	  }
 
 	}
@@ -1250,9 +1274,9 @@ function startCardMemo() {
    var menuString = "<ul class='menu'>";
 
   for (var i=0;i<amount;i++) {
-   menuString += "<li><a href='#' id='page"+ i + "tablink' class='" + skin + "pagelink' onclick='moveFocusNumMemo(" + 52*i + ")'>" + (i+1) + "</a></li>";
+   menuString += "<li><a href='#' id='page"+ i + "tablink' class='" + skin + "pagelink' onclick='moveFocusCardsMemo(" + 52*i + ")'>" + (i+1) + "</a></li>";
   }
-  menuString += "</ul><br/>";
+  menuString += "</ul><br/><br />";
   document.getElementById("menuDiv").innerHTML = menuString;
 
 }
@@ -1260,41 +1284,190 @@ function startCardMemo() {
 //add the memo content
 for (var i=0;i<amount;i++) {
 
-  cardsMemoString += "<div id='page" + i + "'><table><tr>";
+  cardsMemoString += "<div id='page" + i + "'><div class='centred bigCards' id='bigCards" + i + "''></div><br /><br />";
+  cardsMemoString += "<div class='centred'><span id='smallCardsBefore" + i + "'></span><span id='smallCardsAfter" + i + "''></span></div>";
+
+  cardsMemoString += "</table></div>";
+}
+
+document.getElementById("memoContentDiv").innerHTML = cardsMemoString;
+
+//go to first digits
+moveFocusCardsMemo(0);
+
+//set current position
+curPos = 0;
+
+//set the timer
+memoStart = Date.now(),r = document.getElementById('spanMemoTime');
+(function f() {
+memoTimeDiff = Date.now() - memoStart;
+r.textContent = timeFormat(memoTime*1e3-memoTimeDiff);
+
+//When timer reaches 0, go to recall
+if (memoTimeDiff/1e3 >= memoTime) {
+
+  //Clear display
+  document.getElementById("memoRow").style.display = "none";
+
+  memoTimeTaken = memoTime;
+
+    //set ended to true
+  ended = true;
+
+  startRecallCountdown();
+}
+//Otherwise repeat this function
+else {
+  if (ended == false) {
+    setTimeout(f,1000);
+    }
+}
+})();
 
 
-  for (var j = 0; j < 52;j+= grouping) {
+ document.onkeydown = function(e) {
+   //If Enter is pressed in speed cards (during testing - for any event)
+//  if (currentDiscipline == "SC" && e.keyCode == 13 && ended == false) {
+    if (e.keyCode == 13 && ended == false) {
+      memoTimeTaken = Date.now() - memoStart;
 
-  classString = skin + "cardOneMemo";
-  classString2 = skin + "cardOtherMemo";
-  var offset=j*12 - Math.floor(j/cardsPerRow);
-  cardsMemoString += "<td class='" + classString + "' style='left:" + offset + "px' id='tdMemo" + (i*52+j) + "' onClick='moveFocusCardsMemo(" + (i*52+j) + ")'><img src='Card images/" + cardList[i][j]["cs"] + getValueName(cardList[i][j]["cv"]) + ".png' class='" + skin + "cardImg'></td>";
+  //Clear display
+  document.getElementById("memoRow").style.display = "none";
 
-  for (var g = 1; g < grouping; g++) {
-    offset+= g*12;
-    cardsMemoString += "<td class='" + classString2 + "' style='left:" + offset + "px' id='tdMemo" + (i*52+j+g) + "' onClick='moveFocusCardsMemo(" + (i*52+j) + ")'><img src='Card images/" + cardList[i][j+g]["cs"] + getValueName(cardList[i][j+g]["cv"]) + ".png' class='" + skin + "cardImg'></td>";
+  //set ended to true
+  ended = true;
+
+
+  //Recall
+  startRecallCountdown();
+
+
+}
+
+  //if right arrow pressed, move on
+  if (e.keyCode == 39 && ended == false) {
+     moveNextCardsMemo();
+}
+
+
+ //if left arrow is pressed to go back
+  if (e.keyCode == 37 && ended == false) {
+    movePreviousCardsMemo();
   }
 
-  if (j+grouping >= 52) {
+    //if space is pressed, return to start
+  if (e.keyCode == 32 && ended == false) {
+    moveFocusCardsMemo(0);
+  }
+ };
 
-    cardsMemoString += "</tr>";
+}
+
+function moveFocusCardsMemo(newPos) {
+  //get first of new grouping
+	var firstOfGroup = newPos - (newPos % grouping);
+
+
+	//get new page
+	var curPage = Math.floor(newPos/52);
+
+	//show/hide correct pages
+	for (var i = 0; i < amount; i++) {
+	  if (i == curPage) {
+  	    document.getElementById("page" + i).style.display = "block";
+  		if (amount>1) {
+  		//highlight this page tab
+  		document.getElementById("page" + i + "tablink").className = skin + "pagelinkred";
+  		}
+	  }
+	  else {
+  		document.getElementById("page" + i).style.display = "none";
+  		if (amount>1) {
+    		//un-highlight this page tab
+    		document.getElementById("page" + i + "tablink").className = skin + "pagelink";
+  		}
+	  }
+	}
+
+
+    if (curPage <= amount) {
+
+	     //set new pos to first in group - if user has clicked on a card or new page, need to only highlight from first in group
+       newPos = firstOfGroup;
+
+       //Show everything before newPos as small cards in smallCards1
+       var smallBeforeString = "";
+       for (var j = 0; j < newPos%52;j++) {
+         var offset=j*cardOffset;
+         smallBeforeString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgSmall'  style='left:" + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
+       }
+       document.getElementById('smallCardsBefore' + curPage).innerHTML = smallBeforeString;
+       //document.getElementById('smallCards1').style.width = newPos*52;
+
+       //Show group in bigCards
+       var groupString = "";
+       for (var j = newPos%52; j < newPos%52+grouping;j++) {
+         if (j<52) {
+           var offset=(j-newPos%52)*cardOffsetBig+400;
+           //groupString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgBig'  style='left:-" + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
+           groupString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgBig'  style='left:" + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
+         }
+       }
+       document.getElementById('bigCards' + curPage).innerHTML = groupString;
+
+       //Show everything after as small cards in smallCards3
+       var smallAfterString = "";
+       for (var j = newPos%52+grouping; j < 52;j++) {
+      //   var offset=(j-newPos-grouping)*cardOffset;
+         var offset=j*cardOffset+150;
+         smallAfterString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgSmall'  style='left:" + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
+       }
+       document.getElementById('smallCardsAfter' + curPage).innerHTML = smallAfterString;
+
+
+	curPos = newPos;
+  }
+
+
+}
+
+function moveNextCardsMemo() {
+  if (ended == false) {
+
+    if (curPos+grouping > amount*52) {
+      if (currentDiscipline === "SC") {
+        //set ended to true
+        ended = true;
+
+        //end stuff
+        memoTimeTaken = Date.now() - memoStart;
+
+        //Clear display
+        document.getElementById("memoRow").style.display = "none";
+
+        //go to recall
+        startRecallCountdown();
+      }
 
     }
-  else if ((j + grouping) % cardsPerRow == 0) {
+    else {
 
-    cardsMemoString += "</tr><tr>";
+      moveFocusCardsMemo(curPos+grouping);
 
+    }
   }
-
-
 }
 
-cardsMemoString += "</table></div>";
+function movePreviousCardsMemo() {
+  if (ended == false) {
 
+    if (curPos-grouping >= 0) {
 
-}
-alert(cardsMemoString);
-document.getElementById("memoContentDiv").innerHTML = cardsMemoString;
+      moveFocusCardsMemo(curPos-grouping);
+
+    }
+  }
 }
 
 
@@ -2068,10 +2241,13 @@ if (numberOfPages>1) {
 	//find last non-empty row
 	for (var i=numberOfRows-1;i>-1;i--) {
 	  for (var j=0;j<numbersPerRow;j++) {
-	    if (chosenAnswers[numbersPerRow*i+j].length > 0) {
-		  lastRow = i;
-		  j = numbersPerRow;
-		  i = 0;
+      //check that we only go as far as the amount; see if there is an answer in each cell
+	    if (numbersPerRow*i+j < amount && chosenAnswers[numbersPerRow*i+j].length > 0) {
+        //if we find a digit, this is the last row
+		      lastRow = i;
+          //change conditions to break out of loop
+		       j = numbersPerRow;
+		        i = 0;
 		}
 	  }
 	}
@@ -2161,7 +2337,7 @@ var chosenAnswers = [];
 	menuString += "<ul class='menu'>";
 
 	for (i=0;i<numberOfPages;i++) {
-	  menuString += "<li><a href='#' id='page"+ i + "tablinkScore' class='" + skin + "pagelink' onclick='moveFocusNumScore(" + i*binaryPerPage + ")'>" + (i+1) + "</a></li>";
+	  menuString += "<li><a href='#' id='page"+ i + "tablinkScore' class='" + skin + "pagelink' onclick='moveFocusBinScore(" + i*binaryPerPage + ")'>" + (i+1) + "</a></li>";
 	}
 
 
@@ -2413,9 +2589,8 @@ function timeFormatLong(t) {
 
 
 function changeSelHColour() {
-
   hiColour = document.getElementById("selHColour").options[document.getElementById("selHColour").selectedIndex].value;
-  document.getElementById("selHColour").style = "background-color:" + hiColour;
+  //document.getElementById("selHColour").style.backgroundColor= document.getElementById("selHColour").options[document.getElementById("selHColour").selectedIndex].style.backgroundColor;
   updatePreview();
 
 }
@@ -2526,12 +2701,12 @@ Height:     <select id="selBinGroupingH" onchange="updatePreview();">
 </div>
 <br />
 <div id="divHighlightColour">
-Highlight colour:     <select id="selHColour"  onchange="changeSelHColour()" style="background-color:#b3ff66">
-<option value="#ff8080" style="background-color:#ff8080">1 2 3</option>
-<option value="#ffa366" style="background-color:#ffa366">1 2 3</option>
-<option value="#ffff80" style="background-color:#ffff80">1 2 3</option>
-<option value="#b3ff66" style="background-color:#b3ff66">1 2 3</option>
-<option value="#80bfff"  style="background-color:#80bfff" selected>1 2 3</option>
+Highlight colour:     <select id="selHColour"  onchange="changeSelHColour()" > <!--style="background-color:#b3ff66"-->
+<option value="rgba(255,128,128,0.5)" style="background-color:#ff8080">&nbsp;&nbsp;</option> <!--ff8080-->
+<option value="rgba(255,163,102,0.5)" style="background-color:#ffa366">&nbsp;&nbsp;</option> <!--ffaa366-->
+<option value="rgba(255,255,128,0.5)" style="background-color:#ffff80">&nbsp;&nbsp;</option> <!--ffff80-->
+<option value="rgba(179,255,102,0.5)" style="background-color:#b3ff66">&nbsp;&nbsp;</option>
+<option value="rgba(128,191,255,0.5)"  style="background-color:#80bfff" selected>&nbsp;&nbsp;</option> <!--80bfff-->
 <option value="#df9fbf"  style="background-color:#df9fbf">1 2 3</option>
 <option value="#d9d9d9"  style="background-color:#d9d9d9">1 2 3</option>
 </select>
@@ -2543,14 +2718,16 @@ Skin:     <select id="selSkin"  onchange="changeSkin()">
 <option value="digital1" style="background-color:#000000;color:white" selected>Digital 1</option>
 </select>
 </div>
-<h3>Preview</h3>
-<div id="preview" class="centred">
-
-
-
-</div>
+<br />
 <div id="divDecks">
 Decks:     <input id="inpDecks" type="text" size=3>
+</div>
+
+<h3>Preview</h3>
+<div id="preview" class="centred" style="width:100%">
+
+
+
 </div>
 
 <br /><br /><button class="btn btn-primary" onclick="startMemoCountdown();">Start</button>
