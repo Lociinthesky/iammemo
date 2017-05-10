@@ -442,6 +442,7 @@ opacity: .6;
   border-style:none dotted ridge none;
   opacity: .85;
   font-family: 'Reenie Beanie', cursive;
+  font-weight:normal!important;
   font-size:40;
   color:#3333cc;
 }
@@ -455,6 +456,7 @@ background-color:rgba(0,0,0,0.5);
   border-width: 1px;
   border-style:solid;
   font-family: 'Reenie Beanie', cursive;
+  font-weight:normal!important;
   font-size:40;
   color:#3333cc;
 }
@@ -468,6 +470,7 @@ background-color:rgba(0,0,0,0.5);
    border-width:1px;
    border-style:solid;
    font-family: 'Reenie Beanie', cursive;
+   font-weight:normal!important;
    font-size:40;
    color:#3333cc;
 
