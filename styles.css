@@ -90,12 +90,14 @@ html,body { height:100%;padding:0;margin:0 }
    height:125px;
  }
 
+/*
  .settings {
     background-color:#EDEDED;
 
-
-
  }
+*/
+
+
 
 /*
 #selHColour option {
@@ -158,10 +160,28 @@ html,body { height:100%;padding:0;margin:0 }
     height:600px;
 }
 
-  .analogue1box {
+  .analogue1boxA {
 
 font-weight:bold!important;
-  background-image: url("paperTextureBig.jpg");
+  background-image: url("hugeWoodPaperA.jpg");
+  background-position: top left;
+  background-size: 100% auto;
+
+
+  box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+  -webkit-box-shadow: 0 0px 4px 1px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+
+  padding:20px;
+  border-radius: 0 !important;
+
+
+  }
+
+  .analogue1boxB {
+
+font-weight:bold!important;
+  background-image: url("hugeWoodPaperB.jpg");
   background-position: top left;
   background-size: 100% auto;
 
@@ -177,12 +197,12 @@ font-weight:bold!important;
   }
 
 
-  .analogue1box * {
+  .analogue1boxA *, .analogue1boxB * {
   font-weight:bold!important;
 
   }
 
-  .digital1box {
+  .digital1boxA, .digital1boxB {
 
   background-color:#FFFFFF;
   color:black;
@@ -191,7 +211,10 @@ font-weight:bold!important;
 
   }
 
-  .analogue1box:before, .analogue1box:after
+
+
+
+  .analogue1boxA:before, .analogue1boxA:after, .analogue1boxB:before, .analogue1boxB:after
 {
   content:"";
     position:absolute;
@@ -203,7 +226,7 @@ font-weight:bold!important;
     right:10px;
     border-radius:100px / 10px;
 }
-.analogue1box:after
+.analogue1boxA:after, .analogue1boxB:after
 {
     right:10px;
     left:auto;
