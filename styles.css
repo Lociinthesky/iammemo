@@ -11,9 +11,15 @@ html,body { height:100%;padding:0;margin:0 }
 	background-attachment: fixed;
 	margin: 0;
 	height: 100%;
-  background-image: url("IAMarble2.jpg");
+/*  background-image: url("IAMarble2.jpg");*/
+/* background-color:black;*/
   background-size:cover;
 
+}
+
+.selectionSkin {
+  font-family: 'News Cycle', sans-serif;
+  background-color:black;
 }
 
 .analogue1 {
@@ -24,9 +30,9 @@ html,body { height:100%;padding:0;margin:0 }
 
 .digital1 {
  font-family: 'Convergence', sans-serif;
-  /*background-image: url("IAMarble2.jpg");*/
-  background-color: black;
-  background-image:none;
+  background-image: url("IAMarble2.jpg");
+/*  background-color: black;*/
+
 
 }
 
@@ -71,6 +77,7 @@ html,body { height:100%;padding:0;margin:0 }
   .selection  {
     background-color:#EDEDED;
     font-weight: bold;
+    border:6px solid #33CCEE;
   }
 
   .selection *  {
@@ -78,6 +85,10 @@ html,body { height:100%;padding:0;margin:0 }
     font-weight: bold;
   }
 
+ .skinOptionImg {
+
+   height:125px;
+ }
 
  .settings {
     background-color:#EDEDED;
@@ -144,7 +155,7 @@ html,body { height:100%;padding:0;margin:0 }
 }
 .digital1memoHeight {
 
-    height:775px;
+    height:600px;
 }
 
   .analogue1box {
@@ -175,7 +186,8 @@ font-weight:bold!important;
 
   background-color:#FFFFFF;
   color:black;
-  border:6px solid #33CCEE;
+
+  border:6px solid #888888;
 
   }
 

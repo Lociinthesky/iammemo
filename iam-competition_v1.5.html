@@ -221,6 +221,7 @@ function changeDisciplines() {
 
 function goToSelection() {
   currentDiscipline = "";
+  document.body.className = "selectionSkin";
   document.getElementById("selectionRow").style="display:block";
    document.getElementById("settingsRow0").style="display:none";
    document.getElementById("countdownRow").style="display:none";
@@ -234,7 +235,23 @@ function goToSelection() {
 }
 
 function goToSettings() {
+  //Get skin
+
+  // skin = document.getElementById("selSkin").options[document.getElementById("selSkin").selectedIndex].value;
+  var skinOptions = document.getElementsByName('selSkin');
+   if (skinOptions[0].checked) {
+       skin = skinOptions[0].value;
+ } else {
+      skin = skinOptions[1].value;
+   }
+
+
+   changeSkin();
+
+  //Get discipline
   currentDiscipline = document.getElementById("selDiscipline").options[document.getElementById("selDiscipline").selectedIndex].value;
+
+//Display correct elements
   document.getElementById("selectionRow").style="display:none";
    document.getElementById("settingsRow0").style="display:block";
       document.getElementById("countdownRow").style="display:none";
@@ -280,7 +297,7 @@ document.getElementById("scoreRow").style="display:none";
 
  updatePreview();
 
- changeSkin();
+ //changeSkin();
  changeSelHColour();
 
 
@@ -336,7 +353,7 @@ function startMemoCountdown() {
 
   //Get skin
 
-    skin = document.getElementById("selSkin").options[document.getElementById("selSkin").selectedIndex].value;
+//    skin = document.getElementById("selSkin").options[document.getElementById("selSkin").selectedIndex].value;
 
 
 	//Display countdown section only
@@ -2599,7 +2616,7 @@ function changeSelHColour() {
 }
 
 function changeSkin() {
-  skin = document.getElementById("selSkin").options[document.getElementById("selSkin").selectedIndex].value;
+  //skin = document.getElementById("selSkin").options[document.getElementById("selSkin").selectedIndex].value;
   document.body.className = skin;
   document.getElementById("memoBox").className = "col-md-10 jumbotron " + skin + "box " + skin + "memoHeight";
   document.getElementById("recallBox").className = "col-md-10 jumbotron " + skin + "box " + skin + "memoHeight";
@@ -2676,8 +2693,29 @@ function moveAnimate(element, newParent){
 <option value="S">Spoken Numbers</option>
 <option value="5B">5-minute Binary</option>
 </select>
+
+<br /><br />
+<!--
+Skin:     <select id="selSkin"><option value="analogue1" style="background-image: url('hugeWood4.jpg');color:white">Analogue 1</option>
+<option value="digital1" style="background-color:#000000;color:white" selected>Digital 1</option></select>-->
+<div class="row">
+<div class="col-md-2"></div>
+<div class="col-md-4">
+<img src="analogueOption.png" class="skinOptionImg" />
+<br /><input type='radio' name='selSkin' value='analogue1'>
+<br />Analogue
+</div>
+<div class="col-md-4">
+  <img src="digitalOption.png" class="skinOptionImg" />
+<br /><input type='radio' name='selSkin' value='digital1' checked>
+<br />Digital
+</div>
+</div>
+
 <br /><br /><button class="btn btn-primary" onclick="goToSettings();">Go</button>
 </div>
+
+
 <div class="col-md-2"></div>
 </div>
 
@@ -2736,13 +2774,6 @@ Highlight colour:     <select id="selHColour"  onchange="changeSelHColour()" > <
 <option value="rgba(128,191,255,0.5)"  style="background-color:#80bfff" selected>&nbsp;&nbsp;</option>
 <option value="rgba(223,159,191,0.5)"  style="background-color:#df9fbf">&nbsp;&nbsp;</option>
 <!--<option value="rgba(238,170,238,0.5)"  style="background-color:#eeaaee">&nbsp;&nbsp;</option>-->
-</select>
-</div>
-<br />
-<div id="divSkin">
-Skin:     <select id="selSkin"  onchange="changeSkin()">
-<option value="analogue1" style="background-image: url('hugeWood4.jpg');color:white">Analogue 1</option>
-<option value="digital1" style="background-color:#000000;color:white" selected>Digital 1</option>
 </select>
 </div>
 <br />
