@@ -742,6 +742,9 @@ function startNumberMemo() {
     if (e.keyCode == 32 && ended == false) {
 	    moveFocusNumMemo(0);
 	  }
+
+
+
    };
 
 }
@@ -1605,7 +1608,7 @@ function startNumberRecall() {
 	  menuString += "<li><a href='#' id='page"+ i + "tablinkRecall' class='" + skin + "pagelink' onclick='moveFocusNumRecall(" + numbersPerPage*i + ")'>" + (i+1) + "</a></li>";
 	}
 	menuString += "</ul><br/>";
-	document.getElementById("menuRecallDiv").innerHTML = menuString;
+	document.getElementById("menuRecallDiv").innerHTML = menuString + "<span id='spanShift'><span onclick='shiftNumbersForward()'>+</span>&nbsp;<span onclick='shiftNumbersBackward()'>-</span></span>";
 
 
 
@@ -1624,7 +1627,7 @@ function startNumberRecall() {
 
 	numberRecallString += "<div id='page" + i + "Recall'><table class='" + skin + "recallTable'><tr><td class='" + skin + "rowNumber'>" + Math.floor((i*numbersPerPage)/numbersPerRow+1) + "&nbsp;&nbsp;</td>";
 		for (j = 0; j < numbersOnThisPage;j++) {
-			numberRecallString += "<td class='" + skin + "numbersRecallTD'><input class='" + skin + "numbersRecall' id='inpRecall" + (i*numbersPerPage+j) + "' maxlength='1'	  onclick='moveFocusNumRecall(" + (i*numbersPerPage+j) + ")' oninput='moveFocusNumRecall(" + (i*numbersPerPage+j+1) + ")'></input></td>";
+			numberRecallString += "<td class='" + skin + "numbersRecallTD'><input class='" + skin + "numbersRecall' id='inpRecall" + (i*numbersPerPage+j) + "' maxlength='1'	  onclick='moveFocusNumRecall(" + (i*numbersPerPage+j) + ")' oninput='checkMoveFocusNumRecall(" + (i*numbersPerPage+j+1) + ")'></input></td>";
 
 			if ((j + 1) % numbersPerRow == 0) {
 			  if (j+1 == numbersOnThisPage) {
@@ -1722,12 +1725,14 @@ function startNumberRecall() {
 
 		//if right arrow pressed, move on
     if (e.keyCode == 39 && ended == false) {
+      e.preventDefault();
        moveNextNumbersRecall();
 	}
 
 
 	 //if left arrow is pressed to go back
     if (e.keyCode == 37 && ended == false) {
+      e.preventDefault();
 	    movePreviousNumbersRecall();
 	  }
 
@@ -1738,6 +1743,21 @@ function startNumberRecall() {
 	    movePreviousNumbersRecall();
 		document.getElementById("inpRecall" + curPos).value="";
 	}
+
+  //If + is pressed
+    if ((e.keyCode == 61 || e.keyCode == 187 || e.keyCode == 107) && ended == false) {
+
+    shiftNumbersForward();
+
+  }
+
+  //If - is pressed
+    if ((e.keyCode == 109 || e.keyCode == 189 || e.keyCode == 173) && ended == false) {
+
+
+    shiftNumbersBackward();
+
+  }
 
    };
 
@@ -1773,10 +1793,22 @@ function movePreviousNumbersRecall() {
   }
 }
 
+function checkMoveFocusNumRecall(pos) {
+  var blnMoving = true;
+  if (document.getElementById("inpRecall" + curPos).value === "-") {
+    blnMoving = false;
+  }
+
+  //check current position's input and ensure only digits
+	document.getElementById("inpRecall" + curPos).value=document.getElementById("inpRecall" + curPos).value.replace(/[^/\d]/,'');
+
+  if (blnMoving) {
+  moveFocusNumRecall(pos);
+ }
+}
+
 function moveFocusNumRecall(newPos) {
 
-	//check current position's input and ensure only digits
-	document.getElementById("inpRecall" + curPos).value=document.getElementById("inpRecall" + curPos).value.replace(/[^/\d]/,'');
 
 	//get first of grouping
 	var firstOfGroup = curPos - (curPos % grouping);
@@ -1841,6 +1873,34 @@ function moveFocusNumRecall(newPos) {
   }
 
 }
+
+function shiftNumbersForward() {
+
+    for (var i = amount-1; i >= curPos+1; i--) {
+      document.getElementById("inpRecall" + i).value = document.getElementById("inpRecall" + (i-1)).value;
+
+    }
+
+
+    document.getElementById("inpRecall" + (curPos)).value="";
+}
+
+function shiftNumbersBackward() {
+
+
+      for (var i = curPos+1; i < amount-1; i++) {
+
+          document.getElementById("inpRecall" + i).value = document.getElementById("inpRecall" + (i+1)).value;
+
+
+      }
+      document.getElementById("inpRecall" + (amount-1)).value = "";
+    //  movePreviousNumMemo();
+//when you do backwards arrow it doesn't highlighted
+      //if text is highlighted or cell is blank then it goes too far to right and deletes current, need to do prev again?!
+
+}
+
 
 function startBinaryRecall() {
   ended = false;
@@ -1974,12 +2034,14 @@ function startBinaryRecall() {
 
 		//if right arrow pressed, move on
     if (e.keyCode == 39 && ended == false) {
+      e.preventDefault();
        moveNextBinRecall();
 	}
 
 
 	 //if left arrow is pressed to go back
     if (e.keyCode == 37 && ended == false) {
+      e.preventDefault();
 	    movePreviousBinRecall();
 	  }
 
@@ -2702,12 +2764,12 @@ Skin:     <select id="selSkin"><option value="analogue1" style="background-image
 <div class="col-md-2"></div>
 <div class="col-md-4">
 <img src="analogueOption.png" class="skinOptionImg" />
-<br /><input type='radio' name='selSkin' value='analogue1'>
+<br /><input type='radio' name='selSkin' value='analogue1' checked>
 <br />Analogue
 </div>
 <div class="col-md-4">
   <img src="digitalOption.png" class="skinOptionImg" />
-<br /><input type='radio' name='selSkin' value='digital1' checked>
+<br /><input type='radio' name='selSkin' value='digital1'>
 <br />Digital
 </div>
 </div>
@@ -2767,12 +2829,12 @@ Height:     <select id="selBinGroupingH" onchange="updatePreview();">
 <br />
 <div id="divHighlightColour">
 Highlight colour:     <select id="selHColour"  onchange="changeSelHColour()" > <!--style="background-color:#b3ff66"-->
-<option value="rgba(255,128,128,0.5)" style="background-color:#ff8080">&nbsp;&nbsp;</option>
-<option value="rgba(255,163,102,0.5)" style="background-color:#ffa366">&nbsp;&nbsp;</option>
-<option value="rgba(255,255,128,0.5)" style="background-color:#ffff80">&nbsp;&nbsp;</option>
-<option value="rgba(179,255,102,0.5)" style="background-color:#b3ff66">&nbsp;&nbsp;</option>
-<option value="rgba(128,191,255,0.5)"  style="background-color:#80bfff" selected>&nbsp;&nbsp;</option>
-<option value="rgba(223,159,191,0.5)"  style="background-color:#df9fbf">&nbsp;&nbsp;</option>
+<option value="rgba(255,128,128,0.57)" style="background-color:#ff8080">&nbsp;&nbsp;</option>
+<option value="rgba(255,163,102,0.57)" style="background-color:#ffa366">&nbsp;&nbsp;</option>
+<option value="rgba(255,255,128,0.57)" style="background-color:#ffff80">&nbsp;&nbsp;</option>
+<option value="rgba(179,255,102,0.57)" style="background-color:#b3ff66">&nbsp;&nbsp;</option>
+<option value="rgba(128,191,255,0.57)"  style="background-color:#80bfff" selected>&nbsp;&nbsp;</option>
+<option value="rgba(223,159,191,0.57)"  style="background-color:#df9fbf">&nbsp;&nbsp;</option>
 <!--<option value="rgba(238,170,238,0.5)"  style="background-color:#eeaaee">&nbsp;&nbsp;</option>-->
 </select>
 </div>
@@ -2846,6 +2908,7 @@ Decks:     <input id="inpDecks" type="text" size=3>
   <br /><br />
 <div id="menuRecallDiv"></div>
 <br />
+<!--<span id="spanShift"><span onclick="shiftNumbersForward()">+</span>&nbsp;<span onclick="shiftNumbersBackward()">-</span></span>-->
 <div id="recallContentDiv" class="recallContent"></div>
 </div>
 
