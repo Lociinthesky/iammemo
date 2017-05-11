@@ -24,7 +24,7 @@ html,body { height:100%;padding:0;margin:0 }
 
 .analogue1 {
   font-family: 'News Cycle', sans-serif;
-  background-image: url("hugeWood4.jpg");
+  background-image: url("hugeWood4NoNails.jpg");
  font-weight:bold!important;
 }
 
@@ -51,28 +51,6 @@ html,body { height:100%;padding:0;margin:0 }
     margin: auto;
 
   }
-
-/*
-   .shadowyOld {
-   box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 19px 10px rgba(119, 119, 119, 0.25);
--moz-box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 19px 10px rgba(119, 119, 119, 0.25);
--webkit-box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45),  inset 0px 0px 35px 10px rgba(119, 119, 119, 0.25);
-
-   }
-
-   .shadowyMemo {
- box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 15px 10px rgba(119, 119, 119, 0.25);
--moz-box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 15px 10px rgba(119, 119, 119, 0.25);
--webkit-box-shadow: 6px 10px 45px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 20px 10px rgba(119, 119, 119, 0.05);
-   }
-
-   .shadowyScore {
-     box-shadow: 6px 10px 20px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 19px 10px rgba(119, 119, 119, 0.25);
--moz-box-shadow: 6px 10px 20px 1px rgba(0, 0, 0, 0.45), inset 0px 0px 19px 10px rgba(119, 119, 119, 0.25);
--webkit-box-shadow: 6px 10px 20px 10px rgba(0, 0, 0, 0.25), inset 0px 0px 19px 10px rgba(119, 119, 119, 0.25);
-
-   }
-*/
 
   .selection  {
     background-color:#EDEDED;
@@ -105,12 +83,12 @@ html,body { height:100%;padding:0;margin:0 }
 
 }
 */
-
+/*
   .countdown {
     background-color:#EDEDED;
 	height:400px;
 
-  }
+  }*/
    #countdownText {
 
 	font-size:18pt;
@@ -141,7 +119,7 @@ html,body { height:100%;padding:0;margin:0 }
 
   }
 
-  .topMargin {
+  #topMargin {
     height:72px;
   }
 
@@ -157,42 +135,40 @@ html,body { height:100%;padding:0;margin:0 }
 }
 .digital1memoHeight {
 
-    height:600px;
+    height:700px;
 }
 
   .analogue1boxA {
 
-font-weight:bold!important;
-  background-image: url("hugeWoodPaperA.jpg");
-  background-position: top left;
-  background-size: 100% auto;
+    font-weight:bold!important;
+      background-image: url("hugeWoodPaperA.jpg");
+      background-position: top left;
+      background-size: 100% auto;
 
 
-  box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-  -webkit-box-shadow: 0 0px 4px 1px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+      box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+      -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+      -webkit-box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.54),15px -10px 60px 15px rgba(0, 0, 0, 0.08) inset;
 
-  padding:20px;
-  border-radius: 0 !important;
-
+      padding:20px;
+      border-radius: 0 !important;
 
   }
 
   .analogue1boxB {
 
-font-weight:bold!important;
-  background-image: url("hugeWoodPaperB.jpg");
-  background-position: top left;
-  background-size: 100% auto;
+    font-weight:bold!important;
+      background-image: url("hugeWoodPaperB.jpg");
+      background-position: top left;
+      background-size: 100% auto;
 
 
-  box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-  -webkit-box-shadow: 0 0px 4px 1px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+      box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+      -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+       -webkit-box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.54),15px -10px 60px 15px rgba(0, 0, 0, 0.08) inset;
 
-  padding:20px;
-  border-radius: 0 !important;
-
+      padding:20px;
+      border-radius: 0 !important;
 
   }
 
@@ -219,7 +195,7 @@ font-weight:bold!important;
   content:"";
     position:absolute;
     z-index:-1;
-    box-shadow:0 0px 12px rgba(0,0,0,.4);
+    box-shadow:0 0px 22px rgba(0,0,0,.9);
     top:0;
     bottom:0;
     left:10px;
@@ -346,10 +322,10 @@ position:relative;
   padding-bottom:2px;
   text-align:center;
 
-text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.05);
+text-shadow: 0px 0px 1px  rgba(10, 10, 10, 0.05);
 
 color: #000000;
-opacity: .6;
+opacity: .75;
 }
 
 .analogue1numbersSelected {
@@ -364,10 +340,10 @@ opacity: .6;
   padding-bottom:2px;
   text-align:center;
 
-  text-shadow: 1px 0px 1px  rgba(10, 10, 10, 0.07);
+  text-shadow: 0px 0px 1px  rgba(10, 10, 10, 0.05);
 
   color: #000000;
-  opacity: .7;
+  opacity: .75;
 }
 
 .analogue1binarySelected {
@@ -467,6 +443,18 @@ opacity: .6;
 }
 
 .analogue1numbersRecall {
+    animation: glow 899s infinite alternate;
+}
+
+@keyframes glow{
+
+    to {
+        text-shadow:0px 0px 3px rgba(0,0,200,.65);
+    }
+}
+
+
+.analogue1numbersRecall {
   /background-color:#fdfec8;
   background-color:rgba(0,0,0,0);
   height:25px !important;
@@ -475,11 +463,12 @@ opacity: .6;
   border-color:#222222;
   border-width: 1px;
   border-style:none dotted ridge none;
-  opacity: .85;
+  opacity: .95;
   font-family: 'Reenie Beanie', cursive;
   font-weight:normal!important;
-  font-size:40;
-  color:#3333cc;
+  font-size:41;
+  /*color:#3333cc;*/
+  color:blue;
 }
 .analogue1numbersSelectedRecall {
 /*  background-color:#ffaa33;*/
@@ -492,8 +481,9 @@ background-color:rgba(0,0,0,0.5);
   border-style:solid;
   font-family: 'Reenie Beanie', cursive;
   font-weight:normal!important;
-  font-size:40;
-  color:#3333cc;
+  font-size:4;
+/*  color:#3333cc;*/
+  color:blue;
 }
 .analogue1numbersInGroup {
   /*background-color:#d3d3e3;*/
@@ -507,8 +497,9 @@ background-color:rgba(0,0,0,0.5);
    border-style:solid;
    font-family: 'Reenie Beanie', cursive;
    font-weight:normal!important;
-   font-size:40;
-   color:#3333cc;
+   font-size:41;
+   /*color:#3333cc;*/
+   color:blue;
 
 }
 
@@ -610,8 +601,13 @@ top: 10px;
   height:30px;
   width:30px;
   text-align:center;
-  opacity: 0.82;
+  opacity: 0.95;
   padding:0px;
+  font-family: 'Reenie Beanie', cursive;
+  font-weight: normal !important;
+  font-size: 41;
+  color: blue;
+  text-shadow:0px 0px 3px rgba(0,0,200,.45);
 }
 
 .digital1score {
@@ -624,11 +620,11 @@ top: 10px;
 
 .correct {
   /*background-color:#99dd99;*/
-  background: rgba(0, 180, 0, 0.3)
+  background: rgba(0, 255, 0, 0.3)
 }
 .incorrect {
   /*background-color:#dd6666;*/
-  background: rgba(180, 0, 0, 0.4)
+  background: rgba(255, 0, 0, 0.4)
 }
 
 

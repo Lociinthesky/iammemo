@@ -223,6 +223,8 @@ function goToSelection() {
   currentDiscipline = "";
   document.body.className = "selectionSkin";
   document.getElementById("selectionRow").style="display:block";
+  document.getElementById("logoRow").style="display:block";
+     document.getElementById("topMargin").style="display:none";
    document.getElementById("settingsRow0").style="display:none";
    document.getElementById("countdownRow").style="display:none";
    document.getElementById("countdownText").innerHTML="";
@@ -247,6 +249,12 @@ function goToSettings() {
 
 
    changeSkin();
+
+  //remove logo row if skin is analogue
+  if (skin.indexOf("analogue")>-1) {
+    document.getElementById("logoRow").style="display:none";
+    document.getElementById("topMargin").style="display:block";
+  }
 
   //Get discipline
   currentDiscipline = document.getElementById("selDiscipline").options[document.getElementById("selDiscipline").selectedIndex].value;
@@ -572,6 +580,7 @@ function startMemo() {
    document.getElementById("countdownRow").style="display:none";
    document.getElementById("memoRow").style="display:block";
      document.getElementById("logoRow").style="display:none";
+     document.getElementById("topMargin").style="display:block";
  //    var titleElements = document.getElementsByClassName("disciplineTitle");
   // var title = lookupProperty(currentDiscipline,"label");
   // for (var i = 0; i<titleElements.length;i++) {
@@ -1522,8 +1531,15 @@ var strValueName = "";
 
 function startRecallCountdown() {
 
-  //Show logo row
-  document.getElementById("logoRow").style="display:block";
+  //Show logo row if digital1
+  if (skin.indexOf("analogue")===-1) {
+      document.getElementById("logoRow").style="display:block";
+      document.getElementById("topMargin").style="display:none";
+  }
+  else {
+    document.getElementById("logoRow").style="display:none";
+    document.getElementById("topMargin").style="display:block";
+  }
 
 	//Display countdown section only
   document.getElementById("countdownTable").style="display:none";
@@ -1555,7 +1571,9 @@ function startRecall() {
    document.getElementById("countdownRow").style="display:none";
    document.getElementById("recallRow").style="display:block";
   // document.getElementById("spanMemoTimeTaken").textContent = timeFormatLong(memoTimeTaken);
+
      document.getElementById("logoRow").style="display:none";
+     document.getElementById("topMargin").style="display:block";
 
 
    //Display relevant memo depending on discipline
@@ -2684,8 +2702,8 @@ function changeSkin() {
   document.getElementById("recallBox").className = "col-md-10 jumbotron " + skin + "boxB " + skin + "memoHeight";
   document.getElementById("scoreBox").className = "col-md-10 jumbotron " + skin + "boxB " + skin + "memoHeight";
 //  document.getElementById("preview").className = "centred " + skin + "box";
-  document.getElementById("settingsBox").className = "col-md-8 jumbotron settings text-center " + skin + "boxA";
-  document.getElementById("countdownBox").className = "col-md-10 jumbotron countdown text-center " + skin + "boxB";
+  document.getElementById("settingsBox").className = "col-md-8 jumbotron settings text-center " + skin + "boxA " + skin + "memoHeight";
+  document.getElementById("countdownBox").className = "col-md-10 jumbotron countdown text-center " + skin + "boxB " + skin + "memoHeight";
   //document.getElementById("wrapper").className = skin + "memoHeight";
 //  document.getElementById("memoRow").className = "row " + skin + "container";
 
@@ -2728,6 +2746,10 @@ function moveAnimate(element, newParent){
 <div class="row" id="logoRow">
 <div class="col-md-3"><br /><button id="btnBackToSelection" class="btn btn-primary" onclick="goToSelection();">Back to discipline selection</button></div>
 <div class="col-md-6 text-center"><br /><img src="IAM-main-Logo-transparent-bg-for-web.png" height=60><br /><br /><br /></div>
+<div class="col-md-3"></div>
+</div>
+<div class="row" id="topMargin"><div class="col-md-3"><br /><button id="btnBackToSelection" class="btn btn-primary" onclick="goToSelection();">Back to discipline selection</button></div>
+<div class="col-md-6 text-center"></div>
 <div class="col-md-3"></div>
 </div>
 
@@ -2878,7 +2900,7 @@ Decks:     <input id="inpDecks" type="text" size=3>
 
 <!--Memo container row-->
 <div class="row" id="memoRow">
-<div class="row topMargin"></div>
+<!--<div class="row topMargin"></div>-->
 <div class="col-md-1"></div>
 <div id="memoBox" class="col-md-10 jumbotron">
 
@@ -2900,7 +2922,7 @@ Decks:     <input id="inpDecks" type="text" size=3>
 <!--Recall container row-->
 
 <div class="row" id="recallRow">
-  <div class="row topMargin"></div>
+<!--  <div class="row topMargin"></div>-->
 <div class="col-md-1"></div>
 <div id="recallBox" class="col-md-10 jumbotron">
   <!--<table class="disciplineHeadingTable"><tr><td class="disciplineTitleMemo"></td><td><span>Memorisation time: </span><span id="spanMemoTimeTaken"></span></td><td><span>Recall time remaining: </span><span id="spanRecallTime"></span></td></tr></table>-->
@@ -2917,7 +2939,7 @@ Decks:     <input id="inpDecks" type="text" size=3>
 
 <!--Score container row-->
 <div class="row full-height" id="scoreRow">
-  <div class="row topMargin"></div>
+<!--<div class="row topMargin"></div>-->
 <div class="col-md-1"></div>
 <div id="scoreBox" class="col-md-10 jumbotron">
   <!--<table class="disciplineHeadingTable"><tr><td class="disciplineTitleMemo"></td><td><span>Memorisation time: </span><span id="spanScoreMemoTimeTaken"></span></td><td><span>Recall time: </span><span id="spanScoreRecallTimeTaken"></span></td><td colspan=3><span id="spanOuterScore">Score: </span><span id="spanScore"></span><span id="spanCorrect"></span></td></tr></table>-->
