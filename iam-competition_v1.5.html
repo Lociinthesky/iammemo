@@ -1350,10 +1350,10 @@ function startCardMemo() {
 //add the memo content
 for (var i=0;i<amount;i++) {
 
-  cardsMemoString += "<div id='page" + i + "'><div class='centred bigCards' id='bigCards" + i + "''></div><br /><br />";
-  cardsMemoString += "<div class='centred'><span id='smallCardsBefore" + i + "'></span><span id='smallCardsAfter" + i + "''></span></div>";
+  cardsMemoString += "<div id='page" + i + "' style='position:relative'><div class='centred bigCards' style='position:relative;left:-" + (114.37+(grouping-1)*cardOffsetBig)/2 + "' id='bigCards" + i + "''></div><br /><br />";
+  cardsMemoString += "<div class='centred' style='position:relative;left:-" + (211+51*cardOffset)/2 + "'><span id='smallCardsBefore" + i + "'></span><span id='smallCardsAfter" + i + "''></span></div>";
 
-  cardsMemoString += "</table></div>";
+  cardsMemoString += "</div>";
 }
 
 document.getElementById("memoContentDiv").innerHTML = cardsMemoString;
@@ -1465,19 +1465,21 @@ function moveFocusCardsMemo(newPos) {
        //Show everything before newPos as small cards in smallCards1
        var smallBeforeString = "";
        for (var j = 0; j < newPos%52;j++) {
+        //*** var offset=j*cardOffset+300;
          var offset=j*cardOffset;
-         smallBeforeString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgSmall'  style='left:" + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
+      //***   smallBeforeString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgSmall'  style='left:" + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
+         smallBeforeString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgSmall'  style='left:50%;margin:0 0 0 " + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
        }
        document.getElementById('smallCardsBefore' + curPage).innerHTML = smallBeforeString;
-       //document.getElementById('smallCards1').style.width = newPos*52;
+
 
        //Show group in bigCards
        var groupString = "";
        for (var j = newPos%52; j < newPos%52+grouping;j++) {
          if (j<52) {
-           var offset=(j-newPos%52)*cardOffsetBig+400;
-           //groupString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgBig'  style='left:-" + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
-           groupString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgBig'  style='left:" + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
+           var offset=(j-newPos%52)*cardOffsetBig;
+
+           groupString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgBig'  style='left:50%;margin:0 0 0 " + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
          }
        }
        document.getElementById('bigCards' + curPage).innerHTML = groupString;
@@ -1485,9 +1487,11 @@ function moveFocusCardsMemo(newPos) {
        //Show everything after as small cards in smallCards3
        var smallAfterString = "";
        for (var j = newPos%52+grouping; j < 52;j++) {
-      //   var offset=(j-newPos-grouping)*cardOffset;
+
+    //***     var offset=j*cardOffset+150;
          var offset=j*cardOffset+150;
-         smallAfterString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgSmall'  style='left:" + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
+    //***     smallAfterString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgSmall'  style='left:" + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
+         smallAfterString += "<img src='Card images/" + cardList[curPage][j]["cs"] + getValueName(cardList[curPage][j]["cv"]) + ".png' class='" + skin + "cardImgSmall'  style='left:50%;margin:0 0 0 " + offset + "px' id='imgMemo" + (curPage*52+j) + "' onClick='moveFocusCardsMemo(" + (curPage*52+j) + ")'>";
        }
        document.getElementById('smallCardsAfter' + curPage).innerHTML = smallAfterString;
 
