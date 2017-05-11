@@ -1754,6 +1754,17 @@ function startNumberRecall() {
 	    movePreviousNumbersRecall();
 	  }
 
+    //if up arrow pressed, move up
+    if (e.keyCode == 38 && ended == false) {
+      e.preventDefault();
+       moveUpNumbersRecall();
+	}
+
+  //if down arrow pressed, move down
+  if (e.keyCode == 40 && ended == false) {
+    e.preventDefault();
+     moveDownNumbersRecall();
+}
 
 	 //if backspace (8) is pressed, delete the number in previous box and move back to that space
     if ((e.keyCode == 8) && ended == false) {
@@ -1810,6 +1821,33 @@ function movePreviousNumbersRecall() {
 
   }
 }
+
+function moveUpNumbersRecall() {
+
+       //if we are on first row, don't move
+
+	    if (curPos >= numbersPerRow) {
+
+
+			moveFocusNumRecall(curPos-numbersPerRow);
+
+
+  }
+}
+
+function moveDownNumbersRecall() {
+
+       //if we are on last row, don't move
+
+	    if (curPos + numbersPerRow < amount) {
+
+
+			moveFocusNumRecall(curPos+numbersPerRow);
+
+
+  }
+}
+
 
 function checkMoveFocusNumRecall(pos) {
   var blnMoving = true;
