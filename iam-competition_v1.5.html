@@ -502,20 +502,56 @@ function updatePreview() {
     var grouping = Number(document.getElementById("selGrouping").options[document.getElementById("selGrouping").selectedIndex].value);
     var classString = skin + "cardOneMemo";
     var classString2 = skin + "cardOtherMemo";
-    var offset = 500;
-    //previewString += "<div class='centred' style='height:100px;width:0px;position:relative;left:-" + (51.37+(grouping-1)*9)/2 +  "''><img src='Card images/c01.png' class='" + skin + "cardOneMemo " + skin + "cardImgSmall'>";
-    previewString += "<div class='centred' style='height:220px;position:relative;left:-" + (114.37+(grouping-1)*22)/2 +  "'><img src='Card images/c01.png' class='" + skin + "cardOneMemo " + skin + "cardImgBig' style='left:" + offset + "px'>";
+
+/*
+  //  var offset = document.getElementById("selGrouping").offsetLeft;
+  var offset=400;
+
+  //  previewString += "<div class='row centred'><div class='col-md-12' style='height:220px;position:relative;left:-" + (114.37+(grouping-1)*22)/2 +  "'><img src='Card images/c01.png' class='" + skin + "cardOneMemo " + skin + "cardImgBig' style='left:" + offset + "px'>";
+  //  previewString += "<div class='row centred'><div class='col-md-12' style='height:220px;position:relative;'><img src='Card images/c01.png' class='" + skin + "cardOneMemo " + skin + "cardImgBig' style='left:" + offset + "px'>";
+  previewString += "<div class='row centred text-center'><div class='col-md-12' style='height:220px;'><img id='cardOne' src='Card images/c01.png' class='" + skin + "cardOneMemo " + skin + "cardImgBig' style='left:" + offset + "px'>";
+
 
     for (var i = 1; i < grouping; i++) {
-      //var offset=i*cardOffset;
-        offset += cardOffsetBig;
-    //  previewString += "<img src='Card images/c0" + (i+1) + ".png' class='" + skin + "cardOtherMemo " + skin + "cardImgSmall' style='left:" + offset + "px'>";
+       offset += cardOffsetBig;
       previewString += "<img src='Card images/c0" + (i+1) + ".png' class='" + skin + "cardOtherMemo " + skin + "cardImgBig' style='left:" + offset + "px'>";
 
     }
-    previewString += "</div>";
+    previewString += "</div></div>";
       document.getElementById("preview").innerHTML = previewString;
   }
+  */
+
+/*
+//This code makes the cards centered but they move apart if you zoom the screen
+//because the offset is based on the left position of the first card
+previewString += "<div id='cardsPreview' style='height:220px'><img id='cardOne' src='Card images/c01.png' class='" + skin + "cardOneMemo " + skin + "cardImgBig'></div>";
+
+
+    document.getElementById("preview").innerHTML = previewString;
+    var offset = document.getElementById("cardOne").offsetLeft;
+
+    previewString = "<img id='cardOne' src='Card images/c01.png' class='" + skin + "cardOneMemo " + skin + "cardImgBig'  style='left:" + offset + "px'>";
+    for (var i = 1; i < grouping; i++) {
+       offset += cardOffsetBig;
+      previewString += "<img src='Card images/c0" + (i+1) + ".png' class='" + skin + "cardOtherMemo " + skin + "cardImgBig' style='left:" + offset + "px'>";
+
+    }
+document.getElementById("cardsPreview").innerHTML = previewString;
+ }
+*/
+
+
+    previewString = "<div style='height:220px;position:relative;left:-" + (114.37+(grouping-1)*22)/2 +  "'><img id='cardOne' src='Card images/c01.png' class='" + skin + "cardOneMemo " + skin + "cardImgBig'  style='left:50%;margin:0 0 0 " + 0 + "px'>";
+    for (var i = 1; i < grouping; i++) {
+      offset = i * cardOffsetBig;
+      previewString += "<img src='Card images/c0" + (i+1) + ".png' class='" + skin + "cardOtherMemo " + skin + "cardImgBig' style='left:50%;margin:0 0 0 " + offset + "px'>";
+
+    }
+    previewString += "</div>";
+document.getElementById("preview").innerHTML = previewString;
+ }
+
 }
 
 function getStandardDeck() {
@@ -2904,9 +2940,9 @@ Decks:     <input id="inpDecks" type="text" size=3>
 </div>
 
 <h3>Preview</h3>
-<div id="preview" class="centred" style="width:100%">
+<div id="preview" class="centred text-center" style="width:100%;">
 
-
+<img src='Card images/c01.png'>
 
 </div>
 
