@@ -24,7 +24,7 @@ html,body { height:100%;padding:0;margin:0 }
 
 .analogue1 {
   font-family: 'News Cycle', sans-serif;
-  background-image: url("hugeWood4NoNails.jpg");
+  background-image: url("hugeWoodMatch.jpg");
  font-weight:bold!important;
 }
 
@@ -141,34 +141,36 @@ html,body { height:100%;padding:0;margin:0 }
   .analogue1boxA {
 
     font-weight:bold!important;
-      background-image: url("hugeWoodPaperA.jpg");
-      background-position: top left;
-      background-size: 100% auto;
+    background-image: url("hugeWoodPaperAMatch.jpg");
+    background-position: top left;
+    background-size: 100% auto;
 
 
-      box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-      -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-      -webkit-box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.54),15px -10px 60px 15px rgba(0, 0, 0, 0.08) inset;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+    -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.84),15px -10px 60px 15px rgba(0, 0, 0, 0.08) inset;
 
-      padding:20px;
-      border-radius: 0 !important;
+    padding:20px;
+    border-radius: 0 !important;
 
   }
 
   .analogue1boxB {
 
     font-weight:bold!important;
-      background-image: url("hugeWoodPaperB.jpg");
-      background-position: top left;
-      background-size: 100% auto;
+    background-image: url("hugeWoodPaperBMatch.jpg");
+    background-position: top left;
+    background-size: 100% auto;
 
 
-      box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-      -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-       -webkit-box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.54),15px -10px 60px 15px rgba(0, 0, 0, 0.08) inset;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+    -webkit-box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.84),15px -10px 60px 15px rgba(0, 0, 0, 0.08) inset;
 
-      padding:20px;
-      border-radius: 0 !important;
+    padding:20px;
+    border-radius: 0 !important;
+
+
 
   }
 
@@ -195,7 +197,7 @@ html,body { height:100%;padding:0;margin:0 }
   content:"";
     position:absolute;
     z-index:-1;
-    box-shadow:0 0px 22px rgba(0,0,0,.9);
+    box-shadow:0 0px 25px rgba(0,0,0,1);
     top:0;
     bottom:0;
     left:10px;
@@ -204,24 +206,28 @@ html,body { height:100%;padding:0;margin:0 }
 }
 .analogue1boxA:after, .analogue1boxB:after
 {
-    right:10px;
-    left:auto;
-    transform:skew(4deg), rotate(3deg);
+  right:10px;
+  left:auto;
+  transform:skew(4deg), rotate(3deg);
 }
 
 /*
   .overlay {
     position:absolute;
-    left:0;
+   left:0;
     top:0;
     height:100%;
     width:100%;
-    background-image: url("IAMarble2.jpg");
-    background-size:cover;
-
-    opacity:0.3;
+   background-image:url("hugeWood4.jpg");
+   background-size:cover;
+   opacity:1;
+   z-index:2;
   }
-*/
+  */
+
+
+
+.slash {font-size:16pt; color:red; z-index:2; margin: 0 0 0 -15px; font-weight:bold;font-family:'Rock Salt',cursive;}
 /*
   .tablink {
     background-color:#000000;
@@ -598,8 +604,8 @@ top: 10px;
 */
 .analogue1score {
   border: 1px solid #d3d3e3;
-  height:30px;
-  width:30px;
+  height:50px;
+  width:65px;
   text-align:center;
   opacity: 0.95;
   padding:0px;
@@ -618,13 +624,30 @@ top: 10px;
   padding:0px;
 }
 
-.correct {
-  /*background-color:#99dd99;*/
+.digital1correct {
+
   background: rgba(0, 255, 0, 0.3)
 }
-.incorrect {
+
+.digital1corrected {
+
+  background: rgba(0, 255, 0, 0.3)
+}
+
+.analogue1correct {
+
+}
+
+.analogue1corrected {
+  color:red;
+  font-weight:bold !important;
+}
+.digital1incorrect {
   /*background-color:#dd6666;*/
-  background: rgba(255, 0, 0, 0.4)
+  //background: rgba(255, 0, 0, 0.4)
+}
+.analogue1incorrect {
+
 }
 
 

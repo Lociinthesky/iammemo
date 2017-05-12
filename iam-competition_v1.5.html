@@ -5,6 +5,7 @@
 <link href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Convergence" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Reenie+Beanie" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
 <!--<script src="https://ajax.googleapis.com/ ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
 
 <style type="text/css">
@@ -2336,7 +2337,7 @@ for (var j=0;j<numberOfPages;j++) {
 		if (chosenAnswer == correctAnswer && chosenAnswer.length > 0) {
 		  score++;
 	    //add the chosen answer to the score row string
-    	scoreString += "<td class='" + skin + "score correct' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+    	scoreString += "<td class='" + skin + "score " + skin + "correct' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
 	}
 	else
 	  {
@@ -2345,8 +2346,13 @@ for (var j=0;j<numberOfPages;j++) {
 	    scoreString += "<td class='" + skin + "score' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'></td>";
 	  }
 	  else {
-	 //add the chosen answer to the score row string
-		scoreString += "<td class='" + skin + "score incorrect' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+	 //add the chosen incorrect answer to the score row string (with slash if analogue)
+      if (skin.indexOf('analogue')>-1) {
+        scoreString += "<td class='" + skin + "score " + skin + "incorrect' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "<span class='slash'>/</span></td>";
+      }
+      else {
+        scoreString += "<td class='" + skin + "score " + skin + "incorrect' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+      }
 		}
   	}
 
@@ -2560,7 +2566,7 @@ for (var j=0;j<numberOfPages;j++) {
 		if (chosenAnswer == correctAnswer && chosenAnswer.length > 0) {
 		  score++;
 	    //add the chosen answer to the score row string
-		scoreRowString += "<td class='score correct' id='score" + ((j*binaryPerPage)+i) + "'>" + chosenAnswer + "</td>";
+		scoreRowString += "<td class='score " + skin + "correct' id='score" + ((j*binaryPerPage)+i) + "'>" + chosenAnswer + "</td>";
 	}
 	else
 	  {
@@ -2570,7 +2576,7 @@ for (var j=0;j<numberOfPages;j++) {
 	  }
 	  else {
 	 //add the chosen answer to the score row string
-		scoreRowString += "<td class='score incorrect shadowyScore' id='score" + ((j*binaryPerPage)+i) + "'>" + chosenAnswer + "</td>";
+		scoreRowString += "<td class='score " + skin + "incorrect shadowyScore' id='score" + ((j*binaryPerPage)+i) + "'>" + chosenAnswer + "</td>";
 	  }
   	}
 
@@ -2722,8 +2728,17 @@ function showCorrect(pos) {
   //get first of grouping
 	var firstOfGroup = pos - (pos % grouping);
   for (var g = 0; g < grouping; g++) {
-    document.getElementById("score" + (firstOfGroup+g)).className = skin + "score correct";
-    document.getElementById("score" + (firstOfGroup+g)).innerHTML = numberList[firstOfGroup+g];
+    var chosenAnswer = chosenAnswers[firstOfGroup+g];
+
+    if (chosenAnswer != numberList[firstOfGroup+g]) {
+      document.getElementById("score" + (firstOfGroup+g)).className = skin + "score " + skin + "corrected";
+        document.getElementById("score" + (firstOfGroup+g)).innerHTML = numberList[firstOfGroup+g];
+
+    }
+    else {
+    //  document.getElementById("score" + (firstOfGroup+g)).className = skin + "score " + skin + "correct";
+    }
+
   }
 }
 
@@ -2735,7 +2750,7 @@ function showChosen(pos) {
     var corrClass = "";
     var chosenAnswer = chosenAnswers[firstOfGroup+g];
     if (chosenAnswer == numberList[firstOfGroup+g] && chosenAnswer.length > 0) {
-                corrClass = "correct";
+                corrClass = skin + "correct";
               }
     else {
                     //nothing chosen
@@ -2744,11 +2759,16 @@ function showChosen(pos) {
                 }
                 else {
 
-              corrClass = "incorrect";
+              corrClass = skin + "incorrect";
                 }
       }
     document.getElementById("score" + (firstOfGroup+g)).className = skin + "score " + corrClass;
+
     document.getElementById("score" + (firstOfGroup+g)).innerHTML = chosenAnswers[firstOfGroup+g];
+
+    if (skin.indexOf("analogue")>-1 && chosenAnswer != numberList[firstOfGroup+g] && chosenAnswer.length > 0) {
+      document.getElementById('score' + (firstOfGroup+g)).innerHTML += "<span class='slash'>/</span>";
+    }
   }
 }
 
@@ -2990,8 +3010,9 @@ Decks:     <input id="inpDecks" type="text" size=3>
 <div id="wrapper">
 <div id="memoContentDiv" class="memoContent"></div>
 
-<div id="overlayDiv" class="overlay"></div>
+<!--<div id="overlayDiv" class="overlay"></div>-->
 </div>
+<div id="overlayDiv" class="overlay"></div>
 </div>
 
 <div class="col-md-1"></div>
