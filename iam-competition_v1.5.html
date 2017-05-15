@@ -383,12 +383,12 @@ function startMemoCountdown() {
 
 
 	//Display countdown section only
-   document.getElementById("settingsRow0").style="display:none";
-   document.getElementById("countdownTable").style="display:block";
-   document.getElementById("countdownRecallTable").style="display:none";
+   document.getElementById("settingsRow0").style.display='none';
+   document.getElementById("countdownTable").style.display = 'inline';
+   document.getElementById("countdownRecallTable").style.display='none';
    document.getElementById("countdownText").innerHTML="";
    document.getElementById("countdownTime").innerHTML="";
-   document.getElementById("countdownRow").style="display:block";
+   document.getElementById("countdownRow").style.display="block";
    document.getElementsByClassName("countdownDisciplineTitle").innerHTML = lookupProperty(currentDiscipline,"label");
    var titleElements = document.getElementsByClassName("countdownDisciplineTitle");
    var title = lookupProperty(currentDiscipline,"label");
@@ -1600,8 +1600,8 @@ function startRecallCountdown() {
   }
 
 	//Display countdown section only
-  document.getElementById("countdownTable").style="display:none";
-  document.getElementById("countdownRecallTable").style="display:block";
+  document.getElementById("countdownTable").style.display='none';
+  document.getElementById("countdownRecallTable").style="display:inline";
 	document.getElementById("countdownRecallText").innerHTML="";
 	document.getElementById("countdownRecallTime").innerHTML="";
    document.getElementById("countdownRow").style="display:block";
@@ -1730,6 +1730,13 @@ function startNumberRecall() {
   numberRecallString += "</div>";
   document.getElementById("recallContentDiv").innerHTML = numberRecallString;
 
+  if (skin.indexOf('analogue')>-1) {
+    dualFontRandomizer(fontReenieBeanie, fontShadowsIntoLight);
+  for (var i = 0; i < amount; i++) {
+    document.getElementById("inpRecall" + i).style.fontSize = fontSizeArray[i][1];
+    document.getElementById("inpRecall" + i).style.fontFamily = fontSizeArray[i][0];
+  }
+}
   //go to first digits
 
   setTimeout(function(){
@@ -3104,8 +3111,14 @@ Decks:     <input id="inpDecks" type="text" size=3>
 <div id="countdownBox" class="col-md-10 jumbotron countdown text-center">
 <h3 class="countdownDisciplineTitle"></h3>
 <!--<table class="countdownTable"><tr><td style="margin:0 auto"><span id="countdownText"></span><span style="width:40px" id="countdownTime"></span></td></tr></table>-->
-<table id="countdownTable"><tr><td><span id="countdownText"></span><span id="countdownTime"></span></td></tr></table>
-<table id="countdownRecallTable"><tr><td><span id="countdownRecallText"></span><span id="countdownRecallTime"></span></td></tr></table>
+<table id="countdownTable">
+   <tr><td id="countdownText"></td></tr>
+   <tr><td id="countdownTime"></td></tr>
+</table>
+<table id="countdownRecallTable">
+  <tr><td><span id="countdownRecallText"></span></td></tr>
+  <tr><td><span id="countdownRecallTime"></span></td></tr>
+</table>
 <!--
   <div class="row">
   <div class="col-md-3"></div>
