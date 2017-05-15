@@ -6,7 +6,16 @@
 <link href="https://fonts.googleapis.com/css?family=Convergence" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Reenie+Beanie" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Averia+Libre|GFS+Neohellenic|La+Belle+Aurore|Nothing+You+Could+Do|Permanent+Marker|Shadows+Into+Light" rel="stylesheet">
 <!--<script src="https://ajax.googleapis.com/ ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<!--
+Use the following CSS rules to specify these families:
+font-family: 'Permanent Marker', cursive;
+font-family: 'La Belle Aurore', cursive;
+font-family: 'Averia Libre', cursive;
+font-family: 'GFS Neohellenic', sans-serif;
+font-family: 'Shadows Into Light', cursive;
+font-family: 'Nothing You Could Do', cursive; -->
 
 <style type="text/css">
 
@@ -182,6 +191,14 @@ var memoTimeTaken;
 var recallTimeTaken;
 var chosenAnswers = [];
 var cardList;
+
+var fontNow = '';
+var fontSizeNow = 0;
+var fontReenieBeanie = ['Reenie Beanie', 38, 42];
+var fontShadowsIntoLight = ['Shadows Into Light', 24, 26];
+var fontRockSalt = ['Rock Salt', 19, 21];
+var fontSizeArray = [];
+
 
 var ended;
 
@@ -1999,6 +2016,97 @@ function shiftNumbersBackward() {
 }
 
 
+//returns the middle (average) font size
+function normalize(fontArray){
+  return Math.floor((fontArray[2] - fontArray[1])/2) + fontArray[1];
+}
+
+//takes in a fontArray in the form ['Font Name', minimumFontSize, maximumFontSize]
+function fontSizeRandomizer(fontArray){
+    var randomNumber = Math.random();
+
+//if the current font size === minimumFontSize, increment font size 75% of the time.
+        if (fontSizeNow === fontArray[1]){
+            if (randomNumber < .75){
+                fontSizeNow++;
+            }
+
+//if the current font size === maximumFontSize, decrement font size 75% of the time.
+        } else if (fontSizeNow === fontArray[2]){
+            if (randomNumber < .75){
+                fontSizeNow--;
+            }
+//if current font size is neither max nor min, increment 30% of the time, decrement 30% of the time, stay th same 40% of time
+        } else {
+          if (randomNumber > .7){
+            fontSizeNow++;
+          } else if (randomNumber > .4){
+            fontSizeNow--;
+          }
+        }
+//return [fontName, newFontSize];
+    return [fontArray[0], fontSizeNow];
+}
+
+//Helper function to switch from one font to another while retaining relative font size (somewhat);
+function fontSwitch(fontArray1, fontArray2){
+                if (fontNow === fontArray1){
+                    fontNow = fontArray2;
+
+                    //if the font is at its minimum for fontA, set it to the minimum for fontB
+                        if (fontSizeNow === fontArray1[1]){
+                            fontSizeNow = fontArray2[1];
+
+                    //if the font is at its maximum for fontA, set it to the maximum for fontB
+                        } else if (fontSizeNow === fontArray1[2]){
+                            fontSizeNow = fontArray2[2];
+
+                    //if the font is neither max nor min for fontA, set it to the normalized val for fontB
+                        } else {
+                            fontSizeNow = normalize(fontArray2);
+                        }
+                    return fontSizeRandomizer(fontArray2);
+                } else {
+
+                    //same stuff going from B to A
+                    fontNow = fontArray1;
+
+                    if (fontSizeNow === fontArray2[1]){
+                            fontSizeNow = fontArray1[1];
+                        } else if (fontSizeNow === fontArray2[2]){
+                            fontSizeNow = fontArray1[2];
+                        } else {
+                            fontSizeNow = normalize(fontArray1);
+                        }
+
+                    return fontSizeRandomizer(fontArray1);
+                }
+
+            }
+
+function dualFontRandomizer(fontArray1, fontArray2){
+
+//The first digit will always be [fontArray1[0], fontArrayNormalized]
+            fontNow = fontArray1;
+            fontSizeNow = normalize(fontArray1);
+            fontSizeArray.push([fontNow[0], fontSizeNow]);
+
+//on every even iteration, let there be a chance to switch fonts.  Here that is 67%
+    for (var r = 1; r < amount; r++){
+        if (r % 2 === 0){
+            if (Math.random() < .67){
+//if fontSwitch activates
+                fontSizeArray.push(fontSwitch(fontArray1, fontArray2));
+
+            } else {
+                fontSizeArray.push(fontSizeRandomizer(fontNow));
+            }
+        }
+    }
+    return fontSizeArray;
+}
+
+
 function startBinaryRecall() {
   ended = false;
   curPos = 0;
@@ -2337,18 +2445,30 @@ for (var j=0;j<numberOfPages;j++) {
 		if (chosenAnswer == correctAnswer && chosenAnswer.length > 0) {
 		  score++;
 	    //add the chosen answer to the score row string
-    	scoreString += "<td class='" + skin + "score " + skin + "correct' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+      //if analogue, no onmouseover/out event handler
+      if (skin.indexOf('analogue')>-1) {
+        scoreString += "<td class='" + skin + "score " + skin + "correct' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+      }
+      else {
+          //scoreString += "<td class='" + skin + "score " + skin + "correct' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+          scoreString += "<td class='" + skin + "score " + skin + "correct' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
+      }
 	}
 	else
 	  {
 	  	  //nothing chosen
 	  if (chosenAnswer.length === 0) {
-	    scoreString += "<td class='" + skin + "score' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'></td>";
+      if (skin.indexOf('analogue')>-1) {
+	      scoreString += "<td class='" + skin + "score' id='score" + ((j*numbersPerPage)+i) + "'></td>";
+      }
+      else {
+        scoreString += "<td class='" + skin + "score' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'></td>";
+      }
 	  }
 	  else {
 	 //add the chosen incorrect answer to the score row string (with slash if analogue)
       if (skin.indexOf('analogue')>-1) {
-        scoreString += "<td class='" + skin + "score " + skin + "incorrect' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "<span class='slash'>/</span></td>";
+        scoreString += "<td class='" + skin + "score " + skin + "incorrect' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "<span class='slash'><sub><sub>x</sub></sub><sup><sup>" + correctAnswer + "</sup></sup></span></td>";
       }
       else {
         scoreString += "<td class='" + skin + "score " + skin + "incorrect' onmouseover='showCorrect(" + ((j*numbersPerPage)+i) + ")' onmouseout='showChosen(" + ((j*numbersPerPage)+i) + ")' id='score" + ((j*numbersPerPage)+i) + "'>" + chosenAnswer + "</td>";
@@ -2730,15 +2850,16 @@ function showCorrect(pos) {
   for (var g = 0; g < grouping; g++) {
     var chosenAnswer = chosenAnswers[firstOfGroup+g];
 
-    if (chosenAnswer != numberList[firstOfGroup+g]) {
+    if (chosenAnswer != numberList[firstOfGroup+g] || chosenAnswer.length == 0) {
       document.getElementById("score" + (firstOfGroup+g)).className = skin + "score " + skin + "corrected";
         document.getElementById("score" + (firstOfGroup+g)).innerHTML = numberList[firstOfGroup+g];
 
     }
+/*
     else {
     //  document.getElementById("score" + (firstOfGroup+g)).className = skin + "score " + skin + "correct";
     }
-
+*/
   }
 }
 
@@ -2766,9 +2887,11 @@ function showChosen(pos) {
 
     document.getElementById("score" + (firstOfGroup+g)).innerHTML = chosenAnswers[firstOfGroup+g];
 
+/*
     if (skin.indexOf("analogue")>-1 && chosenAnswer != numberList[firstOfGroup+g] && chosenAnswer.length > 0) {
-      document.getElementById('score' + (firstOfGroup+g)).innerHTML += "<span class='slash'>/</span>";
+      document.getElementById('score' + (firstOfGroup+g)).innerHTML += "<span class='slash'><sub>x</sub><sup>" + correctAnswer + "</sup></span>";
     }
+    */
   }
 }
 
