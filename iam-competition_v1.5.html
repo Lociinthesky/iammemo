@@ -2030,28 +2030,70 @@ function normalize(fontArray){
 
 //takes in a fontArray in the form ['Font Name', minimumFontSize, maximumFontSize]
 function fontSizeRandomizer(fontArray){
+  var range = fontArray[2] - fontArray[1];
     var randomNumber = Math.random();
+
+
 
 //if the current font size === minimumFontSize, increment font size 75% of the time.
         if (fontSizeNow === fontArray[1]){
-            if (randomNumber < .75){
+            if (randomNumber < .2){
                 fontSizeNow++;
+            } else if (randomNumber < .35){
+              fontSizeNow +=2;
+            } else if (randomNumber < .65){
+              fontSizeNow +=3;
+            } else if (randomNumber < .75){
+              fontSizeNow +=4;
+            } else if (randomNumber < .85){
+              fontSizeNow +=5;
+            } else if (randomNumber < .93){
+              fontSizeNow +=6;
             }
-
 //if the current font size === maximumFontSize, decrement font size 75% of the time.
         } else if (fontSizeNow === fontArray[2]){
-            if (randomNumber < .75){
+             if (randomNumber < .2){
                 fontSizeNow--;
+            } else if (randomNumber < .35){
+              fontSizeNow -=2;
+            } else if (randomNumber < .65){
+              fontSizeNow -=3;
+            } else if (randomNumber < .75){
+              fontSizeNow -=4;
+            } else if (randomNumber < .85){
+              fontSizeNow -=5;
+            } else if (randomNumber < .93){
+              fontSizeNow -=6;
             }
-//if current font size is neither max nor min, increment 30% of the time, decrement 30% of the time, stay th same 40% of time
+//if current font size is neither max nor min, increment 35% of the time, decrement 35% of the time, stay th same 30% of time
+
+      } else if (fontArray[2] - fontSizeNow == -2 || fontArray[1] - fontSizeNow == 2){
+        if (randomNumber > .5){
+          fontSizeNow+=2;
         } else {
-          if (randomNumber > .7){
+          fontSizeNow-=2;
+        }
+      } else {
+          if (randomNumber > .9){
+            fontSizeNow+=5;
+          }else if (randomNumber > .8){
             fontSizeNow++;
+          } else if (randomNumber > .6){
+            fontSizeNow+=3;
           } else if (randomNumber > .4){
+            fontSizeNow-=3;
+          } else if (randomNumber > .2){
+            fontSizeNow-=5;
+          } else if (randomNumber > .1){
             fontSizeNow--;
           }
-        }
+      }
 //return [fontName, newFontSize];
+if (fontSizeNow > fontArray[2]){
+  fontSizeNow = fontArray[2];
+} else if (fontSizeNow < fontArray[1]){
+  fontSizeNow = fontArray[1]
+}
     return [fontArray[0], fontSizeNow];
 }
 
@@ -2101,18 +2143,19 @@ function dualFontRandomizer(fontArray1, fontArray2){
 //on every even iteration, let there be a chance to switch fonts.  Here that is 67%
     for (var r = 1; r < amount; r++){
         if (r % 2 === 0){
-            if (Math.random() < .67){
+            if (Math.random() < -1){
 //if fontSwitch activates
                 fontSizeArray.push(fontSwitch(fontArray1, fontArray2));
 
             } else {
                 fontSizeArray.push(fontSizeRandomizer(fontNow));
             }
+        } else {
+          fontSizeArray.push(fontSizeRandomizer(fontNow));
         }
     }
-    return fontSizeArray;
+  return fontSizeArray;
 }
-
 
 function startBinaryRecall() {
   ended = false;
