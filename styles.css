@@ -131,6 +131,13 @@ text-shadow:0px 0px 3px rgba(200,0,0,.3) !important; opacity: .83 !important;}*/
     height:72px;
   }
 
+  .bottom-right-timer {
+    position:fixed;
+    top:90%;
+    left:80%;
+    /*right:15%  maybe set this instead of the left property */
+  }
+
 /*
  .analogue1container {
    height:100%;

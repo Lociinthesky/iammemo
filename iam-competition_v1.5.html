@@ -745,7 +745,7 @@ function startNumberMemo() {
   curPos = 0;
 
   //set the timer
-	memoStart = Date.now(),r = document.getElementById('spanMemoTime');
+	memoStart = Date.now(),r = document.getElementById(skin + 'MemoTimeInner');
 	(function f() {
 	memoTimeDiff = Date.now() - memoStart;
 	r.textContent = timeFormat(memoTime*1e3-memoTimeDiff);
@@ -1008,7 +1008,7 @@ function startBinaryMemo() {
   curPos = 0;
 
   //set the timer
-	memoStart = Date.now(),r = document.getElementById('spanMemoTime');
+	memoStart = Date.now(),r = document.getElementById(skin + 'MemoTimeInner');
 	(function f() {
 	memoTimeDiff = Date.now() - memoStart;
 	r.textContent = timeFormat(memoTime*1e3-memoTimeDiff);
@@ -1383,7 +1383,7 @@ moveFocusCardsMemo(0);
 curPos = 0;
 
 //set the timer
-memoStart = Date.now(),r = document.getElementById('spanMemoTime');
+memoStart = Date.now(),r = document.getElementById(skin + 'MemoTimeInner');
 (function f() {
 memoTimeDiff = Date.now() - memoStart;
 r.textContent = timeFormat(memoTime*1e3-memoTimeDiff);
@@ -2977,6 +2977,13 @@ function changeSkin() {
   document.getElementById("countdownBox").className = "col-md-10 jumbotron countdown text-center " + skin + "boxB " + skin + "memoHeight";
   //document.getElementById("wrapper").className = skin + "memoHeight";
 //  document.getElementById("memoRow").className = "row " + skin + "container";
+  if (skin.indexOf('analogue')>-1) {
+    document.getElementById('digital1MemoTimeOuter').style.display = 'none';
+    document.getElementById('analogue1MemoTimeOuter').style.display = 'block';
+  } else {
+    document.getElementById('digital1MemoTimeOuter').style.display = 'inline';
+    document.getElementById('analogue1MemoTimeOuter').style.display = 'none';
+  }
 
   updatePreview();
 
@@ -3181,7 +3188,7 @@ Decks:     <input id="inpDecks" type="text" size=3>
 <div class="col-md-1"></div>
 <div id="memoBox" class="col-md-10 jumbotron">
 
-  <table class="disciplineHeadingTable"><tr><td class="disciplineTitleMemo"></td><td><span>Memorisation time remaining: </span><span id="spanMemoTime"></span></td><td></td><td></td></tr></table>
+  <table class="disciplineHeadingTable"><tr><td class="disciplineTitleMemo"></td><td><span id='digital1MemoTimeOuter'><span>Memorisation time remaining: </span><span id="digital1MemoTimeInner"></span></span></td><td></td><td></td></tr></table>
   <br /><br />
 <div id="menuDiv"></div>
 <br />
@@ -3190,8 +3197,13 @@ Decks:     <input id="inpDecks" type="text" size=3>
 <div id="memoContentDiv" class="memoContent"></div>
 
 <!--<div id="overlayDiv" class="overlay"></div>-->
+
 </div>
 <div id="overlayDiv" class="overlay"></div>
+</div>
+<div class="bottom-right-timer row">
+  <div class='col-md-10'></div>
+<div class='col-md-2' id='analogue1MemoTimeOuter'><span id="analogue1MemoTimeInner"></span></div>
 </div>
 
 <div class="col-md-1"></div>
