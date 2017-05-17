@@ -26,6 +26,12 @@ font-family: 'Nothing You Could Do', cursive; -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
 
+var red = "rgba(255,128,128,0.57)";
+var orange = "rgba(255,163,102,0.57)";
+var yellow = "rgba(255,255,128,0.57)";
+var green = "rgba(179,255,102,0.57)";
+var sky = "rgba(128,191,255,0.57)";
+var purple = "rgba(223,159,191,0.57)";
 
 
 const events = [
@@ -377,10 +383,6 @@ function startMemoCountdown() {
     hiColour = document.getElementById("selHColour").options[document.getElementById("selHColour").selectedIndex].value;
   }
 
-  //Get skin
-
-//    skin = document.getElementById("selSkin").options[document.getElementById("selSkin").selectedIndex].value;
-
 
 	//Display countdown section only
    document.getElementById("settingsRow0").style.display='none';
@@ -471,7 +473,7 @@ function updatePreview() {
     //change preview highlight
     var selNums = document.getElementsByClassName(skin + "numbersSelected");
     for (let el of selNums) {
-        el.style.background = hiColour;
+        el.style.background = this[hiColour];
     }
   }
 
@@ -512,7 +514,7 @@ function updatePreview() {
     //change preview highlight
     var selNums = document.getElementsByClassName(skin + "binarySelected");
     for (let el of selNums) {
-        el.style.background = hiColour;
+        el.style.background = this[hiColour];
     }
   }
 
@@ -909,12 +911,12 @@ function moveFocusNumMemo(newPos) {
 
 
 	document.getElementById("tdMemo" + (firstOfGroup)).className = skin + "numbersMemo " + skin + "numbersSelected";
-  document.getElementById("tdMemo" + (firstOfGroup)).style.backgroundColor = hiColour;
+  document.getElementById("tdMemo" + (firstOfGroup)).style.backgroundColor = this[hiColour];
 
 	for (var i = 1;i<grouping;i++) {
 	if (firstOfGroup < numberList.length - i) {
 	    document.getElementById("tdMemo" + (Number(firstOfGroup + i))).className = skin + "numbersMemo " + skin + "numbersSelected";
-      document.getElementById("tdMemo" + (Number(firstOfGroup + i))).style.backgroundColor = hiColour;
+      document.getElementById("tdMemo" + (Number(firstOfGroup + i))).style.backgroundColor = this[hiColour];
 	  }
 	}
 
@@ -1328,7 +1330,7 @@ function moveFocusBinMemo(newPos) {
 	for (var i = 0;i<positions.length;i++) {
 	if (newPositions[i] < binaryList.length) {
 	    document.getElementById("tdMemo" + (newPositions[i])).className = skin + "binaryMemo " + skin + "binarySelected";
-      document.getElementById("tdMemo" + (newPositions[i])).style.backgroundColor = hiColour;
+      document.getElementById("tdMemo" + (newPositions[i])).style.backgroundColor = this[hiColour];
 	  }
 
 	}
@@ -1965,7 +1967,7 @@ function moveFocusNumRecall(newPos) {
 	}
 
 	document.getElementById("inpRecall" + newPos).className = skin + "numbersSelectedRecall";
-  document.getElementById("inpRecall" + newPos).style.backgroundColor = hiColour;
+  document.getElementById("inpRecall" + newPos).style.backgroundColor = this[hiColour];
 
 	//get current page
 	curPage = Math.floor(newPos/numbersPerPage);
@@ -2960,8 +2962,9 @@ function timeFormatLong(t) {
 
 function changeSelHColour() {
   hiColour = document.getElementById("selHColour").options[document.getElementById("selHColour").selectedIndex].value;
-  //document.getElementById("selHColour").style.backgroundColor = document.getElementById("selHColour").options[document.getElementById("selHColour").selectedIndex].style.backgroundColor;
-  document.getElementById("selHColour").style.backgroundColor = document.getElementById("selHColour").options[document.getElementById("selHColour").selectedIndex].value;
+
+  //document.getElementById("selHColour").style.backgroundColor = document.getElementById("selHColour").options[document.getElementById("selHColour").selectedIndex].value;
+  document.getElementById("selHColour").style.backgroundColor = this[hiColour];
   updatePreview();
 
 }
@@ -3129,12 +3132,12 @@ Height:     <select id="selBinGroupingH" onchange="updatePreview();">
 <br />
 <div id="divHighlightColour">
 Highlight colour:     <select id="selHColour"  onchange="changeSelHColour()" > <!--style="background-color:#b3ff66"-->
-<option value="rgba(255,128,128,0.57)" style="background-color:#ff8080">&nbsp;&nbsp;</option>
-<option value="rgba(255,163,102,0.57)" style="background-color:#ffa366">&nbsp;&nbsp;</option>
-<option value="rgba(255,255,128,0.57)" style="background-color:#ffff80">&nbsp;&nbsp;</option>
-<option value="rgba(179,255,102,0.57)" style="background-color:#b3ff66">&nbsp;&nbsp;</option>
-<option value="rgba(128,191,255,0.57)"  style="background-color:#80bfff" selected>&nbsp;&nbsp;</option>
-<option value="rgba(223,159,191,0.57)"  style="background-color:#df9fbf">&nbsp;&nbsp;</option>
+<option value="red" style="background-color:#ff8080">&nbsp;&nbsp;</option>
+<option value="orange" style="background-color:#ffa366">&nbsp;&nbsp;</option>
+<option value="yellow" style="background-color:#ffff80">&nbsp;&nbsp;</option>
+<option value="green" style="background-color:#b3ff66">&nbsp;&nbsp;</option>
+<option value="sky"  style="background-color:#80bfff" selected>&nbsp;&nbsp;</option>
+<option value="purple"  style="background-color:#df9fbf">&nbsp;&nbsp;</option>
 <!--<option value="rgba(238,170,238,0.5)"  style="background-color:#eeaaee">&nbsp;&nbsp;</option>-->
 </select>
 </div>

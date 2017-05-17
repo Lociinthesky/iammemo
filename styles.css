@@ -2,6 +2,13 @@
  /*font-weight:bold !important;*/
 }
 
+
+@font-face {
+   font-family: "Digital Dream";
+   src:url('DIGITALDREAM.TTF');
+}
+
+
 html,body { height:100%;padding:0;margin:0 }
 
   body {
@@ -135,6 +142,8 @@ text-shadow:0px 0px 3px rgba(200,0,0,.3) !important; opacity: .83 !important;}*/
     position:fixed;
     top:90%;
     left:80%;
+    font-size: 20pt;
+    font-family: "Digital Dream";
     /*right:15%  maybe set this instead of the left property */
   }
 
