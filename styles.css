@@ -219,9 +219,10 @@ text-shadow:0px 0px 3px rgba(200,0,0,.3) !important; opacity: .83 !important;}*/
   .analogue1boxA:before, .analogue1boxA:after, .analogue1boxB:before, .analogue1boxB:after
 {
   position:absolute;
+  content:"";
       z-index:-1;
       box-shadow:0 -1px 10px rgba(0,0,0,1);
-      top:0;
+      top:-1;
       bottom:0;
       left:190px;
       right:10px;
@@ -231,8 +232,39 @@ text-shadow:0px 0px 3px rgba(200,0,0,.3) !important; opacity: .83 !important;}*/
 {
   right:10px;
   left:auto;
-  transform:skew(4deg), rotate(3deg);
+  transform:skew(4deg) rotate(3deg);
+  -webkit-transform: skew(4deg) rotate(3deg);
+-moz-transform: skew(4deg) rotate(3deg);
+-o-transform: skew(4deg) rotate(3deg);
+-ms-transform: skew(4deg) rotate(3deg);
 }
+
+/*
+*** TRY THIS CSS FOR BEVEL
+.analogue1boxA:before, .analogue1boxA:after, .analogue1boxB:before, .analogue1boxB:after
+{
+  position:absolute;
+
+  content:"";
+
+      box-shadow:0 -1px 10px rgba(0,0,0,1);
+      top:0;
+      bottom:0;
+      left:10px;
+      right:10px;
+      border-radius:100px / 10px;
+
+}
+.analogue1boxA:after, .analogue1boxB:after
+{
+
+
+  right:10px;
+  left:auto;
+  transform: skew(4deg) rotate(3deg);
+}
+*/
+
 
 /*
   .overlay {
@@ -254,10 +286,14 @@ text-shadow:0px 0px 3px rgba(200,0,0,.3) !important; opacity: .83 !important;}*/
     top:0;
     height:100%;
     width:100%;
-   background-image:url("hugeWoodPaperAMatch.png");
+  background-image:url("hugeWoodPaperAMatch.png");
+  /* background-image:url("hugeWoodPaperAMatch.jpg");*/
    background-size:cover;
-   opacity:.13;
+
    z-index:2;
+   opacity:.13;
+
+
   }
 
 
@@ -345,6 +381,13 @@ position:relative;
 }
 
 .recallContent {
+	padding: 2px;
+  margin: 0 auto;
+  width: 100%
+
+}
+
+.scoreContent {
 	padding: 2px;
   margin: 0 auto;
   width: 100%
@@ -625,11 +668,19 @@ top: 10px;
 }
 
 .scoreTable {
+/*
   border-collapse:separate;
   text-align:center;
   margin: 0 auto;
   padding-top:5px;
+  */
+  border-collapse: :collapse;
+   text-align:center;
+   margin: 0 auto;
+
 }
+
+
 /*
 .correction {
   background-color:#EDEDED;
